@@ -47,7 +47,7 @@ export default function ThumbnailCard({
       const response = await fetch(`/api/download?url=${encodeURIComponent(imageUrl)}`);
       if (!response.ok) throw new Error('Fetch failed');
       
-      let blob = await response.blob();
+      const blob = await response.blob();
       
       // کچھ براؤزرز کلپ بورڈ پر صرف PNG امیج سپورٹ کرتے ہیں، اس لیے یہاں ٹائپ فورس کر رہے ہیں
       const imageBlob = new Blob([blob], { type: 'image/png' });

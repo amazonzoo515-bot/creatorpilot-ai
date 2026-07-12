@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
         'Access-Control-Allow-Origin': '*',
       },
     });
-  } catch (error) {
+  } catch {
     return new NextResponse('Error fetching image', { status: 500 });
   }
 }
