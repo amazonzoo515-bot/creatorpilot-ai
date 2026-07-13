@@ -295,6 +295,40 @@ export default function Home() {
         }),
       }}
     />
+        <Script
+      id="webapplication-schema"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          name: "YouTube Thumbnail Downloader",
+          applicationCategory: "MultimediaApplication",
+          operatingSystem: "Any",
+          browserRequirements: "Requires JavaScript. Requires HTML5.",
+          url: "https://youtubethumbnails-downloader.com",
+          description:
+            "Free online YouTube Thumbnail Downloader. Download HD, HQ, MQ, SD and Max Resolution thumbnails instantly from public YouTube videos and Shorts.",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+          },
+          creator: {
+            "@type": "Organization",
+            name: "YouTube Thumbnail Downloader",
+          },
+          featureList: [
+            "Download Max Resolution thumbnails",
+            "Download HD thumbnails",
+            "Supports YouTube Shorts",
+            "Free to use",
+            "No registration required",
+            "Works on desktop and mobile",
+          ],
+        }),
+      }}
+    />
   </>
 );
 }
