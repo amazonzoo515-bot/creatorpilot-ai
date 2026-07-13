@@ -28,13 +28,13 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-slate-100">
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
 
-        <h1 className="text-center text-5xl font-extrabold text-gray-900">
+        <h1 className="text-center text-4xl font-extrabold text-gray-900 md:text-6xl">
           YouTube Thumbnail Downloader
         </h1>
 
-        <p className="mx-auto mt-6 max-w-3xl text-center text-lg text-gray-600">
+        <p className="mx-auto mt-6 max-w-3xl text-center text-lg leading-8 text-gray-600">
           Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and
           Default quality. Simply paste any public YouTube video URL and
           instantly access every available thumbnail size.
