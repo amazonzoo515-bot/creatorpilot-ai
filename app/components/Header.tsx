@@ -25,28 +25,50 @@ export default function Header() {
         </Link>
 
         {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-  <Link href="/" className="text-gray-700 transition hover:text-black">
+      {/* Navigation */}
+<nav className="hidden md:flex items-center gap-8">
+  <Link
+    href="/"
+    className="text-gray-700 transition hover:text-black"
+  >
     Home
   </Link>
 
-  <Link href="/blog" className="text-gray-700 transition hover:text-black">
+  <Link
+    href="/blog"
+    className="text-gray-700 transition hover:text-black"
+  >
     Blog
   </Link>
 
-  <Link href="/about" className="text-gray-700 transition hover:text-black">
+  <Link
+    href="/about"
+    className="text-gray-700 transition hover:text-black"
+  >
     About
   </Link>
 
-  <Link href="/contact" className="text-gray-700 transition hover:text-black">
+  <Link
+    href="/contact"
+    className="text-gray-700 transition hover:text-black"
+  >
     Contact
   </Link>
 
-  <Link href="/privacy-policy" className="text-gray-700 transition hover:text-black">
+  <Link
+    href="/privacy-policy"
+    className="text-gray-700 transition hover:text-black"
+  >
     Privacy Policy
   </Link>
-</nav>
 
+  <Link
+    href="/terms-and-conditions"
+    className="text-gray-700 transition hover:text-black"
+  >
+    Terms
+  </Link>
+</nav>
       </div>
     </header>
   );
