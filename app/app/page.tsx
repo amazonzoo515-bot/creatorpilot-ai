@@ -137,8 +137,8 @@ export default function Home() {
 
           <div className="mt-8 space-y-8">
             <div>
-              <h3 className="text-xl font-semibold">
-                Is this tool free?
+              <h3 className="text-xl font-bold text-black">
+                Is this YouTube Thumbnail Downloader free?
               </h3>
               <p className="mt-2 text-gray-600">
                 Yes, it is completely free to use.
@@ -146,7 +146,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold">
+              <h3 className="text-xl font-bold text-black">
                 Can I download HD thumbnails?
               </h3>
               <p className="mt-2 text-gray-600">
@@ -155,7 +155,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold">
+              <h3 className="text-xl font-bold text-black">
                 Does it work with YouTube Shorts?
               </h3>
               <p className="mt-2 text-gray-600">
@@ -164,11 +164,48 @@ export default function Home() {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold">
-                Do I need software?
+              <h3 className="text-xl font-bold text-black">
+                Do I need to install any software?
               </h3>
               <p className="mt-2 text-gray-600">
                 No, everything works directly in your browser.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold text-black">
+                Can I download YouTube thumbnails without signing up?
+              </h3>
+              <p className="mt-2 text-gray-600">
+                Yes, no signup or account creation is required.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold text-black">
+                What is the highest thumbnail quality available?
+              </h3>
+              <p className="mt-2 text-gray-600">
+                Max Resolution is the highest quality available for most videos.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold text-black">
+                Is this tool mobile friendly?
+              </h3>
+              <p className="mt-2 text-gray-600">
+                Yes, it works on Android, iPhone and tablet devices.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold text-black">
+                How do I download a YouTube thumbnail?
+              </h3>
+              <p className="mt-2 text-gray-600">
+                Paste the YouTube URL, click Get Thumbnail and download your
+                preferred thumbnail size instantly.
               </p>
             </div>
           </div>
