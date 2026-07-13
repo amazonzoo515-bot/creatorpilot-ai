@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Script from "next/script";
 import SearchBox from "../components/SearchBox";
 import ThumbnailCard from "../components/ThumbnailCard";
 import { extractVideoId, getThumbnailUrls } from "../lib/youtube";
@@ -27,6 +28,7 @@ export default function Home() {
   }
 
   return (
+  <>
     <main className="min-h-screen bg-slate-100">
       <section className="mx-auto max-w-6xl px-6 py-12 md:py-16">
         <h1 className="text-center text-4xl font-extrabold text-gray-900 md:text-6xl">
@@ -211,6 +213,60 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </main>
-  );
+     </main>
+
+    <Script
+      id="faq-schema"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is this YouTube Thumbnail Downloader free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, this YouTube Thumbnail Downloader is completely free to use."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I download YouTube thumbnails in HD?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. You can download HD, HQ, MQ, SD and Max Resolution thumbnails."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does this tool support YouTube Shorts?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Public YouTube Shorts thumbnails are fully supported."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need to sign up?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. No registration or account is required."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use this tool on mobile?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. It works on Android, iPhone, tablets and desktop browsers."
+              }
+            }
+          ]
+        }),
+      }}
+    />
+  </>
+);
 }
