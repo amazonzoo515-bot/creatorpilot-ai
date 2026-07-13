@@ -4,7 +4,7 @@ export default function BlogPage() {
   const posts = [
     {
       title: "How to Download YouTube Thumbnails in HD Quality",
-      slug: "#",
+      slug: "/blog/how-to-download-youtube-thumbnails",
       description:
         "Learn how to download YouTube thumbnails in HD, HQ and Max Resolution for free.",
     },
