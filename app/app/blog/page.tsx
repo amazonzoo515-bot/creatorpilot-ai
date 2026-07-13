@@ -9,11 +9,11 @@ export default function BlogPage() {
         "Learn how to download YouTube thumbnails in HD, HQ and Max Resolution for free.",
     },
     {
-      title: "Best YouTube Thumbnail Size for More Clicks",
-      slug: "#",
-      description:
-        "Discover the perfect YouTube thumbnail size and improve your video's click-through rate.",
-    },
+  title: "YouTube Thumbnail Downloader – Complete Guide",
+  slug: "/blog/youtube-thumbnail-downloader",
+  description:
+    "Everything you need to know about YouTube Thumbnail Downloader, including HD, HQ, MQ, SD and Max Resolution thumbnail downloads.",
+},
     {
       title: "How to Create Viral YouTube Thumbnails",
       slug: "#",
