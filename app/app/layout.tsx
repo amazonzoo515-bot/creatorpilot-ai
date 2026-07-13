@@ -80,23 +80,33 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 
   openGraph: {
-    title:
-      "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
-    description:
-      "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality instantly.",
-    url: "https://youtubethumbnails-downloader.com",
-    siteName: "YouTube Thumbnail Downloader",
-    locale: "en_US",
-    type: "website",
-  },
+  title:
+    "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
+  description:
+    "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality instantly.",
+  url: "https://youtubethumbnails-downloader.com",
+  siteName: "YouTube Thumbnail Downloader",
+  locale: "en_US",
+  type: "website",
 
+  images: [
+    {
+      url: "/og-image.jpg",
+      width: 1200,
+      height: 630,
+      alt: "YouTube Thumbnail Downloader",
+    },
+  ],
+},
   twitter: {
-    card: "summary_large_image",
-    title:
-      "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
-    description:
-      "Download YouTube thumbnails instantly in Max Resolution, HD, HQ, MQ, SD and Default quality.",
-  },
+  card: "summary_large_image",
+  title:
+    "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
+  description:
+    "Download YouTube thumbnails instantly in Max Resolution, HD, HQ, MQ, SD and Default quality.",
+
+  images: ["/og-image.jpg"],
+},
 
   robots: {
     index: true,
