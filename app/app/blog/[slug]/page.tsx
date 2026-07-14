@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { blogPosts } from "@/lib/blog";
 
@@ -6,6 +7,40 @@ type Props = {
     slug: string;
   }>;
 };
+
+export async function generateMetadata(
+  { params }: Props
+): Promise<Metadata> {
+  const { slug } = await params;
+
+  const post = blogPosts.find((item) => item.slug === slug);
+
+  if (!post) {
+    return {
+      title: "Blog Not Found",
+      description: "The requested blog post could not be found.",
+    };
+  }
+
+  return {
+    title: `${post.title} | YouTube Thumbnail Downloader`,
+    description: post.description,
+
+    keywords: post.keywords,
+
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: "article",
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+    },
+  };
+}
 
 export default async function BlogPost({ params }: Props) {
   const { slug } = await params;
@@ -18,7 +53,7 @@ export default async function BlogPost({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-slate-100">
-      <article className="mx-auto max-w-4xl px-6 py-16 rounded-2xl bg-white shadow-sm">
+      <article className="mx-auto max-w-4xl rounded-2xl bg-white px-6 py-16 shadow-sm">
 
         <h1 className="text-5xl font-extrabold text-gray-900">
           {post.title}
@@ -36,7 +71,7 @@ export default async function BlogPost({ params }: Props) {
                   {section.heading}
                 </h2>
 
-                <p className="mt-4 leading-8 text-gray-600 whitespace-pre-line">
+                <p className="mt-4 whitespace-pre-line leading-8 text-gray-600">
                   {section.content}
                 </p>
               </section>
