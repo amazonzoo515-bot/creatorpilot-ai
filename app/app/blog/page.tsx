@@ -1,45 +1,7 @@
 import Link from "next/link";
+import { blogPosts } from "@/lib/blog";
 
 export default function BlogPage() {
-  const posts = [
-    {
-      title: "How to Download YouTube Thumbnails in HD Quality",
-      slug: "/blog/how-to-download-youtube-thumbnails",
-      description:
-        "Learn how to download YouTube thumbnails in HD, HQ and Max Resolution for free.",
-    },
-    {
-  title: "YouTube Thumbnail Downloader – Complete Guide",
-  slug: "/blog/youtube-thumbnail-downloader",
-  description:
-    "Everything you need to know about YouTube Thumbnail Downloader, including HD, HQ, MQ, SD and Max Resolution thumbnail downloads.",
-},
-    {
-      title: "How to Create Viral YouTube Thumbnails",
-      slug: "#",
-      description:
-        "Simple tips and strategies to design eye-catching YouTube thumbnails that attract more viewers.",
-    },
-    {
-      title: "YouTube Thumbnail SEO Guide",
-      slug: "#",
-      description:
-        "Everything you need to know about YouTube thumbnail optimization for better visibility.",
-    },
-    {
-      title: "How to Download YouTube Shorts Thumbnails",
-      slug: "#",
-      description:
-        "Download thumbnails from YouTube Shorts in high quality within seconds.",
-    },
-    {
-      title: "Max Resolution vs HD Thumbnail: What's the Difference?",
-      slug: "#",
-      description:
-        "Compare YouTube thumbnail resolutions and choose the best quality for your needs.",
-    },
-  ];
-
   return (
     <main className="min-h-screen bg-slate-100">
       <section className="mx-auto max-w-6xl px-6 py-16">
@@ -53,9 +15,9 @@ export default function BlogPage() {
         </p>
 
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
+          {blogPosts.map((post) => (
             <article
-              key={post.title}
+              key={post.slug}
               className="rounded-2xl bg-white p-6 shadow-sm"
             >
               <h2 className="text-2xl font-bold text-gray-900">
@@ -67,7 +29,7 @@ export default function BlogPage() {
               </p>
 
               <Link
-                href={post.slug}
+                href={`/blog/${post.slug}`}
                 className="mt-6 inline-block font-semibold text-blue-600 hover:underline"
               >
                 Read More →
