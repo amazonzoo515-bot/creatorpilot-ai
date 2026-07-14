@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { blogPosts } from "@/lib/blog";
+import { blogPosts, getRelatedPosts } from "@/lib/blog";
 
 type Props = {
   params: Promise<{
@@ -8,9 +9,9 @@ type Props = {
   }>;
 };
 
-export async function generateMetadata(
-  { params }: Props
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
   const { slug } = await params;
 
   const post = blogPosts.find((item) => item.slug === slug);
@@ -51,10 +52,13 @@ export default async function BlogPost({ params }: Props) {
     notFound();
   }
 
+  const relatedPosts = post.related
+    ? getRelatedPosts(post.related)
+    : [];
+
   return (
     <main className="min-h-screen bg-slate-100">
       <article className="mx-auto max-w-4xl rounded-2xl bg-white px-6 py-16 shadow-sm">
-
         <h1 className="text-5xl font-extrabold text-gray-900">
           {post.title}
         </h1>
@@ -121,6 +125,35 @@ export default async function BlogPost({ params }: Props) {
           </div>
         </section>
 
+        {relatedPosts.length > 0 && (
+          <section className="mt-16 border-t pt-12">
+            <h2 className="text-3xl font-bold text-gray-900">
+              Related Articles
+            </h2>
+
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              {relatedPosts.map((related) => (
+                <Link
+                  key={related.slug}
+                  href={`/blog/${related.slug}`}
+                  className="rounded-xl border border-gray-200 p-6 transition hover:border-blue-500 hover:shadow-md"
+                >
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    {related.title}
+                  </h3>
+
+                  <p className="mt-3 text-gray-600">
+                    {related.description}
+                  </p>
+
+                  <span className="mt-4 inline-block font-semibold text-blue-600">
+                    Read Article →
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </article>
     </main>
   );
