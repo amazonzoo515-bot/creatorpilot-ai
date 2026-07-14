@@ -12,9 +12,16 @@ export interface BlogPost {
   slug: string;
   title: string;
   description: string;
+
+  seoTitle: string;
+  seoDescription: string;
+
   keywords: string[];
+
   sections: BlogSection[];
+
   faq: BlogFaq[];
+
   related?: string[];
 }
 
@@ -24,6 +31,11 @@ export const blogPosts: BlogPost[] = [
     title: "How to Download YouTube Thumbnails in HD Quality",
     description:
       "Learn how to download YouTube thumbnails in HD, HQ, SD and Max Resolution for free.",
+      seoTitle:
+  "How to Download YouTube Thumbnails in HD Quality | CreatorPilot AI",
+
+seoDescription:
+  "Download YouTube thumbnails in HD, HQ, MQ, SD and Max Resolution instantly using CreatorPilot AI.",
     keywords: [
       "youtube thumbnail downloader",
       "youtube thumbnail hd",
@@ -185,6 +197,11 @@ Whether you need Max Resolution, HD, HQ, MQ, or SD thumbnails, our tool provides
     title: "YouTube Thumbnail Downloader – Complete Guide",
     description:
       "Everything you need to know about downloading YouTube thumbnails online.",
+      seoTitle:
+  "YouTube Thumbnail Downloader – Complete Guide | CreatorPilot AI",
+
+seoDescription:
+  "Complete guide to downloading YouTube thumbnails online in the highest available quality.",
     keywords: [
       "youtube thumbnail downloader",
       "youtube thumbnail download",
@@ -262,6 +279,11 @@ Whether you need Max Resolution, HD, HQ, MQ, or SD thumbnails, our tool provides
     title: "How to Create Viral YouTube Thumbnails",
     description:
       "Learn professional strategies to design thumbnails that increase clicks and improve CTR.",
+      seoTitle:
+  "How to Create Viral YouTube Thumbnails | CreatorPilot AI",
+
+seoDescription:
+  "Learn professional thumbnail design techniques to increase CTR and grow your YouTube channel.",
     keywords: [
       "viral youtube thumbnail",
       "youtube thumbnail design",
@@ -345,6 +367,11 @@ Whether you need Max Resolution, HD, HQ, MQ, or SD thumbnails, our tool provides
     title: "YouTube Thumbnail SEO Guide",
     description:
       "Complete YouTube thumbnail SEO guide for better visibility and higher click-through rates.",
+      seoTitle:
+  "YouTube Thumbnail SEO Guide | CreatorPilot AI",
+
+seoDescription:
+  "Complete guide to YouTube thumbnail SEO, click-through rate optimization and better video performance.",
     keywords: [
       "youtube thumbnail seo",
       "thumbnail optimization",
@@ -426,6 +453,11 @@ Whether you need Max Resolution, HD, HQ, MQ, or SD thumbnails, our tool provides
     title: "How to Download YouTube Shorts Thumbnails",
     description:
       "Download YouTube Shorts thumbnails in HD quality within seconds.",
+      seoTitle:
+  "How to Download YouTube Shorts Thumbnails | CreatorPilot AI",
+
+seoDescription:
+  "Download YouTube Shorts thumbnails in HD and Max Resolution using our free online tool.",
     keywords: [
       "youtube shorts thumbnail",
       "youtube shorts thumbnail download",
@@ -502,6 +534,11 @@ Whether you need Max Resolution, HD, HQ, MQ, or SD thumbnails, our tool provides
     title: "Max Resolution vs HD Thumbnail: What's the Difference?",
     description:
       "Understand the difference between HD, HQ, SD and Max Resolution thumbnails.",
+      seoTitle:
+  "Max Resolution vs HD Thumbnail – What's the Difference? | CreatorPilot AI",
+
+seoDescription:
+  "Compare Max Resolution, HD, HQ, MQ and SD YouTube thumbnails to choose the best quality.",
     keywords: [
       "max resolution thumbnail",
       "hq thumbnail",
