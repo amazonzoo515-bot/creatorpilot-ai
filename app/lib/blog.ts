@@ -1,8 +1,20 @@
+export interface BlogSection {
+  heading: string;
+  content: string;
+}
+
+export interface BlogFaq {
+  question: string;
+  answer: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
   description: string;
   keywords: string[];
+  sections: BlogSection[];
+  faq: BlogFaq[];
 }
 
 export const blogPosts: BlogPost[] = [
@@ -21,6 +33,8 @@ export const blogPosts: BlogPost[] = [
       "youtube thumbnail viewer",
       "free youtube tools",
     ],
+    sections: [],
+    faq: [],
   },
 
   {
@@ -36,6 +50,8 @@ export const blogPosts: BlogPost[] = [
       "youtube creator tools",
       "content creator tools",
     ],
+    sections: [],
+    faq: [],
   },
 
   {
@@ -51,6 +67,8 @@ export const blogPosts: BlogPost[] = [
       "content creator tools",
       "youtube creator tools",
     ],
+    sections: [],
+    faq: [],
   },
 
   {
@@ -64,6 +82,8 @@ export const blogPosts: BlogPost[] = [
       "youtube thumbnail checker",
       "youtube thumbnail preview",
     ],
+    sections: [],
+    faq: [],
   },
 
   {
@@ -77,6 +97,8 @@ export const blogPosts: BlogPost[] = [
       "youtube thumbnail hd",
       "yt thumbnail downloader",
     ],
+    sections: [],
+    faq: [],
   },
 
   {
@@ -90,5 +112,7 @@ export const blogPosts: BlogPost[] = [
       "hd thumbnail",
       "youtube thumbnail resolution",
     ],
+    sections: [],
+    faq: [],
   },
 ];
