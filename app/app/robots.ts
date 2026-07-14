@@ -1,11 +1,15 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = "https://youtubethumbnails-downloader.com";
+
   return {
     rules: {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://youtubethumbnails-downloader.com/sitemap.xml",
+
+    sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }
