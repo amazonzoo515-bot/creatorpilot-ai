@@ -50,6 +50,9 @@ export const metadata: Metadata = {
   creator: "YouTube Thumbnail Downloader",
 
   publisher: "YouTube Thumbnail Downloader",
+  verification: {
+  google: "zbxUmiLJEe7CmAqc32MfkWnbvHwHJpyMkOQm_DaxFEc",
+},
 
   metadataBase: new URL("https://youtubethumbnails-downloader.com"),
 
