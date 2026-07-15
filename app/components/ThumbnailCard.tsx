@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 type ThumbnailCardProps = {
   title: string;
@@ -37,11 +38,13 @@ export default function ThumbnailCard({
 
       document.body.appendChild(link);
       link.click();
+      toast.success("Download started.");
 
       window.URL.revokeObjectURL(url);
       document.body.removeChild(link);
     } catch (error) {
       console.error(error);
+      toast.error("Download failed.");
       window.open(imageUrl, "_blank");
     } finally {
       setIsDownloading(false);
@@ -76,10 +79,10 @@ export default function ThumbnailCard({
         }),
       ]);
 
-      alert("Image copied successfully!");
+      toast.success("Image copied successfully!");
     } catch (error) {
       console.error(error);
-      alert("Failed to copy image.");
+      toast.error("Failed to copy image.");
     } finally {
       setIsCopying(false);
     }
@@ -87,10 +90,10 @@ export default function ThumbnailCard({
   async function copyImageUrl() {
   try {
     await navigator.clipboard.writeText(imageUrl);
-    alert("Image URL copied successfully!");
+    toast.success("Image URL copied successfully!");
   } catch (error) {
     console.error(error);
-    alert("Failed to copy image URL.");
+    toast.error("Failed to copy image URL.");
   }
 }
 
