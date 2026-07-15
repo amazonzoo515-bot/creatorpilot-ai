@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -11,6 +12,14 @@ export default function ContactPage() {
     <main className="min-h-screen bg-slate-100">
       <section className="mx-auto max-w-4xl px-6 py-16">
         <div className="rounded-2xl bg-white p-10 shadow-sm">
+
+          <Link
+            href="/"
+            className="mb-8 inline-block text-3xl font-bold text-gray-700 transition hover:text-black"
+            aria-label="Back to Home"
+          >
+            ←
+          </Link>
 
           <h1 className="text-5xl font-extrabold text-gray-900">
             Contact Us
