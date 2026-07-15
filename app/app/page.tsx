@@ -19,8 +19,10 @@ export default function Home() {
   const [thumbnails, setThumbnails] = useState<Thumbnail[]>([]);
   const [loading, setLoading] = useState(false);
 
-  async function handleSearch() {
-  const videoId = extractVideoId(videoUrl);
+  async function handleSearch(url?: string) {
+  const currentUrl = url ?? videoUrl;
+
+  const videoId = extractVideoId(currentUrl);
 
   if (!videoId) {
     alert("Please enter a valid YouTube URL.");

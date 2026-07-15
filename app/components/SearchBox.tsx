@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 type SearchBoxProps = {
   videoUrl: string;
   setVideoUrl: (value: string) => void;
-  onSearch: () => void;
+  onSearch: (url?: string) => void;
   loading: boolean;
 };
 
@@ -34,6 +34,8 @@ async function handlePaste() {
     }, 0);
 
     toast.success("Link pasted successfully.");
+
+    onSearch(text);
   } catch {
     toast.error("Unable to access clipboard.");
   }
