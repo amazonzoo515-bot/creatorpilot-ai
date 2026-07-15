@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Script from "next/script";
 import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { blogPosts, getRelatedPosts } from "@/lib/blog";
@@ -77,6 +78,39 @@ export default async function BlogPost({ params }: Props) {
     : [];
 
   return (
+  <>
+    <Script
+      id="article-schema"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: post.title,
+          description: post.description,
+          image: [
+            "https://youtubethumbnails-downloader.com/og-image.jpg",
+          ],
+          author: {
+            "@type": "Organization",
+            name: "YouTube Thumbnail Downloader",
+          },
+          publisher: {
+            "@type": "Organization",
+            name: "YouTube Thumbnail Downloader",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://youtubethumbnails-downloader.com/android-chrome-512x512.png",
+            },
+          },
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": `https://youtubethumbnails-downloader.com/blog/${slug}`,
+          },
+        }),
+      }}
+    />
+
     <main className="min-h-screen bg-slate-100">
       <article className="mx-auto max-w-4xl rounded-2xl bg-white px-6 py-16 shadow-sm">
 
@@ -184,6 +218,7 @@ export default async function BlogPost({ params }: Props) {
           </section>
         )}
       </article>
-    </main>
+        </main>
+  </>
   );
 }
