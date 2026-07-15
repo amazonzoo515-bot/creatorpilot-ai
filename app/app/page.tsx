@@ -17,17 +17,24 @@ type Thumbnail = {
 export default function Home() {
   const [videoUrl, setVideoUrl] = useState("");
   const [thumbnails, setThumbnails] = useState<Thumbnail[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  function handleSearch() {
-    const videoId = extractVideoId(videoUrl);
+  async function handleSearch() {
+  const videoId = extractVideoId(videoUrl);
 
-    if (!videoId) {
-      alert("Please enter a valid YouTube URL.");
-      return;
-    }
+  if (!videoId) {
+    alert("Please enter a valid YouTube URL.");
+    return;
+  }
 
-    setThumbnails(getThumbnailUrls(videoId));
-    }
+  setLoading(true);
+
+  await new Promise((resolve) => setTimeout(resolve, 800));
+
+  setThumbnails(getThumbnailUrls(videoId));
+
+  setLoading(false);
+}
   async function downloadAllThumbnails() {
   try {
     const zip = new JSZip();
@@ -78,10 +85,11 @@ export default function Home() {
         <div className="mx-auto mt-10 flex justify-center">
           <div className="w-full max-w-2xl">
             <SearchBox
-              videoUrl={videoUrl}
-              setVideoUrl={setVideoUrl}
-              onSearch={handleSearch}
-            />
+  videoUrl={videoUrl}
+  setVideoUrl={setVideoUrl}
+  onSearch={handleSearch}
+  loading={loading}
+/>
           </div>
         </div>
 
