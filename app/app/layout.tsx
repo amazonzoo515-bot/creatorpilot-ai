@@ -19,19 +19,20 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default:
-      "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
-    template: "%s | YouTube Thumbnail Downloader",
+    default: "YouTube Thumbnail Image Downloader & Viewer",
+    template: "%s | YouTube Thumbnail",
   },
 
   description:
-    "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality. Paste any public YouTube video URL and instantly download high-quality thumbnail images.",
+    "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free. Paste any YouTube video URL to instantly preview and download thumbnail images.",
 
   keywords: [
+    "YouTube Thumbnail",
     "YouTube Thumbnail Downloader",
+    "YouTube Thumbnail Image Downloader",
+    "YouTube Thumbnail Viewer",
     "Download YouTube Thumbnail",
     "HD Thumbnail Downloader",
-    "YouTube Thumbnail HD",
     "Max Resolution Thumbnail",
     "HQ Thumbnail",
     "MQ Thumbnail",
@@ -40,21 +41,56 @@ export const metadata: Metadata = {
     "YouTube Image Downloader",
     "Download Thumbnail",
     "YouTube Tools",
+    keywords: [
+  "YouTube Thumbnail",
+  "YouTube Thumbnail Downloader",
+  "YouTube Thumbnail Image Downloader",
+  "YouTube Thumbnail Viewer",
+  "Download YouTube Thumbnail",
+  "Download YouTube Thumbnail Image",
+  "Free YouTube Thumbnail Downloader",
+  "HD YouTube Thumbnail",
+  "Max Resolution Thumbnail",
+  "YouTube HD Thumbnail Download",
+  "YouTube Thumbnail HD",
+  "YouTube Thumbnail Full HD",
+  "YouTube Thumbnail 4K",
+  "YouTube Shorts Thumbnail",
+  "YouTube Shorts Thumbnail Downloader",
+  "HQ Thumbnail",
+  "MQ Thumbnail",
+  "SD Thumbnail",
+  "YouTube Preview Image",
+  "YouTube Cover Image",
+  "Thumbnail Grabber",
+  "YouTube Image Downloader",
+  "Video Thumbnail Downloader",
+  "YouTube Tools",
+  "Free YouTube Tools",
+  "Thumbnail Download Tool",
+  "YouTube Thumbnail Generator",
+  "View YouTube Thumbnail",
+  "Extract YouTube Thumbnail",
+  "Download Thumbnail Online"
+],
   ],
 
   authors: [
     {
-      name: "YouTube Thumbnail Downloader",
+      name: "YouTube Thumbnail",
       url: "https://youtubethumbnails-downloader.com",
     },
   ],
 
-  creator: "YouTube Thumbnail Downloader",
+  creator: "YouTube Thumbnail",
 
-  publisher: "YouTube Thumbnail Downloader",
+  publisher: "YouTube Thumbnail",
+
+  applicationName: "YouTube Thumbnail",
+
   verification: {
-  google: "zbxUmiLJEe7CmAqc32MfkWnbvHwHJpyMkOQm_DaxFEc",
-},
+    google: "zbxUmiLJEe7CmAqc32MfkWnbvHwHJpyMkOQm_DaxFEc",
+  },
 
   metadataBase: new URL("https://youtubethumbnails-downloader.com"),
 
@@ -86,33 +122,32 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 
   openGraph: {
-  title:
-    "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
-  description:
-    "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality instantly.",
-  url: "https://youtubethumbnails-downloader.com",
-  siteName: "YouTube Thumbnail Downloader",
-  locale: "en_US",
-  type: "website",
+    title: "YouTube Thumbnail Image Downloader & Viewer",
+    description:
+      "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free.",
+    url: "https://youtubethumbnails-downloader.com",
+    siteName: "YouTube Thumbnail",
+    locale: "en_US",
+    type: "website",
 
-  images: [
-    {
-      url: "/og-image.jpg",
-      width: 1200,
-      height: 630,
-      alt: "YouTube Thumbnail Downloader",
-    },
-  ],
-},
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "YouTube Thumbnail",
+      },
+    ],
+  },
+
   twitter: {
-  card: "summary_large_image",
-  title:
-    "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
-  description:
-    "Download YouTube thumbnails instantly in Max Resolution, HD, HQ, MQ, SD and Default quality.",
+    card: "summary_large_image",
+    title: "YouTube Thumbnail Image Downloader & Viewer",
+    description:
+      "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free.",
 
-  images: ["/og-image.jpg"],
-},
+    images: ["/og-image.jpg"],
+  },
 
   robots: {
     index: true,
