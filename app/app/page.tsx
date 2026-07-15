@@ -27,6 +27,7 @@ export default function Home() {
     }
 
     setThumbnails(getThumbnailUrls(videoId));
+    }
   async function downloadAllThumbnails() {
   try {
     const zip = new JSZip();
