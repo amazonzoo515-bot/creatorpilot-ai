@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Script from "next/script";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import SearchBox from "../components/SearchBox";
 import ThumbnailCard from "../components/ThumbnailCard";
 import { extractVideoId, getThumbnailUrls } from "../lib/youtube";
@@ -25,10 +27,11 @@ export default function Home() {
     }
 
     setThumbnails(getThumbnailUrls(videoId));
-  }
   async function downloadAllThumbnails() {
-  for (const thumb of thumbnails) {
-    try {
+  try {
+    const zip = new JSZip();
+
+    for (const thumb of thumbnails) {
       const response = await fetch(
         `/api/download?url=${encodeURIComponent(thumb.url)}`
       );
@@ -36,25 +39,23 @@ export default function Home() {
       if (!response.ok) continue;
 
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
 
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${thumb.name
+      const fileName = `${thumb.name}-${thumb.resolution}`
+        .replace(/[•()]/g, "")
         .replace(/\s+/g, "-")
-        .toLowerCase()}.jpg`;
+        .toLowerCase() + ".jpg";
 
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      window.URL.revokeObjectURL(url);
-
-      // Small delay so the browser processes each download
-      await new Promise((resolve) => setTimeout(resolve, 300));
-    } catch (error) {
-      console.error(`Failed to download ${thumb.name}`, error);
+      zip.file(fileName, blob);
     }
+
+    const zipBlob = await zip.generateAsync({
+      type: "blob",
+    });
+
+    saveAs(zipBlob, "youtube-thumbnails.zip");
+  } catch (error) {
+    console.error("ZIP download failed:", error);
+    alert("Failed to create ZIP file.");
   }
 }
 
