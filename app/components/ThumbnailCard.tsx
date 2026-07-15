@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 type ThumbnailCardProps = {
   title: string;
@@ -116,11 +117,16 @@ export default function ThumbnailCard({
   return (
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
       <div className="flex justify-center">
-        <img
-          src={imageUrl}
-          alt={title}
-          className={`${imageWidth} h-auto rounded-xl border border-gray-300 object-contain transition-all duration-300`}
-        />
+        <Image
+  src={imageUrl}
+  alt={`${title} - ${resolution}`}
+  width={1280}
+  height={720}
+  sizes="(max-width:768px) 100vw, 50vw"
+  loading="lazy"
+  unoptimized
+  className={`${imageWidth} h-auto rounded-xl border border-gray-300 object-contain transition-all duration-300`}
+/>
       </div>
 
       <div className="mt-6">
