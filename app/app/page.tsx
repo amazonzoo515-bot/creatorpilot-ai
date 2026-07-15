@@ -53,18 +53,18 @@ export default function Home() {
         </div>
 
         {/* Thumbnail Cards */}
-        {thumbnails.length > 0 && (
-          <div className="mt-6 grid gap-8 md:grid-cols-2">
-            {thumbnails.map((thumb) => (
-              <ThumbnailCard
-                key={thumb.name}
-                title={thumb.name}
-                resolution={thumb.resolution}
-                imageUrl={thumb.url}
-              />
-            ))}
-          </div>
-        )}
+{thumbnails.length > 0 && (
+  <div className="mt-8 space-y-8">
+    {thumbnails.map((thumb) => (
+      <ThumbnailCard
+        key={thumb.name}
+        title={thumb.name}
+        resolution={thumb.resolution}
+        imageUrl={thumb.url}
+      />
+    ))}
+  </div>
+)}
 
         {/* Features */}
         <div className="mt-16 grid gap-6 md:grid-cols-3">
