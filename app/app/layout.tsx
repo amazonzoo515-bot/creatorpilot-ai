@@ -156,6 +156,30 @@ export default function RootLayout({
   </main>
 
   <Footer />
+  <Script
+  id="website-schema"
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "YouTube Thumbnail",
+      alternateName: "YouTube Thumbnail Image Downloader & Viewer",
+      url: "https://youtubethumbnails-downloader.com",
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Any",
+      browserRequirements: "Requires JavaScript",
+      description:
+        "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free.",
+      image: "https://youtubethumbnails-downloader.com/og-image.jpg",
+      publisher: {
+        "@type": "Organization",
+        name: "YouTube Thumbnail",
+        url: "https://youtubethumbnails-downloader.com",
+      },
+    }),
+  }}
+/>
 
   <Analytics />
   <GoogleAnalytics gaId="G-9QTZ25R4P4" />
