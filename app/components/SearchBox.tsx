@@ -77,7 +77,7 @@ spellCheck={false}
           type="button"
           onClick={handlePaste}
           disabled={loading}
-          className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-2 rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-700"
+          className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 items-center gap-2 rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-700
         >
           📋 Paste Link
         </button>
