@@ -132,6 +132,21 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <Script
+  id="organization-schema"
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "YouTube Thumbnail Downloader",
+      url: "https://youtubethumbnails-downloader.com",
+      logo: "https://youtubethumbnails-downloader.com/android-chrome-512x512.png",
+      image: "https://youtubethumbnails-downloader.com/og-image.jpg",
+      sameAs: [],
+    }),
+  }}
+/>
   {children}
 
   <Toaster
