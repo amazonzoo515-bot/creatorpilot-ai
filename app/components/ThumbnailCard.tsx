@@ -84,6 +84,15 @@ export default function ThumbnailCard({
       setIsCopying(false);
     }
   }
+  async function copyImageUrl() {
+  try {
+    await navigator.clipboard.writeText(imageUrl);
+    alert("Image URL copied successfully!");
+  } catch (error) {
+    console.error(error);
+    alert("Failed to copy image URL.");
+  }
+}
 
   function previewImage() {
     window.open(imageUrl, "_blank");
@@ -129,6 +138,12 @@ export default function ThumbnailCard({
         >
           {isCopying ? "Copying..." : "Copy Image"}
         </button>
+        <button
+  onClick={copyImageUrl}
+  className="rounded-lg border border-blue-600 bg-white px-5 py-3 font-semibold text-blue-600 transition hover:bg-blue-50"
+>
+  Copy Image URL
+</button>
 
         <button
           onClick={previewImage}
