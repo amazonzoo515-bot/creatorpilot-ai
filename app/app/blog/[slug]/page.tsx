@@ -110,6 +110,36 @@ export default async function BlogPost({ params }: Props) {
         }),
       }}
     />
+    <Script
+  id="breadcrumb-schema"
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://youtubethumbnails-downloader.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Blog",
+          item: "https://youtubethumbnails-downloader.com/blog",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: post.title,
+          item: `https://youtubethumbnails-downloader.com/blog/${slug}`,
+        },
+      ],
+    }),
+  }}
+/>
 
     <main className="min-h-screen bg-slate-100">
       <article className="mx-auto max-w-4xl rounded-2xl bg-white px-6 py-16 shadow-sm">
