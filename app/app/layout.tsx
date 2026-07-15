@@ -27,20 +27,6 @@ export const metadata: Metadata = {
     "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free. Paste any YouTube video URL to instantly preview and download thumbnail images.",
 
   keywords: [
-    "YouTube Thumbnail",
-    "YouTube Thumbnail Downloader",
-    "YouTube Thumbnail Image Downloader",
-    "YouTube Thumbnail Viewer",
-    "Download YouTube Thumbnail",
-    "HD Thumbnail Downloader",
-    "Max Resolution Thumbnail",
-    "HQ Thumbnail",
-    "MQ Thumbnail",
-    "SD Thumbnail",
-    "Thumbnail Grabber",
-    "YouTube Image Downloader",
-    "Download Thumbnail",
-    "YouTube Tools",
   "YouTube Thumbnail",
   "YouTube Thumbnail Downloader",
   "YouTube Thumbnail Image Downloader",
@@ -67,11 +53,10 @@ export const metadata: Metadata = {
   "YouTube Tools",
   "Free YouTube Tools",
   "Thumbnail Download Tool",
-  "YouTube Thumbnail Generator",
   "View YouTube Thumbnail",
   "Extract YouTube Thumbnail",
-  "Download Thumbnail Online"
-  ],
+  "Download Thumbnail Online",
+],
 
   authors: [
     {
