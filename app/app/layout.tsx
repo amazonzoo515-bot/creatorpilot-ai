@@ -115,7 +115,7 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "YouTube Thumbnail",
@@ -129,7 +129,7 @@ export const metadata: Metadata = {
     description:
       "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free.",
 
-    images: ["/og-image.jpg"],
+    images: ["/og-image.png"],
   },
 
   robots: {
