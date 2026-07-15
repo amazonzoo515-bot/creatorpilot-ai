@@ -26,6 +26,37 @@ export default function Home() {
 
     setThumbnails(getThumbnailUrls(videoId));
   }
+  async function downloadAllThumbnails() {
+  for (const thumb of thumbnails) {
+    try {
+      const response = await fetch(
+        `/api/download?url=${encodeURIComponent(thumb.url)}`
+      );
+
+      if (!response.ok) continue;
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${thumb.name
+        .replace(/\s+/g, "-")
+        .toLowerCase()}.jpg`;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      window.URL.revokeObjectURL(url);
+
+      // Small delay so the browser processes each download
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    } catch (error) {
+      console.error(`Failed to download ${thumb.name}`, error);
+    }
+  }
+}
 
   return (
   <>
@@ -54,16 +85,27 @@ export default function Home() {
 
         {/* Thumbnail Cards */}
 {thumbnails.length > 0 && (
-  <div className="mt-8 space-y-8">
-    {thumbnails.map((thumb) => (
-      <ThumbnailCard
-        key={thumb.name}
-        title={thumb.name}
-        resolution={thumb.resolution}
-        imageUrl={thumb.url}
-      />
-    ))}
-  </div>
+  <>
+    <div className="mt-8 mb-6 flex justify-center">
+      <button
+        onClick={downloadAllThumbnails}
+        className="rounded-xl bg-black px-8 py-4 text-lg font-semibold text-white transition hover:bg-gray-800"
+      >
+        ⬇ Download All Thumbnails
+      </button>
+    </div>
+
+    <div className="space-y-8">
+      {thumbnails.map((thumb) => (
+        <ThumbnailCard
+          key={thumb.name}
+          title={thumb.name}
+          resolution={thumb.resolution}
+          imageUrl={thumb.url}
+        />
+      ))}
+    </div>
+  </>
 )}
 
         {/* Features */}
