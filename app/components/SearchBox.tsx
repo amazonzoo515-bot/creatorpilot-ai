@@ -73,7 +73,7 @@ async function handlePaste() {
 
       {/* Get Thumbnail Button */}
       <button
-        onClick={onSearch}
+        onClick={() => onSearch()}
         disabled={loading}
         className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-black py-4 text-lg font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-700"
       >
