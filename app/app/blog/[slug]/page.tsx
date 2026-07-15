@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { blogPosts, getRelatedPosts } from "@/lib/blog";
 
@@ -59,6 +60,15 @@ export default async function BlogPost({ params }: Props) {
   return (
     <main className="min-h-screen bg-slate-100">
       <article className="mx-auto max-w-4xl rounded-2xl bg-white px-6 py-16 shadow-sm">
+
+        <Link
+          href="/blog"
+          className="mb-8 inline-flex items-center text-gray-700 transition hover:text-black"
+          aria-label="Back"
+        >
+          <ArrowLeft size={30} />
+        </Link>
+
         <h1 className="text-5xl font-extrabold text-gray-900">
           {post.title}
         </h1>

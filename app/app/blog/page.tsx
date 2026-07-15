@@ -1,10 +1,20 @@
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { blogPosts } from "@/lib/blog";
 
 export default function BlogPage() {
   return (
     <main className="min-h-screen bg-slate-100">
       <section className="mx-auto max-w-6xl px-6 py-16">
+
+        <Link
+          href="/"
+          className="mb-8 inline-flex items-center text-gray-700 transition hover:text-black"
+          aria-label="Back"
+        >
+          <ArrowLeft size={30} />
+        </Link>
+
         <h1 className="text-5xl font-extrabold text-gray-900">
           YouTube Thumbnail Blog
         </h1>
@@ -37,6 +47,7 @@ export default function BlogPage() {
             </article>
           ))}
         </div>
+
       </section>
     </main>
   );
