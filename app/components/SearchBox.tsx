@@ -17,6 +17,11 @@ export default function SearchBox({
         type="text"
         value={videoUrl}
         onChange={(e) => setVideoUrl(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            onSearch();
+          }
+        }}
         placeholder="Paste YouTube Video URL here..."
         className="w-full rounded-xl border border-gray-300 bg-white px-5 py-4 text-lg text-gray-900 placeholder:text-gray-400 outline-none focus:border-black"
       />
