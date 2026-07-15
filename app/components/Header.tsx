@@ -9,12 +9,11 @@ export default function Header() {
         {/* Logo + Title */}
         <Link href="/" className="flex items-center gap-3">
           <Image
-            src="/android-chrome-192x192.png"
+            src="/web-app-manifest-192x192.png"
             alt="YouTube Thumbnail Downloader"
             width={42}
             height={42}
             priority
-            className="invert"
           />
 
           <div>
@@ -25,50 +24,50 @@ export default function Header() {
         </Link>
 
         {/* Navigation */}
-      {/* Navigation */}
-<nav className="hidden md:flex items-center gap-8">
-  <Link
-    href="/"
-    className="text-gray-700 transition hover:text-black"
-  >
-    Home
-  </Link>
+        <nav className="hidden md:flex items-center gap-8">
+          <Link
+            href="/"
+            className="text-gray-700 transition hover:text-black"
+          >
+            Home
+          </Link>
 
-  <Link
-    href="/blog"
-    className="text-gray-700 transition hover:text-black"
-  >
-    Blog
-  </Link>
+          <Link
+            href="/blog"
+            className="text-gray-700 transition hover:text-black"
+          >
+            Blog
+          </Link>
 
-  <Link
-    href="/about"
-    className="text-gray-700 transition hover:text-black"
-  >
-    About
-  </Link>
+          <Link
+            href="/about"
+            className="text-gray-700 transition hover:text-black"
+          >
+            About
+          </Link>
 
-  <Link
-    href="/contact"
-    className="text-gray-700 transition hover:text-black"
-  >
-    Contact
-  </Link>
+          <Link
+            href="/contact"
+            className="text-gray-700 transition hover:text-black"
+          >
+            Contact
+          </Link>
 
-  <Link
-    href="/privacy-policy"
-    className="text-gray-700 transition hover:text-black"
-  >
-    Privacy Policy
-  </Link>
+          <Link
+            href="/privacy-policy"
+            className="text-gray-700 transition hover:text-black"
+          >
+            Privacy Policy
+          </Link>
 
-  <Link
-    href="/terms-and-conditions"
-    className="text-gray-700 transition hover:text-black"
-  >
-    Terms
-  </Link>
-</nav>
+          <Link
+            href="/terms-and-conditions"
+            className="text-gray-700 transition hover:text-black"
+          >
+            Terms
+          </Link>
+        </nav>
+
       </div>
     </header>
   );
