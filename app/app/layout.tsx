@@ -41,7 +41,6 @@ export const metadata: Metadata = {
     "YouTube Image Downloader",
     "Download Thumbnail",
     "YouTube Tools",
-    keywords: [
   "YouTube Thumbnail",
   "YouTube Thumbnail Downloader",
   "YouTube Thumbnail Image Downloader",
@@ -72,7 +71,6 @@ export const metadata: Metadata = {
   "View YouTube Thumbnail",
   "Extract YouTube Thumbnail",
   "Download Thumbnail Online"
-],
   ],
 
   authors: [
