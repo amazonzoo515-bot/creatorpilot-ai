@@ -1,5 +1,7 @@
 "use client";
 
+import toast from "react-hot-toast";
+
 type SearchBoxProps = {
   videoUrl: string;
   setVideoUrl: (value: string) => void;
@@ -13,6 +15,23 @@ export default function SearchBox({
   onSearch,
   loading,
 }: SearchBoxProps) {
+
+  async function handlePaste() {
+    try {
+      const text = await navigator.clipboard.readText();
+
+      if (!text.trim()) {
+        toast.error("Clipboard is empty.");
+        return;
+      }
+
+      setVideoUrl(text);
+      toast.success("Link pasted successfully.");
+    } catch {
+      toast.error("Unable to access clipboard.");
+    }
+  }
+
   return (
     <div className="w-full max-w-3xl rounded-2xl bg-white p-6 shadow-lg">
       <input
