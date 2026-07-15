@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import toast from "react-hot-toast";
 
 type SearchBoxProps = {
@@ -15,21 +16,28 @@ export default function SearchBox({
   onSearch,
   loading,
 }: SearchBoxProps) {
-  async function handlePaste() {
-    try {
-      const text = await navigator.clipboard.readText();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-      if (!text.trim()) {
-        toast.error("Clipboard is empty.");
-        return;
-      }
+async function handlePaste() {
+  try {
+    const text = await navigator.clipboard.readText();
 
-      setVideoUrl(text);
-      toast.success("Link pasted successfully.");
-    } catch {
-      toast.error("Unable to access clipboard.");
+    if (!text.trim()) {
+      toast.error("Clipboard is empty.");
+      return;
     }
+
+    setVideoUrl(text);
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+
+    toast.success("Link pasted successfully.");
+  } catch {
+    toast.error("Unable to access clipboard.");
   }
+}
 
   return (
     <div className="w-full max-w-3xl rounded-2xl bg-white p-6 shadow-lg">
@@ -37,18 +45,19 @@ export default function SearchBox({
       {/* Input + Paste Button */}
       <div className="relative">
         <input
-          type="text"
-          value={videoUrl}
-          onChange={(e) => setVideoUrl(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !loading) {
-              onSearch();
-            }
-          }}
-          placeholder="Paste YouTube Video URL here..."
-          disabled={loading}
-          className="w-full rounded-xl border border-gray-300 bg-white py-4 pl-5 pr-40 text-lg text-gray-900 placeholder:text-gray-400 outline-none transition focus:border-black disabled:cursor-not-allowed disabled:bg-gray-100"
-        />
+  ref={inputRef}
+  type="text"
+  value={videoUrl}
+  onChange={(e) => setVideoUrl(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" && !loading) {
+      onSearch();
+    }
+  }}
+  placeholder="Paste YouTube Video URL here..."
+  disabled={loading}
+  className="w-full rounded-xl border border-gray-300 bg-white py-4 pl-5 pr-40 text-lg text-gray-900 placeholder:text-gray-400 outline-none transition focus:border-black disabled:cursor-not-allowed disabled:bg-gray-100"
+/>
 
         <button
           type="button"
