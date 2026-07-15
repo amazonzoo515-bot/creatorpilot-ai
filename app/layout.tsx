@@ -59,25 +59,21 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: [
-      {
-        url: "/favicon.ico",
-        sizes: "any",
-      },
-      {
-        url: "/favicon-32x32.png",
-        type: "image/png",
-        sizes: "32x32",
-      },
-      {
-        url: "/favicon-16x16.png",
-        type: "image/png",
-        sizes: "16x16",
-      },
-    ],
-    apple: "/apple-touch-icon.png",
-    shortcut: "/favicon.ico",
-  },
+  icon: [
+    {
+      url: "/favicon.ico",
+      sizes: "any",
+    },
+    {
+      url: "/favicon-96x96.png",
+      type: "image/png",
+      sizes: "96x96",
+    },
+  ],
+
+  apple: "/apple-touch-icon.png",
+  shortcut: "/favicon.ico",
+},
 
   manifest: "/site.webmanifest",
 
