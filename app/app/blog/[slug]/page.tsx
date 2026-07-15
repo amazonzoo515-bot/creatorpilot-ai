@@ -25,23 +25,42 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${post.title} | YouTube Thumbnail Downloader`,
+  title: `${post.title} | YouTube Thumbnail Downloader`,
+  description: post.description,
+
+  keywords: post.keywords,
+
+  alternates: {
+    canonical: `https://youtubethumbnails-downloader.com/blog/${slug}`,
+  },
+
+  openGraph: {
+    title: post.title,
+    description: post.description,
+    url: `https://youtubethumbnails-downloader.com/blog/${slug}`,
+    siteName: "YouTube Thumbnail Downloader",
+    type: "article",
+
+    images: [
+      {
+        url: "https://youtubethumbnails-downloader.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: post.title,
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: post.title,
     description: post.description,
 
-    keywords: post.keywords,
-
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      type: "article",
-    },
-
-    twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.description,
-    },
-  };
+    images: [
+      "https://youtubethumbnails-downloader.com/og-image.jpg",
+    ],
+  },
+};
 }
 
 export default async function BlogPost({ params }: Props) {
