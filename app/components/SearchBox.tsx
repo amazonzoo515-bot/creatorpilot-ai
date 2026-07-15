@@ -20,24 +20,33 @@ export default function SearchBox({
 
 async function handlePaste() {
   try {
-    const text = await navigator.clipboard.readText();
+    if (
+      navigator.clipboard &&
+      typeof navigator.clipboard.readText === "function"
+    ) {
+      const text = await navigator.clipboard.readText();
 
-    if (!text.trim()) {
-      toast.error("Clipboard is empty.");
-      return;
+      if (text.trim()) {
+        setVideoUrl(text);
+
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 0);
+
+        toast.success("Link pasted successfully.");
+        onSearch(text);
+        return;
+      }
     }
 
-    setVideoUrl(text);
+    inputRef.current?.focus();
 
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 0);
+    toast("Long press the input field and tap Paste.");
 
-    toast.success("Link pasted successfully.");
-
-    onSearch(text);
   } catch {
-    toast.error("Unable to access clipboard.");
+    inputRef.current?.focus();
+
+    toast("Long press the input field and tap Paste.");
   }
 }
 
@@ -49,6 +58,9 @@ async function handlePaste() {
         <input
   ref={inputRef}
   type="text"
+  autoComplete="off"
+autoCorrect="off"
+spellCheck={false}
   value={videoUrl}
   onChange={(e) => setVideoUrl(e.target.value)}
   onKeyDown={(e) => {
