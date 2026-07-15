@@ -32,27 +32,27 @@ export function extractVideoId(url: string): string | null {
 export function getThumbnailUrls(videoId: string) {
   return [
     {
-      name: "HD Max Resolution",
+      name: "HD Thumbnail",
       resolution: "1280 × 720 pixels • Highest Quality",
       url: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
     },
     {
-      name: "SD",
+      name: "SD Thumbnail",
       resolution: "640 × 480 pixels • Standard Definition",
       url: `https://img.youtube.com/vi/${videoId}/sddefault.jpg`,
     },
     {
-      name: "HQ",
+      name: "HQ Thumbnail",
       resolution: "480 × 360 pixels • High Quality",
       url: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
     },
     {
-      name: "MQ",
+      name: "MQ Thumbnail",
       resolution: "320 × 180 pixels • Medium Quality",
       url: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
     },
     {
-      name: "Default",
+      name: "Default Thumbnail",
       resolution: "120 × 90 pixels • Default Quality",
       url: `https://img.youtube.com/vi/${videoId}/default.jpg`,
     },

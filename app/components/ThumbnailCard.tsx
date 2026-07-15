@@ -89,13 +89,27 @@ export default function ThumbnailCard({
     window.open(imageUrl, "_blank");
   }
 
+  // Resolution-based visual size
+  const imageWidth =
+    title === "HD Thumbnail"
+      ? "max-w-full"
+      : title === "SD Thumbnail"
+      ? "max-w-[90%]"
+      : title === "HQ Thumbnail"
+      ? "max-w-[80%]"
+      : title === "MQ Thumbnail"
+      ? "max-w-[70%]"
+      : "max-w-[60%]";
+
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-lg border border-gray-200">
-      <img
-        src={imageUrl}
-        alt={title}
-        className="w-full rounded-xl border border-gray-300"
-      />
+        <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
+      <div className="flex justify-center">
+        <img
+          src={imageUrl}
+          alt={title}
+          className={`${imageWidth} h-auto rounded-xl border border-gray-300 object-contain transition-all duration-300`}
+        />
+      </div>
 
       <div className="mt-6">
         <h3 className="text-2xl font-bold text-gray-900">
