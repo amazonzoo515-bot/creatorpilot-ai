@@ -15,7 +15,6 @@ export default function SearchBox({
   onSearch,
   loading,
 }: SearchBoxProps) {
-
   async function handlePaste() {
     try {
       const text = await navigator.clipboard.readText();
@@ -34,20 +33,34 @@ export default function SearchBox({
 
   return (
     <div className="w-full max-w-3xl rounded-2xl bg-white p-6 shadow-lg">
-      <input
-        type="text"
-        value={videoUrl}
-        onChange={(e) => setVideoUrl(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && !loading) {
-            onSearch();
-          }
-        }}
-        placeholder="Paste YouTube Video URL here..."
-        disabled={loading}
-        className="w-full rounded-xl border border-gray-300 bg-white px-5 py-4 text-lg text-gray-900 placeholder:text-gray-400 outline-none focus:border-black disabled:cursor-not-allowed disabled:bg-gray-100"
-      />
 
+      {/* Input + Paste Button */}
+      <div className="relative">
+        <input
+          type="text"
+          value={videoUrl}
+          onChange={(e) => setVideoUrl(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !loading) {
+              onSearch();
+            }
+          }}
+          placeholder="Paste YouTube Video URL here..."
+          disabled={loading}
+          className="w-full rounded-xl border border-gray-300 bg-white py-4 pl-5 pr-40 text-lg text-gray-900 placeholder:text-gray-400 outline-none transition focus:border-black disabled:cursor-not-allowed disabled:bg-gray-100"
+        />
+
+        <button
+          type="button"
+          onClick={handlePaste}
+          disabled={loading}
+          className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-2 rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-700"
+        >
+          📋 Paste Link
+        </button>
+      </div>
+
+      {/* Get Thumbnail Button */}
       <button
         onClick={onSearch}
         disabled={loading}
@@ -83,6 +96,7 @@ export default function SearchBox({
           "Get Thumbnail"
         )}
       </button>
+
     </div>
   );
 }
