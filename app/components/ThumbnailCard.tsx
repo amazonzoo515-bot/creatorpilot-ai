@@ -18,6 +18,7 @@ export default function ThumbnailCard({
   const [isDownloading, setIsDownloading] = useState(false);
   const [isCopying, setIsCopying] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [loadingImage, setLoadingImage] = useState(true);
 
   async function downloadImage() {
     try {
@@ -118,12 +119,12 @@ export default function ThumbnailCard({
   return (
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
       <div className="flex justify-center">
-        {imageError && title === "HD Thumbnail" ? (
-  <div className="flex h-24 w-full items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50">
-  <p className="text-base font-semibold text-gray-500">
-    HD Thumbnail Not Available
-  </p>
-</div>
+        {title === "HD Thumbnail" && imageError ? (
+  <div className="mx-auto flex h-20 w-72 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50">
+    <p className="text-center text-sm font-semibold text-gray-600">
+      HD Thumbnail Not Available
+    </p>
+  </div>
 ) : (
   <Image
     src={imageUrl}
@@ -133,7 +134,11 @@ export default function ThumbnailCard({
     sizes="(max-width:768px) 100vw, 50vw"
     loading="lazy"
     unoptimized
-    onError={() => setImageError(true)}
+    onLoad={() => setLoadingImage(false)}
+onError={() => {
+  setLoadingImage(false);
+  setImageError(true);
+}}
     className={`${imageWidth} h-auto rounded-xl border border-gray-300 object-contain transition-all duration-300`}
   />
 )}

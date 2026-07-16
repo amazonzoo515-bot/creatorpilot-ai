@@ -1,26 +1,38 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const imageUrl = searchParams.get('url');
+
+  const imageUrl = searchParams.get("url");
 
   if (!imageUrl) {
-    return new NextResponse('URL is required', { status: 400 });
+    return new NextResponse("Missing image URL", {
+      status: 400,
+    });
   }
 
   try {
     const response = await fetch(imageUrl);
-    if (!response.ok) throw new Error('Failed to fetch image');
 
-    const blob = await response.blob();
-    
-    return new NextResponse(blob, {
+    if (!response.ok) {
+      return new NextResponse("Image not found", {
+        status: 404,
+      });
+    }
+
+    const buffer = await response.arrayBuffer();
+
+    return new NextResponse(buffer, {
       headers: {
-        'Content-Type': response.headers.get('Content-Type') || 'image/jpeg',
-        'Access-Control-Allow-Origin': '*',
+        "Content-Type":
+          response.headers.get("content-type") ?? "image/jpeg",
+
+        "Cache-Control": "public,max-age=86400",
       },
     });
-  } catch (error) {
-    return new NextResponse('Error fetching image', { status: 500 });
+  } catch {
+    return new NextResponse("Server Error", {
+      status: 500,
+    });
   }
 }
