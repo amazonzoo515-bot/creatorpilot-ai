@@ -17,6 +17,7 @@ export default function ThumbnailCard({
 }: ThumbnailCardProps) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isCopying, setIsCopying] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   async function downloadImage() {
     try {
@@ -117,27 +118,47 @@ export default function ThumbnailCard({
   return (
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
       <div className="flex justify-center">
-        <Image
-  src={imageUrl}
-  alt={`${title} - ${resolution}`}
-  width={1280}
-  height={720}
-  sizes="(max-width:768px) 100vw, 50vw"
-  loading="lazy"
-  unoptimized
-  className={`${imageWidth} h-auto rounded-xl border border-gray-300 object-contain transition-all duration-300`}
-/>
+        {imageError && title === "HD Thumbnail" ? (
+  <div className="flex h-44 w-full flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-center">
+    <p className="text-lg font-bold text-red-600">
+      HD Thumbnail Not Available
+    </p>
+
+    <p className="mt-2 max-w-xs text-sm text-gray-500">
+      This video doesn't provide a Max Resolution thumbnail.
+      Please use one of the thumbnails below.
+    </p>
+  </div>
+) : (
+  <Image
+    src={imageUrl}
+    alt={`${title} - ${resolution}`}
+    width={1280}
+    height={720}
+    sizes="(max-width:768px) 100vw, 50vw"
+    loading="lazy"
+    unoptimized
+    onError={() => setImageError(true)}
+    className={`${imageWidth} h-auto rounded-xl border border-gray-300 object-contain transition-all duration-300`}
+  />
+)}
       </div>
 
       <div className="mt-6">
-        <h3 className="text-2xl font-bold text-gray-900">
-          {title}
-        </h3>
+  <h3 className="text-2xl font-bold text-gray-900">
+    {title}
+  </h3>
 
-        <p className="mt-2 text-base font-medium text-gray-600">
-          {resolution}
-        </p>
-      </div>
+  <p className="mt-2 text-base font-medium text-gray-600">
+    {resolution}
+  </p>
+
+  {imageError && title === "HD Thumbnail" && (
+    <p className="mt-3 rounded-lg bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
+      Max Resolution is unavailable for this video.
+    </p>
+  )}
+</div>
 
       <div className="mt-6 flex flex-wrap gap-3">
         <button
