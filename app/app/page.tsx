@@ -12,7 +12,7 @@ type Thumbnail = {
   name: string;
   resolution: string;
   url: string;
-  unavailable?: boolean;
+  available?: boolean;
 };
 
 export default function Home() {
@@ -113,12 +113,12 @@ setThumbnails(thumbs);
     <div className="space-y-8">
       {thumbnails.map((thumb) => (
   <ThumbnailCard
-    key={thumb.name}
-    title={thumb.name}
-    resolution={thumb.resolution}
-    imageUrl={thumb.url}
-    unavailable={thumb.unavailable}
-  />
+  key={thumb.name}
+  title={thumb.name}
+  resolution={thumb.resolution}
+  imageUrl={thumb.url}
+  unavailable={!thumb.available}
+/>
 ))}
     </div>
   </>
