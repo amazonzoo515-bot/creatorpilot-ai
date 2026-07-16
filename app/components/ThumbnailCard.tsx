@@ -119,16 +119,11 @@ export default function ThumbnailCard({
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
       <div className="flex justify-center">
         {imageError && title === "HD Thumbnail" ? (
-  <div className="flex h-44 w-full flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-center">
-    <p className="text-lg font-bold text-red-600">
-      HD Thumbnail Not Available
-    </p>
-
-    <p className="mt-2 max-w-xs text-sm text-gray-500">
-      This video doesn't provide a Max Resolution thumbnail.
-      Please use one of the thumbnails below.
-    </p>
-  </div>
+  <div className="flex h-24 w-full items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50">
+  <p className="text-base font-semibold text-gray-500">
+    HD Thumbnail Not Available
+  </p>
+</div>
 ) : (
   <Image
     src={imageUrl}
@@ -152,12 +147,6 @@ export default function ThumbnailCard({
   <p className="mt-2 text-base font-medium text-gray-600">
     {resolution}
   </p>
-
-  {imageError && title === "HD Thumbnail" && (
-    <p className="mt-3 rounded-lg bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
-      Max Resolution is unavailable for this video.
-    </p>
-  )}
 </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
