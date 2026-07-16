@@ -12,7 +12,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const response = await fetch(imageUrl);
+    const response = await fetch(imageUrl, {
+      cache: "no-store",
+    });
 
     if (!response.ok) {
       return new NextResponse("Image not found", {
@@ -25,13 +27,14 @@ export async function GET(request: NextRequest) {
     return new NextResponse(buffer, {
       headers: {
         "Content-Type":
-          response.headers.get("content-type") ?? "image/jpeg",
-
-        "Cache-Control": "public,max-age=86400",
+          response.headers.get("content-type") || "image/jpeg",
+        "Cache-Control": "public, max-age=86400",
       },
     });
-  } catch {
-    return new NextResponse("Server Error", {
+  } catch (error) {
+    console.error(error);
+
+    return new NextResponse("Failed to fetch image", {
       status: 500,
     });
   }

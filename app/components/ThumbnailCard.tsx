@@ -8,12 +8,14 @@ type ThumbnailCardProps = {
   title: string;
   resolution: string;
   imageUrl: string;
+  unavailable?: boolean;
 };
 
 export default function ThumbnailCard({
   title,
   resolution,
   imageUrl,
+  unavailable,
 }: ThumbnailCardProps) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isCopying, setIsCopying] = useState(false);
@@ -119,30 +121,25 @@ export default function ThumbnailCard({
   return (
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
       <div className="flex justify-center">
-        {title === "HD Thumbnail" && imageError ? (
-  <div className="mx-auto flex h-20 w-72 items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50">
-    <p className="text-center text-sm font-semibold text-gray-600">
-      HD Thumbnail Not Available
-    </p>
-  </div>
-) : (
-  <Image
-    src={imageUrl}
-    alt={`${title} - ${resolution}`}
-    width={1280}
-    height={720}
-    sizes="(max-width:768px) 100vw, 50vw"
-    loading="lazy"
-    unoptimized
-    onLoad={() => setLoadingImage(false)}
-onError={() => {
-  setLoadingImage(false);
-  setImageError(true);
-}}
-    className={`${imageWidth} h-auto rounded-xl border border-gray-300 object-contain transition-all duration-300`}
-  />
-)}
-      </div>
+  {unavailable ? (
+    <div className="flex h-24 w-72 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-100">
+      <p className="text-center text-base font-semibold text-gray-700">
+        HD Thumbnail Not Available
+      </p>
+    </div>
+  ) : (
+    <Image
+      src={imageUrl}
+      alt={`${title} - ${resolution}`}
+      width={1280}
+      height={720}
+      sizes="(max-width:768px) 100vw, 50vw"
+      loading="lazy"
+      unoptimized
+      className={`${imageWidth} h-auto rounded-xl border border-gray-300 object-contain`}
+    />
+  )}
+</div>
 
       <div className="mt-6">
   <h3 className="text-2xl font-bold text-gray-900">

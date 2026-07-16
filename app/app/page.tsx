@@ -12,6 +12,7 @@ type Thumbnail = {
   name: string;
   resolution: string;
   url: string;
+  unavailable?: boolean;
 };
 
 export default function Home() {
@@ -33,7 +34,9 @@ export default function Home() {
 
   await new Promise((resolve) => setTimeout(resolve, 800));
 
-  setThumbnails(getThumbnailUrls(videoId));
+  const thumbs = await getThumbnailUrls(videoId);
+
+setThumbnails(thumbs);
 
   setLoading(false);
 }
@@ -109,13 +112,14 @@ export default function Home() {
 
     <div className="space-y-8">
       {thumbnails.map((thumb) => (
-        <ThumbnailCard
-          key={thumb.name}
-          title={thumb.name}
-          resolution={thumb.resolution}
-          imageUrl={thumb.url}
-        />
-      ))}
+  <ThumbnailCard
+    key={thumb.name}
+    title={thumb.name}
+    resolution={thumb.resolution}
+    imageUrl={thumb.url}
+    unavailable={thumb.unavailable}
+  />
+))}
     </div>
   </>
 )}
