@@ -65,6 +65,16 @@ export const metadata: Metadata = {
       sizes: "any",
     },
     {
+      url: "/favicon-16x16.png",
+      type: "image/png",
+      sizes: "16x16",
+    },
+    {
+      url: "/favicon-32x32.png",
+      type: "image/png",
+      sizes: "32x32",
+    },
+    {
       url: "/favicon-96x96.png",
       type: "image/png",
       sizes: "96x96",
@@ -78,34 +88,43 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 
   openGraph: {
-    title:
-      "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
-    description:
-      "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality instantly.",
-    url: "https://youtubethumbnails-downloader.com",
-    siteName: "YouTube Thumbnail Downloader",
-    locale: "en_US",
-    type: "website",
+  title:
+    "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
 
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "YouTube Thumbnail Downloader",
-      },
-    ],
-  },
+  description:
+    "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality. Paste any public YouTube video URL and instantly download high-quality thumbnail images.",
+
+  url: "https://youtubethumbnails-downloader.com",
+  siteName: "YouTube Thumbnail Downloader",
+  locale: "en_US",
+  type: "website",
+
+  images: [
+    {
+      url: "/og-image.jpg",
+      width: 1200,
+      height: 630,
+      alt: "YouTube Thumbnail Downloader",
+    },
+  ],
+},
 
   twitter: {
-    card: "summary_large_image",
-    title:
-      "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
-    description:
-      "Download YouTube thumbnails instantly in Max Resolution, HD, HQ, MQ, SD and Default quality.",
+  card: "summary_large_image",
 
-    images: ["/og-image.jpg"],
-  },
+  title:
+    "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
+
+  description:
+    "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality. Paste any public YouTube video URL and instantly download high-quality thumbnail images.",
+
+  images: [
+    "/og-image.jpg",
+  ],
+
+  creator: "YouTube Thumbnail Downloader",
+  site: "@YouTubeThumbnailDownloader",
+},
 
   robots: {
   index: true,
@@ -141,7 +160,7 @@ export default function RootLayout({
       "@type": "Organization",
       name: "YouTube Thumbnail Downloader",
       url: "https://youtubethumbnails-downloader.com",
-      logo: "https://youtubethumbnails-downloader.com/android-chrome-512x512.png",
+      logo: "https://youtubethumbnails-downloader.com/web-app-manifest-512x512.png",
       image: "https://youtubethumbnails-downloader.com/og-image.jpg",
       sameAs: [],
     }),
