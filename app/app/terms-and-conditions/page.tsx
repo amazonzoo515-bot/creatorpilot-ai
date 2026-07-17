@@ -5,6 +5,34 @@ export const metadata: Metadata = {
   title: "Terms & Conditions",
   description:
     "Read the Terms & Conditions for YouTube Thumbnail Downloader.",
+    alternates: {
+  canonical: "https://youtubethumbnails-downloader.com/terms-and-conditions",
+},
+openGraph: {
+  title: "Terms & Conditions | YouTube Thumbnail Downloader",
+  description:
+    "Read the Terms & Conditions for using YouTube Thumbnail Downloader.",
+  url: "https://youtubethumbnails-downloader.com/terms-and-conditions",
+  siteName: "YouTube Thumbnail Downloader",
+  type: "website",
+
+  images: [
+    {
+      url: "/og-image.jpg",
+      width: 1200,
+      height: 630,
+    },
+  ],
+},
+
+twitter: {
+  card: "summary_large_image",
+  title: "Terms & Conditions | YouTube Thumbnail Downloader",
+  description:
+    "Read the Terms & Conditions for using YouTube Thumbnail Downloader.",
+  images: ["/og-image.jpg"],
+},
+
 };
 
 export default function TermsAndConditionsPage() {
@@ -65,10 +93,20 @@ export default function TermsAndConditionsPage() {
           </h2>
 
           <p className="mt-4 leading-8 text-gray-600">
-            We may update these Terms & Conditions at any time without prior
-            notice. Continued use of the website means you accept the updated
-            terms.
-          </p>
+  We may update these Terms & Conditions at any time without prior
+  notice. Continued use of the website means you accept the updated
+  terms.
+  <br />
+  <br />
+  If you have any questions, please visit our{" "}
+  <Link
+    href="/contact"
+    className="text-blue-600 hover:underline"
+  >
+    Contact Us
+  </Link>{" "}
+  page.
+</p>
 
           <p className="mt-12 border-t border-gray-200 pt-6 text-sm text-gray-500">
             Last updated: July 2026
