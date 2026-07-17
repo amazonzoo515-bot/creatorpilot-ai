@@ -5,6 +5,33 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "Read the Privacy Policy for YouTube Thumbnail Downloader.",
+    alternates: {
+  canonical: "https://youtubethumbnails-downloader.com/privacy-policy",
+},
+openGraph: {
+  title: "Privacy Policy | YouTube Thumbnail Downloader",
+  description:
+    "Read the Privacy Policy for YouTube Thumbnail Downloader.",
+  url: "https://youtubethumbnails-downloader.com/privacy-policy",
+  siteName: "YouTube Thumbnail Downloader",
+  type: "website",
+
+  images: [
+    {
+      url: "/og-image.jpg",
+      width: 1200,
+      height: 630,
+    },
+  ],
+},
+twitter: {
+  card: "summary_large_image",
+  title: "Privacy Policy | YouTube Thumbnail Downloader",
+  description:
+    "Read the Privacy Policy for YouTube Thumbnail Downloader.",
+  images: ["/og-image.jpg"],
+},
+
 };
 
 export default function PrivacyPolicyPage() {
@@ -66,9 +93,15 @@ export default function PrivacyPolicyPage() {
           </h2>
 
           <p className="mt-4 leading-8 text-gray-600">
-            If you have any questions regarding this Privacy Policy, please
-            contact us through our website.
-          </p>
+  If you have any questions regarding this Privacy Policy, please{" "}
+  <Link
+    href="/contact"
+    className="text-blue-600 hover:underline"
+  >
+    contact us
+  </Link>
+  .
+</p>
 
           <p className="mt-12 border-t border-gray-200 pt-6 text-sm text-gray-500">
             Last updated: July 2026
