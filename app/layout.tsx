@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -123,7 +123,6 @@ export const metadata: Metadata = {
   ],
 
   creator: "YouTube Thumbnail Downloader",
-  site: "@YouTubeThumbnailDownloader",
 },
 
   robots: {
@@ -138,6 +137,10 @@ export const metadata: Metadata = {
     "max-snippet": -1,
   },
 },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
