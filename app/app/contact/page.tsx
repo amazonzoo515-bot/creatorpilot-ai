@@ -3,8 +3,38 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Contact Us",
+
   description:
     "Get in touch with YouTube Thumbnail Downloader for questions, feedback, business inquiries, or support.",
+
+  alternates: {
+    canonical: "https://youtubethumbnails-downloader.com/contact",
+  },
+
+  openGraph: {
+    title: "Contact Us | YouTube Thumbnail Downloader",
+    description:
+      "Get in touch with YouTube Thumbnail Downloader for questions, feedback, business inquiries, or support.",
+    url: "https://youtubethumbnails-downloader.com/contact",
+    siteName: "YouTube Thumbnail Downloader",
+    type: "website",
+
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Us | YouTube Thumbnail Downloader",
+    description:
+      "Get in touch with YouTube Thumbnail Downloader for questions, feedback, business inquiries, or support.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 export default function ContactPage() {
@@ -36,9 +66,12 @@ export default function ContactPage() {
               Email
             </h2>
 
-            <p className="mt-4 text-lg font-medium text-blue-600 break-all">
-              amazonzoo515@gmail.com
-            </p>
+            <a
+  href="mailto:amazonzoo515@gmail.com"
+  className="mt-4 inline-block text-lg font-medium text-blue-600 break-all hover:underline"
+>
+  amazonzoo515@gmail.com
+</a>
           </div>
 
           <div className="mt-10">
