@@ -26,8 +26,8 @@ export async function generateMetadata({
   }
 
   return {
-  title: `${post.title} | YouTube Thumbnail Downloader`,
-  description: post.description,
+  title: post.seoTitle,
+  description: post.seoDescription,
 
   keywords: post.keywords,
 
@@ -36,8 +36,8 @@ export async function generateMetadata({
   },
 
   openGraph: {
-    title: post.title,
-    description: post.description,
+    title: post.seoTitle,
+    description: post.seoDescription,
     url: `https://youtubethumbnails-downloader.com/blog/${slug}`,
     siteName: "YouTube Thumbnail Downloader",
     type: "article",
@@ -54,8 +54,8 @@ export async function generateMetadata({
 
   twitter: {
     card: "summary_large_image",
-    title: post.title,
-    description: post.description,
+    title: post.seoTitle,
+    description: post.seoDescription,
 
     images: [
       "https://youtubethumbnails-downloader.com/og-image.jpg",

@@ -1,6 +1,42 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { blogPosts } from "@/lib/blog";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "YouTube Thumbnail Blog",
+  description:
+    "Read guides about YouTube thumbnails, YouTube SEO, thumbnail design, click-through rate optimization and content creation.",
+
+  alternates: {
+    canonical: "https://youtubethumbnails-downloader.com/blog",
+  },
+
+  openGraph: {
+    title: "YouTube Thumbnail Blog",
+    description:
+      "Read guides about YouTube thumbnails, YouTube SEO and content creation.",
+    url: "https://youtubethumbnails-downloader.com/blog",
+    siteName: "YouTube Thumbnail Downloader",
+    type: "website",
+
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "YouTube Thumbnail Blog",
+    description:
+      "Read guides about YouTube thumbnails, SEO and content creation.",
+    images: ["/og-image.jpg"],
+  },
+};
 
 export default function BlogPage() {
   return (
