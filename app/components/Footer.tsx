@@ -40,6 +40,11 @@ export default function Footer() {
               Terms & Conditions
             </Link>
 
+            <Link href="/contact" className="text-gray-600 hover:text-black">
+            Contact
+            </Link>
+
+
           </div>
 
         </div>
