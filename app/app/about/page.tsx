@@ -3,8 +3,38 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About Us",
+
   description:
-    "Learn more about YouTube Thumbnail Downloader and our mission.",
+    "Learn more about YouTube Thumbnail Downloader, our mission, and how our free tool helps users download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD, and Default quality.",
+
+  alternates: {
+    canonical: "https://youtubethumbnails-downloader.com/about",
+  },
+
+  openGraph: {
+    title: "About Us | YouTube Thumbnail Downloader",
+    description:
+      "Learn more about YouTube Thumbnail Downloader and our mission.",
+    url: "https://youtubethumbnails-downloader.com/about",
+    siteName: "YouTube Thumbnail Downloader",
+    type: "website",
+
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | YouTube Thumbnail Downloader",
+    description:
+      "Learn more about YouTube Thumbnail Downloader and our mission.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 export default function AboutPage() {
@@ -26,10 +56,12 @@ export default function AboutPage() {
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            YouTube Thumbnail Downloader is a free online tool designed to help
-            creators, designers, marketers and viewers download public YouTube
-            thumbnail images in multiple resolutions within seconds.
-          </p>
+  YouTube Thumbnail Downloader is a free online tool designed to help
+  creators, designers, marketers and viewers download public YouTube
+  thumbnail images in multiple resolutions within seconds. The tool works
+  on desktop, mobile, and tablet devices without requiring registration or
+  software installation.
+</p>
 
           <div className="mt-12 grid gap-8 md:grid-cols-3">
 
@@ -82,18 +114,29 @@ export default function AboutPage() {
           </ul>
 
           <h2 className="mt-14 text-3xl font-bold text-gray-900">
-            Our Goal
-          </h2>
+  Our Goal
+</h2>
 
-          <p className="mt-4 leading-8 text-gray-600">
-            We continuously improve our tools to provide creators with a better
-            experience. Our focus is on simplicity, speed, accessibility and
-            reliability for everyone.
-          </p>
+<p className="mt-4 leading-8 text-gray-600">
+  We continuously improve our tools to provide creators with a better
+  experience. Our focus is on simplicity, speed, accessibility and
+  reliability for everyone.
+</p>
 
-          <p className="mt-12 border-t border-gray-200 pt-6 text-sm text-gray-500">
-            Last updated: July 2026
-          </p>
+<p className="mt-8 leading-8 text-gray-600">
+  Have questions or feedback? Visit our{" "}
+  <Link
+    href="/contact"
+    className="text-blue-600 hover:underline"
+  >
+    Contact Us
+  </Link>{" "}
+  page.
+</p>
+
+<p className="mt-12 border-t border-gray-200 pt-6 text-sm text-gray-500">
+  Last updated: July 2026
+</p>
 
         </div>
       </section>
