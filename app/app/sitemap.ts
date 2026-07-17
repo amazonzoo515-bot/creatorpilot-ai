@@ -6,7 +6,7 @@ const baseUrl = "https://youtubethumbnails-downloader.com";
 export default function sitemap(): MetadataRoute.Sitemap {
   const blogUrls = blogPosts.map((post) => ({
   url: `${baseUrl}/blog/${post.slug}`,
-  lastModified: new Date("2026-07-17"),
+  lastModified: new Date(post.updatedAt ?? "2026-07-17"),
   changeFrequency: "monthly" as const,
   priority: 0.7,
 }));

@@ -23,11 +23,14 @@ export interface BlogPost {
   faq: BlogFaq[];
 
   related?: string[];
+
+  updatedAt?: string;
 }
 
 export const blogPosts: BlogPost[] = [
   {
     slug: "how-to-download-youtube-thumbnails",
+    updatedAt: "2026-07-17",
     title: "How to Download YouTube Thumbnails in HD Quality",
     description:
       "Learn how to download YouTube thumbnails in HD, HQ, SD and Max Resolution for free.",
@@ -194,6 +197,7 @@ Whether you need Max Resolution, HD, HQ, MQ, or SD thumbnails, our tool provides
 
   {
     slug: "youtube-thumbnail-downloader",
+    updatedAt: "2026-07-17",
     title: "YouTube Thumbnail Downloader – Complete Guide",
     description:
       "Everything you need to know about downloading YouTube thumbnails online.",
@@ -276,6 +280,7 @@ seoDescription:
 
   {
     slug: "how-to-create-viral-youtube-thumbnails",
+    updatedAt: "2026-07-17",
     title: "How to Create Viral YouTube Thumbnails",
     description:
       "Learn professional strategies to design thumbnails that increase clicks and improve CTR.",
@@ -364,6 +369,7 @@ seoDescription:
 
   {
     slug: "youtube-thumbnail-seo-guide",
+    updatedAt: "2026-07-17",
     title: "YouTube Thumbnail SEO Guide",
     description:
       "Complete YouTube thumbnail SEO guide for better visibility and higher click-through rates.",
@@ -450,6 +456,7 @@ seoDescription:
 
   {
     slug: "how-to-download-youtube-shorts-thumbnails",
+    updatedAt: "2026-07-17",
     title: "How to Download YouTube Shorts Thumbnails",
     description:
       "Download YouTube Shorts thumbnails in HD quality within seconds.",
@@ -531,6 +538,7 @@ seoDescription:
 
   {
     slug: "max-resolution-vs-hd-thumbnail",
+    updatedAt: "2026-07-17",
     title: "Max Resolution vs HD Thumbnail: What's the Difference?",
     description:
       "Understand the difference between HD, HQ, SD and Max Resolution thumbnails.",
