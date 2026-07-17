@@ -85,6 +85,25 @@ setThumbnails(thumbs);
           Default quality. Simply paste any public YouTube video URL and
           instantly access every available thumbnail size.
         </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm font-medium text-gray-700">
+
+  <span className="rounded-full bg-white px-4 py-2 shadow-sm">
+    ✓ Free
+  </span>
+
+  <span className="rounded-full bg-white px-4 py-2 shadow-sm">
+    ✓ No Signup
+  </span>
+
+  <span className="rounded-full bg-white px-4 py-2 shadow-sm">
+    ✓ HD Download
+  </span>
+
+  <span className="rounded-full bg-white px-4 py-2 shadow-sm">
+    ✓ YouTube Shorts
+  </span>
+
+</div>
 
         {/* Search Box */}
         <div className="mx-auto mt-10 flex justify-center">
@@ -103,11 +122,12 @@ setThumbnails(thumbs);
   <>
     <div className="mt-8 mb-6 flex justify-center">
       <button
-        onClick={downloadAllThumbnails}
-        className="rounded-xl bg-black px-8 py-4 text-lg font-semibold text-white transition hover:bg-gray-800"
-      >
-        ⬇ Download All Thumbnails
-      </button>
+  onClick={downloadAllThumbnails}
+  aria-label="Download all available YouTube thumbnails"
+  className="rounded-xl bg-black px-8 py-4 text-lg font-semibold text-white transition hover:bg-gray-800"
+>
+  ⬇ Download All Thumbnails
+</button>
     </div>
 
     <div className="space-y-8">
@@ -172,12 +192,12 @@ setThumbnails(thumbs);
           </h2>
 
           <ol className="mt-4 list-decimal space-y-3 pl-6 text-gray-600">
-            <li>Copy the YouTube video URL.</li>
-            <li>Paste the URL into the search box.</li>
-            <li>Click Get Thumbnail.</li>
-            <li>Select your preferred thumbnail size.</li>
-            <li>Download instantly.</li>
-          </ol>
+  <li>Copy the YouTube video URL.</li>
+  <li>Paste the YouTube URL into the search box.</li>
+  <li>Click the <strong>Get Thumbnail</strong> button.</li>
+  <li>Select HD, HQ, MQ, SD or Max Resolution.</li>
+  <li>Preview, Copy or Download the thumbnail instantly.</li>
+</ol>
 
           <h2 className="mt-10 text-2xl font-bold text-gray-900">
             Available Thumbnail Sizes
@@ -344,12 +364,7 @@ setThumbnails(thumbs);
             name: "YouTube Thumbnail Downloader",
             url: "https://youtubethumbnails-downloader.com",
           },
-          potentialAction: {
-            "@type": "SearchAction",
-            target:
-              "https://youtubethumbnails-downloader.com/?url={search_term_string}",
-            "query-input": "required name=search_term_string",
-          },
+          
         }),
       }}
     />

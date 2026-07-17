@@ -52,12 +52,13 @@ export default function SearchBox({
       {/* Input + Paste Button */}
       <div className="relative">
         <input
-          ref={inputRef}
-          type="text"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck={false}
-          value={videoUrl}
+  ref={inputRef}
+  type="url"
+  inputMode="url"
+  autoComplete="off"
+  autoCorrect="off"
+  spellCheck={false}
+  value={videoUrl}
           onChange={(e) => setVideoUrl(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !loading) {
@@ -65,12 +66,14 @@ export default function SearchBox({
             }
           }}
           placeholder="Paste YouTube Video URL here..."
+          aria-label="Paste YouTube video URL"
           disabled={loading}
           className="w-full rounded-xl border border-gray-300 bg-white py-4 px-5 text-lg text-gray-900 placeholder:text-gray-400 outline-none transition focus:border-black disabled:cursor-not-allowed disabled:bg-gray-100 md:pr-40"
         />
 
         <button
           type="button"
+          aria-label="Paste YouTube video URL from clipboard"
           onClick={handlePaste}
           disabled={loading}
           className="absolute right-2 top-1/2 hidden -translate-y-1/2 items-center gap-2 rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-700 md:flex"
@@ -82,6 +85,7 @@ export default function SearchBox({
       {/* Get Thumbnail Button */}
       <button
         onClick={() => onSearch()}
+        aria-label="Get YouTube thumbnail"
         disabled={loading}
         className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-black py-4 text-lg font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-700"
       >
