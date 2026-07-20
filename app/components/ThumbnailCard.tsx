@@ -37,9 +37,14 @@ export default function ThumbnailCard({
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
 
+      // Generate a short random string to make the file name unique
+      const randomString = Math.random().toString(36).substring(2, 6);
+      const sanitizedTitle = title.replace(/\s+/g, "-").toLowerCase();
+      const fileName = `${sanitizedTitle}-${randomString}.jpg`;
+
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${title.replace(/\s+/g, "-").toLowerCase()}.jpg`;
+      link.download = fileName;
 
       document.body.appendChild(link);
       link.click();
@@ -92,15 +97,16 @@ export default function ThumbnailCard({
       setIsCopying(false);
     }
   }
+
   async function copyImageUrl() {
-  try {
-    await navigator.clipboard.writeText(imageUrl);
-    toast.success("Image URL copied successfully!");
-  } catch (error) {
-    console.error(error);
-    toast.error("Failed to copy image URL.");
+    try {
+      await navigator.clipboard.writeText(imageUrl);
+      toast.success("Image URL copied successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to copy image URL.");
+    }
   }
-}
 
   function previewImage() {
     window.open(imageUrl, "_blank");
@@ -119,37 +125,33 @@ export default function ThumbnailCard({
       : "max-w-[60%]";
 
   return (
-        <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
+    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
       <div className="flex justify-center">
-  {unavailable ? (
-    <div className="flex h-24 w-72 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-100">
-      <p className="text-center text-base font-semibold text-gray-700">
-        HD Thumbnail Not Available
-      </p>
-    </div>
-  ) : (
-    <Image
-      src={imageUrl}
-      alt={`${title} - ${resolution}`}
-      width={1280}
-      height={720}
-      sizes="(max-width:768px) 100vw, 50vw"
-      loading="lazy"
-      unoptimized
-      className={`${imageWidth} h-auto rounded-xl border border-gray-300 object-contain`}
-    />
-  )}
-</div>
+        {unavailable ? (
+          <div className="flex h-24 w-72 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-100">
+            <p className="text-center text-base font-semibold text-gray-700">
+              HD Thumbnail Not Available
+            </p>
+          </div>
+        ) : (
+          <Image
+            src={imageUrl}
+            alt={`${title} - ${resolution}`}
+            width={1280}
+            height={720}
+            sizes="(max-width:768px) 100vw, 50vw"
+            loading="lazy"
+            unoptimized
+            className={`${imageWidth} h-auto rounded-xl border border-gray-300 object-contain`}
+          />
+        )}
+      </div>
 
       <div className="mt-6">
-  <h3 className="text-2xl font-bold text-gray-900">
-    {title}
-  </h3>
+        <h3 className="text-2xl font-bold text-gray-900">{title}</h3>
 
-  <p className="mt-2 text-base font-medium text-gray-600">
-    {resolution}
-  </p>
-</div>
+        <p className="mt-2 text-base font-medium text-gray-600">{resolution}</p>
+      </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
         <button
@@ -160,11 +162,11 @@ export default function ThumbnailCard({
           {isCopying ? "Copying..." : "Copy Image"}
         </button>
         <button
-  onClick={copyImageUrl}
-  className="rounded-lg border border-blue-600 bg-white px-5 py-3 font-semibold text-blue-600 transition hover:bg-blue-50"
->
-  Copy Image URL
-</button>
+          onClick={copyImageUrl}
+          className="rounded-lg border border-blue-600 bg-white px-5 py-3 font-semibold text-blue-600 transition hover:bg-blue-50"
+        >
+          Copy Image URL
+        </button>
 
         <button
           onClick={previewImage}
