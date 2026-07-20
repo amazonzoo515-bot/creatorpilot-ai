@@ -19,6 +19,10 @@ export function extractVideoId(url: string): string | null {
       return parsedUrl.pathname.split("/embed/")[1];
     }
 
+    if (parsedUrl.pathname.startsWith("/live/")) {
+      return parsedUrl.pathname.split("/live/")[1];
+    }
+
     return null;
   } catch {
     return null;
