@@ -24,8 +24,6 @@ export default function Home() {
   const currentUrl = url ?? videoUrl;
 
   const videoId = extractVideoId(currentUrl);
-  console.log("URL:", currentUrl);
-console.log("Video ID:", videoId);
 
   if (!videoId) {
     alert("Please enter a valid YouTube URL.");
