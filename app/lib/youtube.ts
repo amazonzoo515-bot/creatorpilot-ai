@@ -3,24 +3,31 @@ export function extractVideoId(url: string): string | null {
     const parsedUrl = new URL(url);
 
     if (parsedUrl.hostname.includes("youtu.be")) {
-      return parsedUrl.pathname.slice(1);
+      const pathPart = parsedUrl.pathname.slice(1);
+      return pathPart.split("/")[0].split("?")[0] || null;
     }
 
     const videoId = parsedUrl.searchParams.get("v");
     if (videoId) {
-      return videoId;
+      return videoId.split("&")[0];
     }
 
-    if (parsedUrl.pathname.startsWith("/shorts/")) {
-      return parsedUrl.pathname.split("/shorts/")[1];
+    const pathname = parsedUrl.pathname;
+    let prefix = "";
+    
+    if (pathname.startsWith("/shorts/")) {
+      prefix = "/shorts/";
+    } else if (pathname.startsWith("/embed/")) {
+      prefix = "/embed/";
+    } else if (pathname.startsWith("/live/")) {
+      prefix = "/live/";
     }
 
-    if (parsedUrl.pathname.startsWith("/embed/")) {
-      return parsedUrl.pathname.split("/embed/")[1];
-    }
-
-    if (parsedUrl.pathname.startsWith("/live/")) {
-      return parsedUrl.pathname.split("/live/")[1];
+    if (prefix) {
+      const idPart = pathname.split(prefix)[1];
+      if (idPart) {
+        return idPart.split("/")[0].split("?")[0] || null;
+      }
     }
 
     return null;
