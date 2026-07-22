@@ -59,84 +59,84 @@ export const metadata: Metadata = {
   },
 
   icons: {
-  icon: [
-    {
-      url: "/favicon.ico",
-      sizes: "any",
-    },
-    {
-      url: "/favicon-16x16.png",
-      type: "image/png",
-      sizes: "16x16",
-    },
-    {
-      url: "/favicon-32x32.png",
-      type: "image/png",
-      sizes: "32x32",
-    },
-    {
-      url: "/favicon-96x96.png",
-      type: "image/png",
-      sizes: "96x96",
-    },
-  ],
+    icon: [
+      {
+        url: "/favicon.ico",
+        sizes: "any",
+      },
+      {
+        url: "/favicon-16x16.png",
+        type: "image/png",
+        sizes: "16x16",
+      },
+      {
+        url: "/favicon-32x32.png",
+        type: "image/png",
+        sizes: "32x32",
+      },
+      {
+        url: "/favicon-96x96.png",
+        type: "image/png",
+        sizes: "96x96",
+      },
+    ],
 
-  apple: "/apple-touch-icon.png",
-  shortcut: "/favicon.ico",
-},
+    apple: "/apple-touch-icon.png",
+    shortcut: "/favicon.ico",
+  },
 
   manifest: "/site.webmanifest",
 
   openGraph: {
-  title:
-    "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
+    title:
+      "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
 
-  description:
-    "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality. Paste any public YouTube video URL and instantly download high-quality thumbnail images.",
+    description:
+      "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality. Paste any public YouTube video URL and instantly download high-quality thumbnail images.",
 
-  url: "https://youtubethumbnails-downloader.com",
-  siteName: "YouTube Thumbnail Downloader",
-  locale: "en_US",
-  type: "website",
+    url: "https://youtubethumbnails-downloader.com",
+    siteName: "YouTube Thumbnail Downloader",
+    locale: "en_US",
+    type: "website",
 
-  images: [
-    {
-      url: "/og-image.jpg",
-      width: 1200,
-      height: 630,
-      alt: "YouTube Thumbnail Downloader",
-    },
-  ],
-},
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "YouTube Thumbnail Downloader",
+      },
+    ],
+  },
 
   twitter: {
-  card: "summary_large_image",
+    card: "summary_large_image",
 
-  title:
-    "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
+    title:
+      "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
 
-  description:
-    "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality. Paste any public YouTube video URL and instantly download high-quality thumbnail images.",
+    description:
+      "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality. Paste any public YouTube video URL and instantly download high-quality thumbnail images.",
 
-  images: [
-    "/og-image.jpg",
-  ],
+    images: [
+      "/og-image.jpg",
+    ],
 
-  creator: "YouTube Thumbnail Downloader",
-},
+    creator: "YouTube Thumbnail Downloader",
+  },
 
   robots: {
-  index: true,
-  follow: true,
-
-  googleBot: {
     index: true,
     follow: true,
-    "max-video-preview": -1,
-    "max-image-preview": "large",
-    "max-snippet": -1,
+
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
-},
 };
 
 export const viewport: Viewport = {
@@ -155,48 +155,56 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Script
-  id="organization-schema"
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "YouTube Thumbnail Downloader",
-      url: "https://youtubethumbnails-downloader.com",
-      logo: "https://youtubethumbnails-downloader.com/web-app-manifest-512x512.png",
-      image: "https://youtubethumbnails-downloader.com/og-image.jpg",
-      sameAs: [],
-    }),
-  }}
-/>
-  {children}
+          id="organization-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "YouTube Thumbnail Downloader",
+              url: "https://youtubethumbnails-downloader.com",
+              logo: "https://youtubethumbnails-downloader.com/web-app-manifest-512x512.png",
+              image: "https://youtubethumbnails-downloader.com/og-image.jpg",
+              sameAs: [],
+            }),
+          }}
+        />
+        
+        {children}
 
-  <Toaster
-    position="top-right"
-    toastOptions={{
-      duration: 2500,
-      style: {
-        borderRadius: "12px",
-        background: "#111827",
-        color: "#fff",
-        fontWeight: "600",
-      },
-    }}
-  />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 2500,
+            style: {
+              borderRadius: "12px",
+              background: "#111827",
+              color: "#fff",
+              fontWeight: "600",
+            },
+          }}
+        />
 
-  <Analytics />
-  <GoogleAnalytics gaId="G-9QTZ25R4P4" />
+        <Analytics />
+        <GoogleAnalytics gaId="G-9QTZ25R4P4" />
 
-  <Script id="microsoft-clarity" strategy="afterInteractive">
-    {`
-      (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "xmg1cdqpm8");
-    `}
-  </Script>
-</body>
+        {/* Adsterra Social Bar Script */}
+        <Script
+          id="adsterra-social-bar"
+          src="https://pl30481669.effectivecpmnetwork.com/24/b8/39/24b83957780a91c60af2b01750125c6a.js"
+          strategy="afterInteractive"
+        />
+
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "xmg1cdqpm8");
+          `}
+        </Script>
+      </body>
     </html>
   );
 }
