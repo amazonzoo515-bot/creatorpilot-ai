@@ -182,7 +182,15 @@ export default function RootLayout({
 />
 
   <Analytics />
-  <GoogleAnalytics gaId="G-9QTZ25R4P4" />
+
+<GoogleAnalytics gaId="G-9QTZ25R4P4" />
+
+{/* Adsterra Social Bar */}
+<Script
+  id="adsterra-social-bar"
+  src="https://pl30481669.effectivecpmnetwork.com/24/b8/39/24b83957780a91c60af2b01750125c6a.js"
+  strategy="afterInteractive"
+/>
 
 <Script id="microsoft-clarity" strategy="afterInteractive">
   {`
@@ -193,7 +201,3 @@ export default function RootLayout({
     })(window, document, "clarity", "script", "xmg1cdqpm8");
   `}
 </Script>
-</body>
-    </html>
-  );
-}
