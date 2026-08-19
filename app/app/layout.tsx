@@ -19,9 +19,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "YouTube Thumbnail Image Downloader & Viewer",
-    template: "%s | YouTube Thumbnail",
-  },
+  default: "YouTube Thumbnail",
+  template: "%s | YouTube Thumbnail",
+},
 
   description:
     "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free. Paste any YouTube video URL to instantly preview and download thumbnail images.",
@@ -29,6 +29,7 @@ export const metadata: Metadata = {
   keywords: [
   "YouTube Thumbnail",
   "YouTube Thumbnail Downloader",
+  "YouTube Thumbnail Graber",
   "YouTube Thumbnail Image Downloader",
   "YouTube Thumbnail Viewer",
   "Download YouTube Thumbnail",
@@ -182,30 +183,18 @@ export default function RootLayout({
 />
 
   <Analytics />
-
-<GoogleAnalytics gaId="G-9QTZ25R4P4" />
-
-{/* Adsterra Social Bar */}
-<Script
-  id="adsterra-social-bar"
-  src="https://pl30481669.effectivecpmnetwork.com/24/b8/39/24b83957780a91c60af2b01750125c6a.js"
-  strategy="afterInteractive"
-/>
+  <GoogleAnalytics gaId="G-9QTZ25R4P4" />
 
 <Script id="microsoft-clarity" strategy="afterInteractive">
   {`
     (function(c,l,a,r,i,t,y){
       c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);
-      t.async=1;
-      t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];
-      y.parentNode.insertBefore(t,y);
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "xmg1cdqpm8");
   `}
 </Script>
-
-      </body>
+</body>
     </html>
   );
 }
