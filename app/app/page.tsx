@@ -343,26 +343,29 @@ export default function Home() {
       />
 
       <Script
-        id="website-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "YouTube Thumbnail Downloader",
-            alternateName: "YT Thumbnail Downloader",
-            url: "https://youtubethumbnails-downloader.com",
-            description:
-              "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality for free.",
-            inLanguage: "en",
-            publisher: {
-              "@type": "Organization",
-              name: "YouTube Thumbnail Downloader",
-              url: "https://youtubethumbnails-downloader.com",
-            },
-          }),
-        }}
-      />
+  id="website-schema"
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "YouTube Thumbnail",
+      alternateName: [
+        "YouTube Thumbnail Downloader",
+        "YT Thumbnail Downloader",
+      ],
+      url: "https://youtubethumbnails-downloader.com",
+      description:
+        "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality for free.",
+      inLanguage: "en",
+      publisher: {
+        "@type": "Organization",
+        name: "YouTube Thumbnail Downloader",
+        url: "https://youtubethumbnails-downloader.com",
+      },
+    }),
+  }}
+/>
       <Script
         id="webapplication-schema"
         type="application/ld+json"
