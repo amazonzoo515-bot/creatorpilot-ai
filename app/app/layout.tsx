@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   keywords: [
   "YouTube Thumbnail",
   "YouTube Thumbnail Downloader",
-  "YouTube Thumbnail Graber",
+  "YouTube Thumbnail Grabber",
   "YouTube Thumbnail Image Downloader",
   "YouTube Thumbnail Viewer",
   "Download YouTube Thumbnail",
