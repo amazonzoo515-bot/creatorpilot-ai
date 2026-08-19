@@ -18,10 +18,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default:
-      "YouTube Thumbnail Downloader - Download HD, HQ & Max Resolution Thumbnails",
-    template: "%s | YouTube Thumbnail Downloader",
-  },
+  default: "YouTube Thumbnail",
+  template: "%s | YouTube Thumbnail",
+},
 
   description:
     "Download YouTube thumbnails in Max Resolution, HD, HQ, MQ, SD and Default quality. Paste any public YouTube video URL and instantly download high-quality thumbnail images.",
