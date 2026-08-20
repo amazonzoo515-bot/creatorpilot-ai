@@ -5,6 +5,30 @@ import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { blogPosts, getRelatedPosts } from "@/lib/blog";
 
+function renderContent(content: string) {
+  const parts = content.split(/(\[[^\]]+\]\(\/[^)]+\))/g);
+
+  return parts.map((part, index) => {
+    const match = part.match(/^\[([^\]]+)\]\((\/[^)]+)\)$/);
+
+    if (!match) {
+      return <span key={index}>{part}</span>;
+    }
+
+    const [, text, href] = match;
+
+    return (
+      <Link
+        key={index}
+        href={href}
+        className="font-medium text-blue-600 underline underline-offset-2 hover:text-blue-800"
+      >
+        {text}
+      </Link>
+    );
+  });
+}
+
 type Props = {
   params: Promise<{
     slug: string;
@@ -169,8 +193,8 @@ export default async function BlogPost({ params }: Props) {
                 </h2>
 
                 <p className="mt-4 whitespace-pre-line leading-8 text-gray-600">
-                  {section.content}
-                </p>
+  {renderContent(section.content)}
+</p>
               </section>
             ))}
           </div>
