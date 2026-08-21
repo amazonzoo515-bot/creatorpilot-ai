@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
+
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,66 +19,74 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://youtubethumbnails-downloader.com";
+const siteName = "YouTube Thumbnail Downloader";
+const ogImage = "/og-image.png";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+
   title: {
-  default: "YouTube Thumbnail",
-  template: "%s | YouTube Thumbnail",
-},
+    default: "YouTube Thumbnail Downloader – HD, HQ & Max Resolution",
+    template: "%s | YouTube Thumbnail Downloader",
+  },
 
   description:
-    "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free. Paste any YouTube video URL to instantly preview and download thumbnail images.",
+    "Download YouTube thumbnails online in HD, HQ, MQ, SD and the highest available resolution. Paste a public YouTube video URL to preview and download its thumbnail instantly.",
 
-  keywords: [
-  "YouTube Thumbnail",
-  "YouTube Thumbnail Downloader",
-  "YouTube Thumbnail Grabber",
-  "YouTube Thumbnail Image Downloader",
-  "YouTube Thumbnail Viewer",
-  "Download YouTube Thumbnail",
-  "Download YouTube Thumbnail Image",
-  "Free YouTube Thumbnail Downloader",
-  "HD YouTube Thumbnail",
-  "Max Resolution Thumbnail",
-  "YouTube HD Thumbnail Download",
-  "YouTube Thumbnail HD",
-  "YouTube Thumbnail Full HD",
-  "YouTube Thumbnail 4K",
-  "YouTube Shorts Thumbnail",
-  "YouTube Shorts Thumbnail Downloader",
-  "HQ Thumbnail",
-  "MQ Thumbnail",
-  "SD Thumbnail",
-  "YouTube Preview Image",
-  "YouTube Cover Image",
-  "Thumbnail Grabber",
-  "YouTube Image Downloader",
-  "Video Thumbnail Downloader",
-  "YouTube Tools",
-  "Free YouTube Tools",
-  "Thumbnail Download Tool",
-  "View YouTube Thumbnail",
-  "Extract YouTube Thumbnail",
-  "Download Thumbnail Online",
-],
+    keywords: [
+      "YouTube Thumbnail",
+      "YouTube Thumbnail Downloader",
+      "YouTube Thumbnail Grabber",
+      "YouTube Thumbnail Image Downloader",
+      "YouTube Thumbnail Viewer",
+      "Download YouTube Thumbnail",
+      "Download YouTube Thumbnail Image",
+      "Free YouTube Thumbnail Downloader",
+      "YouTube Thumbnail Downloader Online",
+      "YouTube Thumbnail from URL",
+      "YouTube Thumbnail URL",
+      "Extract YouTube Thumbnail",
+      "HD YouTube Thumbnail",
+      "HQ YouTube Thumbnail",
+      "MQ YouTube Thumbnail",
+      "SD YouTube Thumbnail",
+      "Max Resolution Thumbnail",
+      "YouTube Thumbnail HD",
+      "YouTube Thumbnail Full HD",
+      "YouTube Thumbnail 4K",
+      "YouTube HD Thumbnail Download",
+      "YouTube Shorts Thumbnail",
+      "YouTube Shorts Thumbnail Downloader",
+      "YouTube Image Downloader",
+      "Video Thumbnail Downloader",
+      "Thumbnail Grabber",
+      "Thumbnail Download Tool",
+      "Download Thumbnail Online",
+      "View YouTube Thumbnail",
+      "Free YouTube Tools",
+      "YouTube Tools",
+      "YouTube Thumbnail Extractor",
+      "YouTube Thumbnail Saver",
+      "Save YouTube Thumbnail",
+      "YouTube Thumbnail Download Tool",
+      "YouTube Thumbnail Preview",
+    ],
 
   authors: [
     {
-      name: "YouTube Thumbnail",
-      url: "https://youtubethumbnails-downloader.com",
+      name: siteName,
+      url: siteUrl,
     },
   ],
 
-  creator: "YouTube Thumbnail",
-
-  publisher: "YouTube Thumbnail",
-
-  applicationName: "YouTube Thumbnail",
+  creator: siteName,
+  publisher: siteName,
+  applicationName: siteName,
 
   verification: {
     google: "zbxUmiLJEe7CmAqc32MfkWnbvHwHJpyMkOQm_DaxFEc",
   },
-
-  metadataBase: new URL("https://youtubethumbnails-downloader.com"),
 
   alternates: {
     canonical: "/",
@@ -103,39 +113,60 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
   },
 
-  manifest: "/site.webmanifest",
+  manifest: "/manifest.webmanifest",
 
   openGraph: {
-    title: "YouTube Thumbnail Image Downloader & Viewer",
+    title: "YouTube Thumbnail Downloader – HD, HQ & Max Resolution",
     description:
-      "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free.",
-    url: "https://youtubethumbnails-downloader.com",
-    siteName: "YouTube Thumbnail",
+      "Download and preview YouTube thumbnail images in HD, HQ, MQ, SD and the highest available resolution for free.",
+    url: siteUrl,
+    siteName,
     locale: "en_US",
     type: "website",
-
     images: [
       {
-        url: "/og-image.png",
+        url: ogImage,
         width: 1200,
         height: 630,
-        alt: "YouTube Thumbnail",
+        alt: "YouTube Thumbnail Downloader",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "YouTube Thumbnail Image Downloader & Viewer",
+    title: "YouTube Thumbnail Downloader – HD & Max Resolution",
     description:
-      "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free.",
-
-    images: ["/og-image.png"],
+      "Download YouTube thumbnails online from public video URLs in the highest available quality.",
+    images: [ogImage],
   },
 
   robots: {
     index: true,
     follow: true,
+  },
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: siteName,
+  alternateName: [
+    "YouTube Thumbnail Downloader",
+    "YouTube Thumbnail Viewer",
+    "YouTube Thumbnail Grabber",
+  ],
+  url: siteUrl,
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Any",
+  browserRequirements: "Requires JavaScript",
+  description:
+    "Online YouTube thumbnail downloader that lets users preview and download available thumbnail images from public YouTube video URLs.",
+  image: `${siteUrl}${ogImage}`,
+  publisher: {
+    "@type": "Organization",
+    name: siteName,
+    url: siteUrl,
   },
 };
 
@@ -149,52 +180,44 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-  <Header />
+      <body className="flex min-h-full flex-col">
+        <Header />
 
-  <main className="flex-1">
-    {children}
-  </main>
+        <main className="flex-1">{children}</main>
 
-  <Footer />
-  <Script
-  id="website-schema"
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      name: "YouTube Thumbnail",
-      alternateName: "YouTube Thumbnail Image Downloader & Viewer",
-      url: "https://youtubethumbnails-downloader.com",
-      applicationCategory: "MultimediaApplication",
-      operatingSystem: "Any",
-      browserRequirements: "Requires JavaScript",
-      description:
-        "Download and view YouTube thumbnail images in HD, HQ, MQ, SD and Max Resolution for free.",
-      image: "https://youtubethumbnails-downloader.com/og-image.jpg",
-      publisher: {
-        "@type": "Organization",
-        name: "YouTube Thumbnail",
-        url: "https://youtubethumbnails-downloader.com",
-      },
-    }),
-  }}
-/>
+        <Footer />
 
-  <Analytics />
-  <GoogleAnalytics gaId="G-9QTZ25R4P4" />
+        <Script
+          id="website-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
 
-<Script id="microsoft-clarity" strategy="afterInteractive">
-  {`
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "xmg1cdqpm8");
-  `}
-</Script>
-</body>
+        <Analytics />
+
+        <GoogleAnalytics gaId="G-9QTZ25R4P4" />
+
+        <Script
+          id="adsterra-social-bar"
+          src="https://pl30481669.effectivecpmnetwork.com/24/b8/39/24b83957780a91c60af2b01750125c6a.js"
+          strategy="afterInteractive"
+        />
+
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);
+              t.async=1;
+              t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];
+              y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "xmg1cdqpm8");
+          `}
+        </Script>
+      </body>
     </html>
   );
 }

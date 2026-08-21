@@ -1,38 +1,39 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
   description:
     "Read the Terms & Conditions for YouTube Thumbnail Downloader.",
-    alternates: {
-  canonical: "https://youtubethumbnails-downloader.com/terms-and-conditions",
-},
-openGraph: {
-  title: "Terms & Conditions | YouTube Thumbnail Downloader",
-  description:
-    "Read the Terms & Conditions for using YouTube Thumbnail Downloader.",
-  url: "https://youtubethumbnails-downloader.com/terms-and-conditions",
-  siteName: "YouTube Thumbnail Downloader",
-  type: "website",
 
-  images: [
-    {
-      url: "/og-image.jpg",
-      width: 1200,
-      height: 630,
-    },
-  ],
-},
+  alternates: {
+    canonical:
+      "https://youtubethumbnails-downloader.com/terms-and-conditions",
+  },
 
-twitter: {
-  card: "summary_large_image",
-  title: "Terms & Conditions | YouTube Thumbnail Downloader",
-  description:
-    "Read the Terms & Conditions for using YouTube Thumbnail Downloader.",
-  images: ["/og-image.jpg"],
-},
+  openGraph: {
+    title: "Terms & Conditions | YouTube Thumbnail Downloader",
+    description:
+      "Read the Terms & Conditions for using YouTube Thumbnail Downloader.",
+    url: "https://youtubethumbnails-downloader.com/terms-and-conditions",
+    siteName: "YouTube Thumbnail Downloader",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
 
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms & Conditions | YouTube Thumbnail Downloader",
+    description:
+      "Read the Terms & Conditions for using YouTube Thumbnail Downloader.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 export default function TermsAndConditionsPage() {
@@ -40,7 +41,6 @@ export default function TermsAndConditionsPage() {
     <main className="min-h-screen bg-slate-100">
       <section className="mx-auto max-w-5xl px-6 py-16">
         <div className="rounded-2xl bg-white p-10 shadow-sm">
-
           <Link
             href="/"
             className="mb-8 inline-block text-3xl font-bold text-gray-700 transition hover:text-black"
@@ -50,7 +50,7 @@ export default function TermsAndConditionsPage() {
           </Link>
 
           <h1 className="text-4xl font-extrabold text-gray-900">
-            Terms & Conditions
+            Terms &amp; Conditions
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -65,8 +65,8 @@ export default function TermsAndConditionsPage() {
 
           <p className="mt-4 leading-8 text-gray-600">
             This website is provided for personal and educational use. Users are
-            responsible for ensuring they comply with YouTube's Terms of Service
-            and all applicable copyright laws.
+            responsible for ensuring they comply with YouTube&apos;s Terms of
+            Service and all applicable copyright laws.
           </p>
 
           <h2 className="mt-10 text-2xl font-bold text-gray-900">
@@ -84,8 +84,8 @@ export default function TermsAndConditionsPage() {
           </h2>
 
           <p className="mt-4 leading-8 text-gray-600">
-            This tool is provided "as is" without warranties of any kind. We are
-            not responsible for any misuse of this website.
+            This tool is provided &quot;as is&quot; without warranties of any
+            kind. We are not responsible for any misuse of this website.
           </p>
 
           <h2 className="mt-10 text-2xl font-bold text-gray-900">
@@ -93,25 +93,25 @@ export default function TermsAndConditionsPage() {
           </h2>
 
           <p className="mt-4 leading-8 text-gray-600">
-  We may update these Terms & Conditions at any time without prior
-  notice. Continued use of the website means you accept the updated
-  terms.
-  <br />
-  <br />
-  If you have any questions, please visit our{" "}
-  <Link
-    href="/contact"
-    className="text-blue-600 hover:underline"
-  >
-    Contact Us
-  </Link>{" "}
-  page.
-</p>
+            We may update these Terms &amp; Conditions at any time without
+            prior notice. Continued use of the website means you accept the
+            updated terms.
+          </p>
+
+          <p className="mt-4 leading-8 text-gray-600">
+            If you have any questions, please visit our{" "}
+            <Link
+              href="/contact"
+              className="text-blue-600 hover:underline"
+            >
+              Contact Us
+            </Link>{" "}
+            page.
+          </p>
 
           <p className="mt-12 border-t border-gray-200 pt-6 text-sm text-gray-500">
             Last updated: July 2026
           </p>
-
         </div>
       </section>
     </main>
