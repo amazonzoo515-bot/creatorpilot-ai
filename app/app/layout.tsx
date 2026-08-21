@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: "YouTube Thumbnail Downloader – HD, HQ & Max Resolution",
+    default: "YouTube Thumbnail",
     template: "%s | YouTube Thumbnail Downloader",
   },
 
