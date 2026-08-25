@@ -188,7 +188,7 @@ export default function RootLayout({
         <Analytics />
         <GoogleAnalytics gaId="G-9QTZ25R4P4" />
 
-       
+
 
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`
