@@ -6,7 +6,7 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import SearchBox from "../components/SearchBox";
 import ThumbnailCard from "../components/ThumbnailCard";
-import AdContainer from "../components/AdContainer";
+
 import { extractVideoId, getThumbnailUrls } from "../lib/youtube";
 
 type Thumbnail = {
@@ -141,7 +141,7 @@ export default function Home() {
             </>
           )}
 
-          <AdContainer />
+
 
           {/* Features */}
           <div className="mt-16 grid gap-6 md:grid-cols-3">
