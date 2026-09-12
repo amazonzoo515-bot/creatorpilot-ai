@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 // PWA Site Manifest
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "YouTube Thumbnail Downloader",

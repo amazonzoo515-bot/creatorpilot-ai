@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
+
 import { Geist, Geist_Mono } from "next/font/google";
+
 import { Analytics } from "@vercel/analytics/next";
+
 import { GoogleAnalytics } from "@next/third-parties/google";
+
 import Script from "next/script";
 
 import Header from "../components/Header";
+
 import Footer from "../components/Footer";
 
 import "./globals.css";
@@ -21,57 +26,57 @@ const geistMono = Geist_Mono({
 
 const siteUrl = "https://youtubethumbnails-downloader.com";
 const siteName = "YouTube Thumbnail Downloader";
-const ogImage = "/og-image.png";
+const ogImageUrl =
+  "https://youtubethumbnails-downloader.com/og-image.png";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: "YouTube Thumbnail",
+    default: "YouTube Thumbnail Downloader",
     template: "%s | YouTube Thumbnail Downloader",
   },
 
   description:
     "Download YouTube thumbnails online in HD, HQ, MQ, SD and the highest available resolution. Paste a public YouTube video URL to preview and download its thumbnail instantly.",
 
-    keywords: [
-      "YouTube Thumbnail",
-      "YouTube Thumbnail Downloader",
-      "YouTube Thumbnail Grabber",
-      "YouTube Thumbnail Image Downloader",
-      "YouTube Thumbnail Viewer",
-      "Download YouTube Thumbnail",
-      "Download YouTube Thumbnail Image",
-      "Free YouTube Thumbnail Downloader",
-      "YouTube Thumbnail Downloader Online",
-      "YouTube Thumbnail from URL",
-      "YouTube Thumbnail URL",
-      "Extract YouTube Thumbnail",
-      "HD YouTube Thumbnail",
-      "HQ YouTube Thumbnail",
-      "MQ YouTube Thumbnail",
-      "SD YouTube Thumbnail",
-      "Max Resolution Thumbnail",
-      "YouTube Thumbnail HD",
-      "YouTube Thumbnail Full HD",
-      "YouTube Thumbnail 4K",
-      "YouTube HD Thumbnail Download",
-      "YouTube Shorts Thumbnail",
-      "YouTube Shorts Thumbnail Downloader",
-      "YouTube Image Downloader",
-      "Video Thumbnail Downloader",
-      "Thumbnail Grabber",
-      "Thumbnail Download Tool",
-      "Download Thumbnail Online",
-      "View YouTube Thumbnail",
-      "Free YouTube Tools",
-      "YouTube Tools",
-      "YouTube Thumbnail Extractor",
-      "YouTube Thumbnail Saver",
-      "Save YouTube Thumbnail",
-      "YouTube Thumbnail Download Tool",
-      "YouTube Thumbnail Preview",
-    ],
+  keywords: [
+    "YouTube Thumbnail",
+    "YouTube Thumbnail Downloader",
+    "YouTube Thumbnail Grabber",
+    "YouTube Thumbnail Image Downloader",
+    "YouTube Thumbnail Viewer",
+    "Download YouTube Thumbnail",
+    "Download YouTube Thumbnail Image",
+    "Free YouTube Thumbnail Downloader",
+    "YouTube Thumbnail Downloader Online",
+    "YouTube Thumbnail from URL",
+    "YouTube Thumbnail URL",
+    "Extract YouTube Thumbnail",
+    "HD YouTube Thumbnail",
+    "HQ YouTube Thumbnail",
+    "MQ YouTube Thumbnail",
+    "SD YouTube Thumbnail",
+    "Max Resolution Thumbnail",
+    "YouTube Thumbnail HD",
+    "YouTube Thumbnail Full HD",
+    "YouTube HD Thumbnail Download",
+    "YouTube Shorts Thumbnail",
+    "YouTube Shorts Thumbnail Downloader",
+    "YouTube Image Downloader",
+    "Video Thumbnail Downloader",
+    "Thumbnail Grabber",
+    "Thumbnail Download Tool",
+    "Download Thumbnail Online",
+    "View YouTube Thumbnail",
+    "Free YouTube Tools",
+    "YouTube Tools",
+    "YouTube Thumbnail Extractor",
+    "YouTube Thumbnail Saver",
+    "Save YouTube Thumbnail",
+    "YouTube Thumbnail Download Tool",
+    "YouTube Thumbnail Preview",
+  ],
 
   authors: [
     {
@@ -109,6 +114,7 @@ export const metadata: Metadata = {
         sizes: "16x16",
       },
     ],
+
     apple: "/apple-touch-icon.png",
     shortcut: "/favicon.ico",
   },
@@ -117,15 +123,18 @@ export const metadata: Metadata = {
 
   openGraph: {
     title: "YouTube Thumbnail Downloader – HD, HQ & Max Resolution",
+
     description:
       "Download and preview YouTube thumbnail images in HD, HQ, MQ, SD and the highest available resolution for free.",
+
     url: siteUrl,
     siteName,
     locale: "en_US",
     type: "website",
+
     images: [
       {
-        url: ogImage,
+        url: ogImageUrl,
         width: 1200,
         height: 630,
         alt: "YouTube Thumbnail Downloader",
@@ -135,10 +144,13 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
+
     title: "YouTube Thumbnail Downloader – HD & Max Resolution",
+
     description:
       "Download YouTube thumbnails online from public video URLs in the highest available quality.",
-    images: [ogImage],
+
+    images: [ogImageUrl],
   },
 
   robots: {
@@ -150,19 +162,28 @@ export const metadata: Metadata = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
+
   name: siteName,
+
   alternateName: [
     "YouTube Thumbnail Downloader",
     "YouTube Thumbnail Viewer",
     "YouTube Thumbnail Grabber",
   ],
+
   url: siteUrl,
+
   applicationCategory: "MultimediaApplication",
+
   operatingSystem: "Any",
+
   browserRequirements: "Requires JavaScript",
+
   description:
     "Online YouTube thumbnail downloader that lets users preview and download available thumbnail images from public YouTube video URLs.",
-  image: `${siteUrl}${ogImage}`,
+
+  image: ogImageUrl,
+
   publisher: {
     "@type": "Organization",
     name: siteName,
@@ -180,7 +201,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-slate-100 text-gray-900">
         <Header />
 
         <main className="flex-1">{children}</main>
@@ -199,11 +220,15 @@ export default function RootLayout({
 
         <GoogleAnalytics gaId="G-9QTZ25R4P4" />
 
-
-        <Script id="microsoft-clarity" strategy="afterInteractive">
+        <Script
+          id="microsoft-clarity"
+          strategy="afterInteractive"
+        >
           {`
             (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              c[a]=c[a]||function(){
+                (c[a].q=c[a].q||[]).push(arguments)
+              };
               t=l.createElement(r);
               t.async=1;
               t.src="https://www.clarity.ms/tag/"+i;

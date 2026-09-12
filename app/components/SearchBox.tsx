@@ -18,6 +18,7 @@ export default function SearchBox({
 }: SearchBoxProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Paste Link Logic
   async function handlePaste() {
     try {
       if (
@@ -47,36 +48,43 @@ export default function SearchBox({
     }
   }
 
+  // Form Submit Handler
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!loading) {
+      onSearch();
+    }
+  };
+
   return (
-    <div className="w-full max-w-3xl rounded-2xl bg-white p-6 shadow-lg">
-      {/* Input + Paste Button */}
+    <form
+      onSubmit={handleSubmit}
+      className="w-full max-w-3xl rounded-2xl bg-white p-6 shadow-lg"
+    >
+      {/* Input + Paste Button Container */}
       <div className="relative">
         <input
-  ref={inputRef}
-  type="url"
-  inputMode="url"
-  autoComplete="off"
-  autoCorrect="off"
-  spellCheck={false}
-  value={videoUrl}
+          ref={inputRef}
+          type="text"
+          inputMode="url"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck={false}
+          value={videoUrl}
           onChange={(e) => setVideoUrl(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !loading) {
-              onSearch();
-            }
-          }}
-          placeholder="Paste YouTube Video URL here..."
-          aria-label="Paste YouTube video URL"
+          placeholder="Paste video URL here..."
+          aria-label="Paste video URL"
           disabled={loading}
-          className="w-full rounded-xl border border-gray-300 bg-white py-4 px-5 text-lg text-gray-900 placeholder:text-gray-400 outline-none transition focus:border-black disabled:cursor-not-allowed disabled:bg-gray-100 md:pr-40"
+          className="w-full rounded-xl border border-gray-300 bg-white py-4 pl-5 pr-28 text-base text-gray-900 placeholder:text-gray-400 outline-none transition focus:border-black disabled:cursor-not-allowed disabled:bg-gray-100 sm:pr-36 sm:text-lg"
         />
 
+        {/* Fixed Paste Button - Visible on all screen sizes */}
         <button
           type="button"
-          aria-label="Paste YouTube video URL from clipboard"
+          aria-label="Paste video URL from clipboard"
           onClick={handlePaste}
           disabled={loading}
-          className="absolute right-2 top-1/2 hidden -translate-y-1/2 items-center gap-2 rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-700 md:flex"
+          className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-1.5 rounded-lg bg-black px-3 py-2 text-xs font-semibold text-white transition hover:bg-gray-800 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-700 sm:px-4 sm:text-sm"
         >
           📋 Paste Link
         </button>
@@ -84,15 +92,15 @@ export default function SearchBox({
 
       {/* Get Thumbnail Button */}
       <button
-        onClick={() => onSearch()}
-        aria-label="Get YouTube thumbnail"
+        type="submit"
+        aria-label="Get thumbnail"
         disabled={loading}
-        className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-black py-4 text-lg font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-700"
+        className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-black py-4 text-lg font-semibold text-white transition hover:bg-gray-800 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-700"
       >
         {loading ? (
           <>
             <svg
-              className="h-6 w-6 animate-spin"
+              className="h-6 w-6 animate-spin text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -105,20 +113,18 @@ export default function SearchBox({
                 stroke="currentColor"
                 strokeWidth="4"
               />
-
               <path
                 className="opacity-100"
                 fill="currentColor"
                 d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
               />
             </svg>
-
             Loading Thumbnails...
           </>
         ) : (
           "Get Thumbnail"
         )}
       </button>
-    </div>
+    </form>
   );
 }
