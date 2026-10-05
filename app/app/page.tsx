@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Script from "next/script";
 import Link from "next/link";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
@@ -199,62 +198,92 @@ export default function Home() {
     {
       question: "What is a YouTube thumbnail downloader?",
       answer:
-        "A YouTube thumbnail downloader is a free online tool that pulls every available preview image for a public video URL — including the max resolution (HD) version — so you can inspect, compare, and save the exact file you need without opening YouTube Studio or taking a screenshot.",
+        "It's a free online tool that takes a public video link and returns every thumbnail image YouTube has stored for it, including the 1280×720 max resolution version. You can look at each size, compare them, and save the one you want. No screenshots, no YouTube Studio.",
     },
     {
       question: "How do I download a YouTube thumbnail in HD?",
       answer:
-        "Paste the video's URL or ID into the search box above, wait for the available image versions to load, then click Download next to the Max Resolution (1280×720) card if it's available for that video. If Max Resolution isn't returned, the next-highest HQ or SD version will be.",
+        "Paste the video link into the box at the top and wait a second for the results. If a Max Resolution (1280×720) card shows up, hit Download on it. If it doesn't, the video has no HD thumbnail file, and the next biggest card in the list (SD or HQ) is the best you can get.",
     },
     {
-      question: "Can I download a thumbnail from a YouTube Shorts URL?",
+      question: "How do I download a YouTube thumbnail in full size, 1280x720?",
       answer:
-        "Yes. Paste a youtube.com/shorts/ link the same way you would a regular watch URL, and the tool will detect the video ID and return whatever thumbnail versions are available for that Short.",
+        "Look for the Max Resolution card. That's the 1280×720 file, also known as maxresdefault. Some videos don't have it, usually older or lower-quality uploads, so if the card is missing, the video simply doesn't have a 1280×720 thumbnail on YouTube's servers.",
+    },
+    {
+      question: "Can I download a thumbnail from a YouTube Shorts link?",
+      answer:
+        "Yes. Paste a youtube.com/shorts/ link exactly as you would a normal watch link. The tool reads the video ID from it and returns whatever thumbnail sizes exist for that Short.",
     },
     {
       question: "What size should a YouTube thumbnail be?",
       answer:
-        "YouTube recommends a 1280 × 720 pixel image at a 16:9 aspect ratio, saved as JPG, GIF, or PNG under 2MB. That canvas gives creators room for a clear subject, minimal text, and enough contrast to stay readable at the small size it appears in search and suggested feeds.",
+        "1280 × 720 pixels, 16:9, saved as JPG, GIF, or PNG and under 2MB. That's the size YouTube asks for. Leave enough room around the subject, because the image gets shrunk a lot in search results and suggested videos.",
     },
     {
-      question: "What's the difference between Max Resolution, HD, HQ, MQ, and SD thumbnails?",
+      question: "What's the difference between maxresdefault, sddefault, hqdefault, mqdefault, and default?",
       answer:
-        "These labels map to the file sizes YouTube generates automatically for every upload: maxresdefault (1280×720, not guaranteed on every video), sddefault (640×480), hqdefault (480×360), mqdefault (320×180), and default (120×90). This tool checks which of these actually exist for your specific video and only shows the ones that load successfully.",
+        "They're the file names YouTube uses for each size: maxresdefault is 1280×720 (not on every video), sddefault is 640×480, hqdefault is 480×360, mqdefault is 320×180, and default is 120×90. This tool checks each one against your video and only lists the ones that actually load.",
     },
     {
-      question: "Why does Max Resolution sometimes fail to load?",
+      question: "Why is the Max Resolution thumbnail missing for some videos?",
       answer:
-        "YouTube only generates the 1280×720 maxresdefault file for videos uploaded in sufficient source quality, so older, low-resolution, or auto-generated uploads may skip it entirely. When that happens, use the next-highest version this tool returns — HQ (480×360) is the safest fallback for most design and preview work.",
+        "YouTube doesn't create a 1280×720 thumbnail for every upload. It tends to be missing on older videos or ones uploaded at low quality. When that happens, HQ (480×360) is the safest fallback, since almost every video has it.",
     },
     {
-      question: "Does this thumbnail grabber work on mobile phones?",
+      question: "How do I save a YouTube thumbnail on my iPhone or Android phone?",
       answer:
-        "Yes. The tool runs entirely in your browser with no app or extension to install, so pasting a link and downloading an image works the same on an iPhone, Android device, tablet, or desktop.",
+        "Open this page in your phone's browser, paste the video link, and tap Download on the size you want. Nothing to install. It works the same way on iPhone, Android, tablets, and desktop.",
     },
     {
-      question: "Is this thumbnail downloader free, and do I need an account?",
+      question: "Is this YouTube thumbnail downloader free? Do I need to sign up?",
       answer:
-        "It's completely free with no sign-up, login, or watermark. Paste a link, preview the results, and download — that's the entire workflow.",
+        "It's free. No account, no login, no watermark on the images. Paste a link, look at the results, download.",
     },
     {
-      question: "Can I download thumbnails from Vimeo, TikTok, Dailymotion, Facebook, X/Twitter, and Bilibili too?",
+      question: "Can I also download thumbnails from Vimeo, TikTok, Dailymotion, Facebook, X/Twitter, and Bilibili?",
       answer:
-        "Yes. Alongside YouTube, this tool auto-detects and pulls available thumbnail images for public Vimeo, TikTok, Dailymotion, Facebook, X/Twitter (formerly Twitter), and Bilibili URLs from the same search box.",
+        "Yes. The same search box recognises public links from those sites and fetches whatever thumbnail they expose. How many sizes you get depends on the platform.",
     },
     {
-      question: "Can I download several thumbnails at once?",
+      question: "Can I download all the thumbnail sizes at once?",
       answer:
-        "Yes. When more than one thumbnail version is returned for a video, a Download All button appears that bundles every available image into a single ZIP file.",
+        "Yes. If a video returns more than one size, a Download All Thumbnails button appears above the results and packs every available image into one ZIP file.",
     },
     {
-      question: "Am I allowed to reuse a downloaded thumbnail commercially?",
+      question: "How do I get the thumbnail image URL of a YouTube video?",
       answer:
-        "Downloading a publicly visible image doesn't transfer copyright. The original creator or channel typically retains rights to their thumbnail artwork, so get permission before reusing one commercially, in another video, or in marketing material.",
+        "YouTube thumbnails sit at img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg, with VIDEO_ID swapped for the ID of your video. You can type that out yourself, but if the video has no maxresdefault file you'll get a broken image. This tool checks which files exist so you don't have to guess.",
     },
     {
-      question: "Why would I need to download my own thumbnail?",
+      question: "Can I reuse a downloaded thumbnail in my own video or commercially?",
       answer:
-        "Creators use this tool to archive their own channel's thumbnails for portfolio pages, A/B-test old versus new designs side by side, pull a competitor's image dimensions for research, or grab a Shorts cover frame for cross-posting to other platforms.",
+        "Not without permission. A thumbnail being visible to everyone doesn't make it free to use. The creator usually owns the artwork, so ask before putting it in your own video, an ad, or anything you sell.",
+    },
+    {
+      question: "Can I download a thumbnail from a private YouTube video?",
+      answer:
+        "No. Private, deleted, age-restricted and region-blocked videos don't return usable thumbnail data, so the tool has nothing to fetch. The video needs to be public.",
+    },
+    {
+      question: "What file format do the downloaded thumbnails come in?",
+      answer:
+        "The images in the ZIP from Download All Thumbnails are saved as JPG files, named after their size so they're easy to tell apart.",
+    },
+    {
+      question: "How do I download a TikTok video thumbnail?",
+      answer:
+        "Copy the link of a public TikTok video, paste it into the search box at the top, and the cover image loads for you to preview and save.",
+    },
+    {
+      question: "How do I download a Facebook video thumbnail?",
+      answer:
+        "Paste the link of a public Facebook video into the search box. If the post is private or restricted, Facebook doesn't expose a thumbnail, so nothing will come back.",
+    },
+    {
+      question: "Why would I need to download my own YouTube thumbnail?",
+      answer:
+        "Mostly for housekeeping: saving old thumbnails for a portfolio, putting an old design next to a new one for an A/B comparison, or reusing a Shorts cover on another platform. Plenty of people also use it to look at a competitor's thumbnail at full size for research.",
     },
   ];
 
@@ -285,22 +314,22 @@ export default function Home() {
           {/* Hero */}
           <div className="mt-10 text-center">
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 md:text-6xl">
-              YouTube Thumbnail Downloader — HD &amp; Max Resolution, Free
+              YouTube Thumbnail Downloader: HD &amp; Max Resolution, Free
             </h1>
 
             <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-600">
-              Using{" "}
+              Paste a YouTube link into the{" "}
               <Link
                 href="https://youtubethumbnails-downloader.com/"
                 className="text-red-600 font-semibold underline underline-offset-4 hover:text-red-700"
               >
                 YouTube Thumbnail Downloader
-              </Link>
-              , paste any public YouTube link and instantly pull every thumbnail size
-              it has — Max Resolution, HD, HQ, MQ, and SD — with exact pixel
-              dimensions shown for each. Works on YouTube Shorts, plus Vimeo,
-              TikTok, Dailymotion, Facebook, X/Twitter, and Bilibili links. No
-              sign-up, no watermark, no app to install.
+              </Link>{" "}
+              and you get every thumbnail size that video has: Max Resolution
+              (1280×720), SD, HQ, MQ and the tiny default, each labeled with
+              its real pixel size. It handles YouTube Shorts too, and links
+              from Vimeo, TikTok, Dailymotion, Facebook, X/Twitter and
+              Bilibili. Free, no sign-up, no watermark, nothing to install.
             </p>
           </div>
 
@@ -346,82 +375,125 @@ export default function Home() {
             </>
           )}
 
+          {/* On this page */}
+          <nav
+            aria-label="On this page"
+            className="mx-auto mt-16 max-w-4xl rounded-2xl bg-white p-6 shadow-sm md:p-8"
+          >
+            <h2 className="text-lg font-bold text-gray-900">On this page</h2>
+
+            <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium">
+              <li>
+                <a href="#download-youtube-thumbnail" className="text-red-600 underline underline-offset-2 hover:text-red-700">
+                  Download in HD
+                </a>
+              </li>
+              <li>
+                <a href="#youtube-thumbnail-sizes" className="text-red-600 underline underline-offset-2 hover:text-red-700">
+                  Thumbnail sizes
+                </a>
+              </li>
+              <li>
+                <a href="#youtube-thumbnail-url" className="text-red-600 underline underline-offset-2 hover:text-red-700">
+                  Thumbnail URL format
+                </a>
+              </li>
+              <li>
+                <a href="#youtube-shorts-thumbnail" className="text-red-600 underline underline-offset-2 hover:text-red-700">
+                  Shorts thumbnails
+                </a>
+              </li>
+              <li>
+                <a href="#supported-platforms" className="text-red-600 underline underline-offset-2 hover:text-red-700">
+                  Other platforms
+                </a>
+              </li>
+              <li>
+                <a href="#faq" className="text-red-600 underline underline-offset-2 hover:text-red-700">
+                  FAQ
+                </a>
+              </li>
+            </ul>
+          </nav>
+
           {/* Tool benefits */}
           <section className="mx-auto mt-20 max-w-4xl rounded-2xl bg-white p-8 shadow-sm md:p-10">
             <div className="space-y-6 leading-8 text-gray-600">
               <p>
                 <strong className="text-gray-900">
-                  Every real thumbnail size, verified:
+                  No broken image links:
                 </strong>{" "}
-                Instead of guessing a fixed filename and hoping it loads, our{" "}
+                A lot of thumbnail grabbers just build a maxresdefault.jpg URL
+                and hand it over, even when that file doesn't exist. Our{" "}
                 <Link
                   href="https://youtubethumbnails-downloader.com/"
                   className="text-red-600 font-medium underline underline-offset-2 hover:text-red-700"
                 >
                   online YouTube thumbnail downloader
                 </Link>{" "}
-                checks maxresdefault, sddefault, hqdefault, mqdefault, and default
-                directly against the video and only shows you the versions that
-                actually exist for it.
+                tests maxresdefault, sddefault, hqdefault, mqdefault and default
+                against the actual video and lists only the ones that load.
               </p>
 
               <p>
                 <strong className="text-gray-900">
-                  Exact pixel dimensions on every card:
+                  Pixel size on every card:
                 </strong>{" "}
-                Each result is labeled with its real width and height, so you can
-                pick the right file for a thumbnail redesign, a competitor
-                comparison, a blog post, or a presentation without opening it
-                first to check.
+                Each result shows its real width and height, so you know whether
+                you're getting a 1280×720 HD thumbnail or a 480×360 one before
+                you click. Handy when you're picking an image for a redesign, a
+                blog post, a slide, or a competitor comparison.
               </p>
 
               <p>
                 <strong className="text-gray-900">
-                  One search box, seven platforms:
+                  One box, seven platforms:
                 </strong>{" "}
-                Drop in a YouTube, YouTube Shorts, Vimeo, TikTok, Dailymotion,
-                Facebook, X/Twitter, or Bilibili link — the platform is detected
-                automatically and the matching thumbnail data loads without
-                switching tools.
+                Paste a link from YouTube, YouTube Shorts, Vimeo, TikTok,
+                Dailymotion, Facebook, X/Twitter or Bilibili. The site is
+                detected from the URL, so there's no menu to pick from and no
+                second tool to open.
               </p>
             </div>
           </section>
 
           {/* YouTube main topical section */}
-          <section className="mt-20 rounded-2xl bg-white p-8 shadow-sm md:p-10">
+          <section
+            id="download-youtube-thumbnail"
+            className="mt-20 scroll-mt-6 rounded-2xl bg-white p-8 shadow-sm md:p-10"
+          >
             <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              The Fastest Way to Download a YouTube Thumbnail
+              How to Download a YouTube Thumbnail in HD (1280×720)
             </h2>
 
             <p className="mt-4 leading-8 text-gray-600">
-              Every YouTube upload automatically generates a set of preview
-              images — the thumbnails you see in search results, the home
-              feed, Suggested videos, playlists, and channel pages. Because
-              that small image is usually the first thing a viewer sees before
-              the title even registers, creators, designers, and marketers
-              regularly need the original file at full size: to study what
-              makes a competitor's packaging work, rebuild their own thumbnail
-              in an editor, archive their channel's history, or pull a cover
-              frame for a blog post.
+              Every video you upload to YouTube gets a set of preview images
+              generated automatically. They're what people see in search
+              results, on the home feed, in suggested videos, in playlists and
+              on channel pages. Since the thumbnail is often the first thing a
+              viewer notices, plenty of people want the original file: to see
+              how a competitor lays theirs out, to rebuild one of their own in
+              an editor, to keep a record of past designs, or to use a
+              cover image in a blog post.
             </p>
 
             <p className="mt-4 leading-8 text-gray-600">
-              This tool skips the manual work of guessing a YouTube image URL
-              or digging through page source. Paste the video link, and it
-              checks every size YouTube actually generated for that upload —
-              returning the real, working files with their pixel dimensions
-              so you know exactly what you're downloading.
+              You could dig through the page source or guess the image URL by
+              hand, but it's slow and often ends in a broken link. Here you
+              paste the video link, the tool checks which sizes YouTube
+              really stored for that upload, and you download the one you need
+              as a JPG.
             </p>
 
             <h3 className="mt-10 text-2xl font-bold text-gray-900">
-              How to Download a YouTube Thumbnail in 3 Steps
+              Download a YouTube Thumbnail in 3 Steps
             </h3>
 
             <ol className="mt-4 list-decimal space-y-3 pl-6 leading-7 text-gray-600">
               <li>
-                <strong className="text-gray-900">Copy the video link</strong>{" "}
-                — any public watch URL, youtu.be short link, or Shorts URL
-                works.
+                <strong className="text-gray-900">Copy the video link.</strong>{" "}
+                A normal watch URL, a youtu.be short link or a Shorts URL all
+                work.
               </li>
               <li>
                 <strong className="text-gray-900">Paste it into{" "}
@@ -430,35 +502,37 @@ export default function Home() {
                   className="text-red-600 underline hover:text-red-700"
                 >
                   youtubethumbnails-downloader.com
-                </Link></strong>{" "}
-                — the tool detects the platform and video ID automatically.
+                </Link>.</strong>{" "}
+                The platform and video ID are picked up automatically.
               </li>
               <li>
-                <strong className="text-gray-900">Pick a size and download</strong>{" "}
-                — compare the returned versions by dimension and save the one
-                that fits your use, or grab all of them at once as a ZIP.
+                <strong className="text-gray-900">Choose a size and download.</strong>{" "}
+                Compare the cards by pixel size and save the one you want, or
+                grab everything in one ZIP.
               </li>
             </ol>
 
             <h3 className="mt-10 text-2xl font-bold text-gray-900">
-              Which YouTube URLs Work With This Tool
+              Which YouTube Links Does It Accept?
             </h3>
 
             <p className="mt-4 leading-8 text-gray-600">
-              Standard watch URLs (youtube.com/watch?v=), shortened youtu.be
-              links, embed URLs, and youtube.com/shorts/ links are all
-              supported — the tool extracts the underlying video ID regardless
-              of which link format you paste, so there's no need to clean up
-              the URL first or strip tracking parameters.
+              Regular youtube.com/watch?v= links, shortened youtu.be links,
+              embed URLs and youtube.com/shorts/ links all work. The tool pulls
+              the video ID out of whichever one you paste, so you don't need to
+              trim tracking parameters or clean the URL first.
             </p>
 
-            <h3 className="mt-10 text-2xl font-bold text-gray-900">
-              YouTube Thumbnail Resolutions Explained
+            <h3
+              id="youtube-thumbnail-sizes"
+              className="mt-10 scroll-mt-6 text-2xl font-bold text-gray-900"
+            >
+              YouTube Thumbnail Sizes and Resolutions
             </h3>
 
             <p className="mt-4 leading-8 text-gray-600">
-              YouTube stores several preview sizes per video under
-              predictable filenames, and this tool checks each one for you:
+              YouTube keeps several sizes of each thumbnail under fixed file
+              names. This tool checks every one of them:
             </p>
 
             <div className="mt-4 overflow-x-auto">
@@ -484,7 +558,7 @@ export default function Home() {
                     </td>
                     <td className="px-4 py-3">1280 × 720 (when available)</td>
                     <td className="px-4 py-3">
-                      Redesign, print, close-up study
+                      Redesigns, print, close-up study
                     </td>
                   </tr>
 
@@ -504,7 +578,7 @@ export default function Home() {
                     </td>
                     <td className="px-4 py-3">480 × 360</td>
                     <td className="px-4 py-3">
-                      Reliable fallback, most videos have it
+                      Safe fallback, most videos have it
                     </td>
                   </tr>
 
@@ -514,7 +588,7 @@ export default function Home() {
                     </td>
                     <td className="px-4 py-3">320 × 180</td>
                     <td className="px-4 py-3">
-                      Lightweight embeds and lists
+                      Small embeds and lists
                     </td>
                   </tr>
 
@@ -524,7 +598,7 @@ export default function Home() {
                     </td>
                     <td className="px-4 py-3">120 × 90</td>
                     <td className="px-4 py-3">
-                      Tiny previews, icons
+                      Tiny previews and icons
                     </td>
                   </tr>
                 </tbody>
@@ -532,121 +606,171 @@ export default function Home() {
             </div>
 
             <p className="mt-5 leading-8 text-gray-600">
-              Max Resolution isn't guaranteed for every video — YouTube only
-              creates it when the source upload quality supports it. If your
-              search doesn't return a Max Resolution card, the HQ (480×360)
-              version is the most consistently available fallback.
+              Max Resolution isn't there for every video. YouTube only makes
+              it when the original upload was good enough. If you don't see
+              that card, HQ (480×360) is the one most likely to exist.
             </p>
 
             <h3 className="mt-10 text-2xl font-bold text-gray-900">
-              Designing a Thumbnail That Gets Clicked
+              What Makes a YouTube Thumbnail Get Clicked
             </h3>
 
             <div className="mt-4 space-y-4 leading-7 text-gray-600">
               <p>
                 <strong className="text-gray-900">
-                  1. One focal point, not five.
+                  1. One thing to look at.
                 </strong>{" "}
-                A face, product, or single clear scene reads instantly at
-                thumbnail size — a busy composition doesn't.
+                A face, a product or a single clear scene reads at thumbnail
+                size. A crowded frame doesn't.
               </p>
 
               <p>
                 <strong className="text-gray-900">
-                  2. Build hierarchy on purpose.
+                  2. Decide what's seen first.
                 </strong>{" "}
-                Size, brightness, and placement should tell the eye what to
-                look at first, second, and third.
+                Size, brightness and position tell the eye where to go, so use
+                them on purpose.
               </p>
 
               <p>
                 <strong className="text-gray-900">
-                  3. Fewer words, bigger words.
+                  3. Fewer words, bigger.
                 </strong>{" "}
-                Two or three words of text can survive being shrunk to a
-                phone screen; a full sentence can't.
+                Two or three words survive on a phone screen. A sentence
+                doesn't.
               </p>
 
               <p>
                 <strong className="text-gray-900">
-                  4. Contrast with intent.
+                  4. Contrast, but not everywhere.
                 </strong>{" "}
-                Separate subject and text from the background instead of
-                maxing out saturation everywhere.
+                Make the subject and text stand apart from the background
+                instead of cranking saturation on everything.
               </p>
 
               <p>
                 <strong className="text-gray-900">
-                  5. Preview it small before publishing.
+                  5. Check it small.
                 </strong>{" "}
-                Shrink your draft to mobile size and check that the subject
-                and text are still legible.
+                Shrink your draft to phone size before you publish. If you
+                can't read it, viewers won't either.
               </p>
 
               <p>
                 <strong className="text-gray-900">
-                  6. Match the promise to the video.
+                  6. Keep the promise.
                 </strong>{" "}
-                Curiosity earns the click, but a thumbnail that misleads
-                costs watch time and trust.
+                Curiosity gets the click, but a thumbnail that misleads costs
+                you watch time and trust.
               </p>
 
               <p>
                 <strong className="text-gray-900">
-                  7. Cut anything decorative.
+                  7. Cut the decoration.
                 </strong>{" "}
-                If an element doesn't support the main message, it's
-                competing with it.
+                If an element doesn't help the main message, it's getting in
+                its way.
               </p>
 
               <p>
                 <strong className="text-gray-900">
-                  8. Study patterns, not pixels.
+                  8. Study the pattern, not the pixels.
                 </strong>{" "}
-                Use this tool to pull competitor thumbnails at full size,
-                learn their composition and color choices, then build
-                something original.
+                Download competitor thumbnails at full size, look at their
+                layout and colors, then make something of your own.
               </p>
             </div>
 
-            <h3 className="mt-10 text-2xl font-bold text-gray-900">
-              YouTube Shorts Thumbnails
+            <h3
+              id="youtube-thumbnail-url"
+              className="mt-10 scroll-mt-6 text-2xl font-bold text-gray-900"
+            >
+              YouTube Thumbnail URL Format (img.youtube.com)
             </h3>
 
             <p className="mt-4 leading-8 text-gray-600">
-              Shorts use the same underlying video-ID system as regular
-              uploads, so a youtube.com/shorts/ link works in this tool
-              exactly like a standard watch URL — paste it, review whichever
-              image versions YouTube generated for that Short, and download
-              the one you need for cross-posting or a portfolio.
+              Every YouTube thumbnail lives at an address built from the video
+              ID. Swap VIDEO_ID for the ID of your video (the part after v= in
+              a watch link):
             </p>
 
-            <h3 className="mt-10 text-2xl font-bold text-gray-900">
-              No App, No Extension, No Sign-Up
+            <ul className="mt-4 space-y-2 leading-7 text-gray-600">
+              <li>
+                <code className="rounded bg-gray-100 px-2 py-1 text-sm text-gray-900">
+                  https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg
+                </code>{" "}
+                for 1280 × 720
+              </li>
+              <li>
+                <code className="rounded bg-gray-100 px-2 py-1 text-sm text-gray-900">
+                  https://img.youtube.com/vi/VIDEO_ID/sddefault.jpg
+                </code>{" "}
+                for 640 × 480
+              </li>
+              <li>
+                <code className="rounded bg-gray-100 px-2 py-1 text-sm text-gray-900">
+                  https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg
+                </code>{" "}
+                for 480 × 360
+              </li>
+              <li>
+                <code className="rounded bg-gray-100 px-2 py-1 text-sm text-gray-900">
+                  https://img.youtube.com/vi/VIDEO_ID/mqdefault.jpg
+                </code>{" "}
+                for 320 × 180
+              </li>
+              <li>
+                <code className="rounded bg-gray-100 px-2 py-1 text-sm text-gray-900">
+                  https://img.youtube.com/vi/VIDEO_ID/default.jpg
+                </code>{" "}
+                for 120 × 90
+              </li>
+            </ul>
+
+            <p className="mt-4 leading-8 text-gray-600">
+              If a maxresdefault address shows a broken image, that video has
+              no 1280×720 file. Pasting the link above saves you from testing
+              each address by hand.
+            </p>
+
+            <h3
+              id="youtube-shorts-thumbnail"
+              className="mt-10 scroll-mt-6 text-2xl font-bold text-gray-900"
+            >
+              Download a YouTube Shorts Thumbnail
             </h3>
 
             <p className="mt-4 leading-8 text-gray-600">
-              The entire workflow runs in your browser tab on desktop,
-              Android, iPhone, or tablet. There's nothing to install and
-              nothing to create an account for — paste a link, review the
-              results, and download.
+              Shorts use the same video-ID system as regular uploads, so a
+              youtube.com/shorts/ link behaves like a watch link here. Paste
+              it, look at the image sizes YouTube generated for that Short, and
+              download the one you need for cross-posting or your portfolio.
             </p>
 
             <h3 className="mt-10 text-2xl font-bold text-gray-900">
-              Fixing Common Download Problems
+              Works on Phone and Desktop, No Extension Needed
             </h3>
 
             <p className="mt-4 leading-8 text-gray-600">
-              If nothing loads, double-check that the full URL was pasted and
-              that the video is public — private, deleted, age-restricted, or
-              region-blocked videos won't return usable thumbnail data.
+              It all happens in your browser tab, whether that's a laptop, an
+              Android phone, an iPhone or a tablet. No app, no browser
+              extension, no account. Paste, check, download.
+            </p>
+
+            <h3 className="mt-10 text-2xl font-bold text-gray-900">
+              If the Thumbnail Won't Download
+            </h3>
+
+            <p className="mt-4 leading-8 text-gray-600">
+              When nothing loads, first check that you pasted the whole URL and
+              that the video is public. Private, deleted, age-restricted and
+              region-blocked videos don't return usable thumbnail data.
             </p>
 
             <p className="mt-4 leading-8 text-gray-600">
-              If only some sizes appear, that's expected: not every video has
-              a Max Resolution file. Use the highest version this tool
-              actually returns rather than assuming every upload has all
-              five sizes.
+              If you only see a few sizes, that's normal. Not every video has a
+              Max Resolution file, so go with the biggest one the tool shows
+              rather than expecting all five.
             </p>
 
             <h3 className="mt-10 text-2xl font-bold text-gray-900">
@@ -654,162 +778,180 @@ export default function Home() {
             </h3>
 
             <p className="mt-4 leading-8 text-gray-600">
-              A thumbnail being publicly viewable doesn't put it in the
-              public domain. The channel or creator typically holds the
-              rights to their thumbnail artwork, so downloading through this
-              tool is meant for previewing, research, and comparison — get
-              permission before republishing or using someone else's
-              thumbnail commercially.
+              Anyone can see a thumbnail, but that doesn't make it public
+              domain. The channel or creator generally owns the artwork. Use
+              this tool for previewing, research and comparison, and get
+              permission before you republish someone else's thumbnail or use
+              it commercially.
             </p>
           </section>
 
           {/* Other supported platforms */}
-          <section className="mt-16 rounded-2xl bg-white p-8 shadow-sm md:p-10">
+          <section
+            id="supported-platforms"
+            className="mt-16 scroll-mt-6 rounded-2xl bg-white p-8 shadow-sm md:p-10"
+          >
             <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Also Works With Vimeo, TikTok, Dailymotion, Facebook,
-              X/Twitter &amp; Bilibili
+              Vimeo, TikTok, Dailymotion, Facebook, X/Twitter &amp; Bilibili
+              Thumbnail Downloader
             </h2>
 
             <p className="mt-4 leading-8 text-gray-600">
-              The same search box that handles YouTube also detects public
-              Vimeo, TikTok, Dailymotion, Facebook, X/Twitter, and Bilibili
-              links automatically — no need to pick a platform first or use a
-              separate tool for each site.
+              The same search box also recognises public Vimeo, TikTok,
+              Dailymotion, Facebook, X/Twitter and Bilibili links. You don't
+              pick a platform first, and you don't need a separate downloader
+              for each site.
             </p>
 
             <div className="mt-8 grid gap-6 md:grid-cols-2">
 
-              <article className="rounded-xl border border-gray-200 p-6">
+              <article
+                id="vimeo-thumbnail-downloader"
+                className="scroll-mt-6 rounded-xl border border-gray-200 p-6"
+              >
                 <h3 className="text-xl font-bold text-gray-900">
                   Vimeo Thumbnail Downloader
                 </h3>
 
                 <p className="mt-3 leading-7 text-gray-600">
-                  Paste a public Vimeo link to pull its cover image at the
-                  highest resolution available — useful for design research,
-                  presentations, and organizing video libraries.
-                </p>
+                  Paste a public Vimeo link to get its cover image at the
+                  highest resolution available. Good for design research,
+                  presentations and tidying up a video library.
+                 To download a Vimeo thumbnail, copy the video's page link, paste it above and save the cover image.</p>
               </article>
 
-              <article className="rounded-xl border border-gray-200 p-6">
+              <article
+                id="tiktok-thumbnail-downloader"
+                className="scroll-mt-6 rounded-xl border border-gray-200 p-6"
+              >
                 <h3 className="text-xl font-bold text-gray-900">
                   TikTok Thumbnail Downloader
                 </h3>
 
                 <p className="mt-3 leading-7 text-gray-600">
-                  Drop in a public TikTok video link and preview its cover
-                  frame before saving it — handy for cross-posting or
-                  content planning.
-                </p>
+                  Drop in a public TikTok video link, check the cover frame,
+                  then save it. Useful for cross-posting or planning content.
+                 To download a TikTok video thumbnail, copy the video link from the app or browser and paste it above.</p>
               </article>
 
-              <article className="rounded-xl border border-gray-200 p-6">
+              <article
+                id="dailymotion-thumbnail-downloader"
+                className="scroll-mt-6 rounded-xl border border-gray-200 p-6"
+              >
                 <h3 className="text-xl font-bold text-gray-900">
                   Dailymotion Thumbnail Downloader
                 </h3>
 
                 <p className="mt-3 leading-7 text-gray-600">
-                  Public Dailymotion links return their available preview
-                  image directly, ready to inspect and download.
-                </p>
+                  A public Dailymotion link returns its preview image, which you
+                  can look over and download straight away.
+                 To download a Dailymotion thumbnail, paste the video's page URL above.</p>
               </article>
 
-              <article className="rounded-xl border border-gray-200 p-6">
+              <article
+                id="facebook-video-thumbnail-downloader"
+                className="scroll-mt-6 rounded-xl border border-gray-200 p-6"
+              >
                 <h3 className="text-xl font-bold text-gray-900">
                   Facebook Video Thumbnail Downloader
                 </h3>
 
                 <p className="mt-3 leading-7 text-gray-600">
-                  Works with public Facebook video links where thumbnail
-                  metadata is exposed; private or restricted posts won't
-                  return usable data.
-                </p>
+                  Works on public Facebook videos that expose thumbnail
+                  metadata. Private or restricted posts won't return anything.
+                 To download a Facebook video thumbnail, copy the link of the public video and paste it above.</p>
               </article>
 
-              <article className="rounded-xl border border-gray-200 p-6">
+              <article
+                id="x-twitter-video-thumbnail-downloader"
+                className="scroll-mt-6 rounded-xl border border-gray-200 p-6"
+              >
                 <h3 className="text-xl font-bold text-gray-900">
-                  X/Twitter Thumbnail Downloader
+                  X/Twitter Video Thumbnail Downloader
                 </h3>
 
                 <p className="mt-3 leading-7 text-gray-600">
-                  Paste a public X/Twitter post URL containing video to
-                  retrieve its preview image the same way you would a
-                  YouTube link.
-                </p>
+                  Paste the URL of a public X/Twitter post with a video in it
+                  and the preview image comes back, the same way a YouTube
+                  link would.
+                 To download a Twitter or X video thumbnail, copy the post link and paste it above.</p>
               </article>
 
-              <article className="rounded-xl border border-gray-200 p-6">
+              <article
+                id="bilibili-thumbnail-downloader"
+                className="scroll-mt-6 rounded-xl border border-gray-200 p-6"
+              >
                 <h3 className="text-xl font-bold text-gray-900">
                   Bilibili Thumbnail Downloader
                 </h3>
 
                 <p className="mt-3 leading-7 text-gray-600">
-                  Public Bilibili links and supported short URLs return
-                  their cover image for preview and download.
-                </p>
+                  Public Bilibili links and supported short URLs return their
+                  cover image so you can preview and download it.
+                 To download a Bilibili thumbnail, paste the video link or a supported short URL above.</p>
               </article>
 
             </div>
 
             <h3 className="mt-10 text-2xl font-bold text-gray-900">
-              How Multi-Platform Detection Works
+              How the Platform Gets Detected
             </h3>
 
             <ol className="mt-4 list-decimal space-y-3 pl-6 leading-7 text-gray-600">
-              <li>Copy any supported public video or post link.</li>
-              <li>Paste it into the same search box above.</li>
-              <li>The platform is identified from the URL automatically.</li>
-              <li>Available thumbnail data is fetched for that source.</li>
-              <li>Compare the returned image and its dimensions.</li>
-              <li>Download the version you need, or grab all as a ZIP.</li>
+              <li>Copy a public video or post link from any supported site.</li>
+              <li>Paste it into the search box at the top of the page.</li>
+              <li>The platform is worked out from the URL.</li>
+              <li>The available thumbnail data is fetched for that link.</li>
+              <li>Check the image and its dimensions.</li>
+              <li>Download the version you need, or all of them as a ZIP.</li>
             </ol>
 
             <p className="mt-6 leading-8 text-gray-600">
-              Each platform exposes different numbers of thumbnail sizes, so
-              results vary — the tool reports exactly what's retrievable for
-              your link rather than promising identical output across every
-              site.
+              Each site exposes a different number of sizes, so results won't
+              be identical everywhere. The tool shows what it can actually
+              retrieve for your link and doesn't pretend otherwise.
             </p>
           </section>
 
           {/* About / purpose */}
           <section className="mt-16 rounded-2xl bg-white p-8 shadow-sm md:p-10">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Why Creators Use This Tool
+              Why People Use This Thumbnail Grabber
             </h2>
 
             <p className="mt-4 leading-8 text-gray-600">
-              Grabbing a thumbnail used to mean right-click-saving a low-res
-              preview or manually typing out an img.youtube.com URL and
-              hoping it worked. By using{" "}
+              Getting a thumbnail used to mean right-click saving a blurry
+              preview, or typing out an img.youtube.com address and hoping it
+              worked. With{" "}
               <Link
                 href="https://youtubethumbnails-downloader.com/"
                 className="text-red-600 underline hover:text-red-700"
               >
                 youtubethumbnails-downloader.com
-              </Link>
-              , you replace that guesswork: paste a link, and every retrievable
-              size loads with its real dimensions so you can pick the right file
-              the first time.
+              </Link>{" "}
+              you paste a link and see every size that really exists, with its
+              actual dimensions, so you pick the right file on the first try.
             </p>
 
             <p className="mt-4 leading-8 text-gray-600">
-              It's built around one rule — only show what's actually
-              retrievable for that specific video, never a placeholder or a
-              broken link dressed up as a working thumbnail.
+              There's one rule behind it: show only what can be retrieved for
+              that specific video. No placeholders, and no broken links passed
+              off as working thumbnails.
             </p>
 
             <p className="mt-4 leading-8 text-gray-600">
-              Common uses include thumbnail redesign research, competitor
-              benchmarking, portfolio archiving, blog and course thumbnails,
-              classroom media projects, and pulling reference images for
-              editing workflows — always within the bounds of what the
-              rights holder permits.
+              People use it for thumbnail redesign research, competitor
+              benchmarking, portfolio archives, blog and course covers,
+              classroom projects and reference images for editing. Within
+              whatever the rights holder allows, of course.
             </p>
           </section>
 
           {/* FAQ */}
-          <section className="mt-16 rounded-2xl bg-white p-8 shadow-sm md:p-10">
+          <section
+            id="faq"
+            className="mt-16 scroll-mt-6 rounded-2xl bg-white p-8 shadow-sm md:p-10"
+          >
             <h2 className="text-3xl font-bold tracking-tight text-gray-900">
               Frequently Asked Questions
             </h2>
@@ -833,7 +975,7 @@ export default function Home() {
       </main>
 
       {/* FAQ Schema */}
-      <Script
+      <script
         id="faq-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -853,7 +995,7 @@ export default function Home() {
       />
 
       {/* Website Schema */}
-      <Script
+      <script
         id="website-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -864,6 +1006,9 @@ export default function Home() {
             alternateName: [
               "YouTube Thumbnail Downloader Online",
               "YouTube Thumbnail Grabber",
+              "Download YouTube Thumbnail HD",
+              "YouTube Thumbnail Downloader 1280x720",
+              "YouTube Shorts Thumbnail Downloader",
               "Vimeo Thumbnail Downloader",
               "TikTok Thumbnail Downloader",
               "Dailymotion Thumbnail Downloader",
@@ -873,14 +1018,14 @@ export default function Home() {
             ],
             url: "https://youtubethumbnails-downloader.com/",
             description:
-              "Free browser-based YouTube thumbnail downloader that returns Max Resolution, HD, HQ, MQ, and SD images with exact dimensions, plus support for public Vimeo, TikTok, Dailymotion, Facebook, X/Twitter, and Bilibili video URLs.",
+              "Free browser-based YouTube thumbnail downloader that returns Max Resolution (1280x720), SD, HQ, MQ and default images with exact dimensions, plus support for public YouTube Shorts, Vimeo, TikTok, Dailymotion, Facebook, X/Twitter and Bilibili video URLs.",
             inLanguage: "en",
           }),
         }}
       />
 
       {/* WebApplication Schema */}
-      <Script
+      <script
         id="webapplication-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -895,21 +1040,21 @@ export default function Home() {
               "Requires JavaScript and a modern HTML5-compatible browser.",
             url: "https://youtubethumbnails-downloader.com/",
             description:
-              "Free online thumbnail downloader for public YouTube videos (including Shorts) and supported Vimeo, TikTok, Dailymotion, Facebook, X/Twitter, and Bilibili URLs, with exact pixel dimensions for every returned image.",
+              "Free online thumbnail downloader for public YouTube videos (including Shorts) and supported Vimeo, TikTok, Dailymotion, Facebook, X/Twitter and Bilibili URLs, with exact pixel dimensions for every returned image.",
             offers: {
               "@type": "Offer",
               price: "0",
               priceCurrency: "USD",
             },
             featureList: [
-              "YouTube thumbnail download in Max Resolution, HD, HQ, MQ, SD",
-              "YouTube Shorts thumbnail support",
+              "Download YouTube thumbnails in Max Resolution 1280x720, SD, HQ, MQ and default sizes",
+              "YouTube Shorts thumbnail download",
               "Exact pixel dimensions shown per thumbnail",
               "Vimeo thumbnail download",
               "TikTok thumbnail download",
               "Dailymotion thumbnail download",
               "Facebook video thumbnail download",
-              "X/Twitter thumbnail download",
+              "X/Twitter video thumbnail download",
               "Bilibili thumbnail download",
               "Multiple available image versions per video",
               "Download all thumbnails as a single ZIP",

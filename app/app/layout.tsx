@@ -33,49 +33,25 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: "YouTube Thumbnail Downloader",
+    default: "YouTube Thumbnail Downloader - Download HD Thumbnails Free",
     template: "%s | YouTube Thumbnail Downloader",
   },
 
   description:
-    "Download YouTube thumbnails online in HD, HQ, MQ, SD and the highest available resolution. Paste a public YouTube video URL to preview and download its thumbnail instantly.",
+    "Free YouTube thumbnail downloader. Paste a link to save thumbnails in HD (1280x720), SD, HQ and MQ. Also works for Shorts, Vimeo, TikTok and more. No sign-up.",
 
   keywords: [
-    "YouTube Thumbnail",
     "YouTube Thumbnail Downloader",
-    "YouTube Thumbnail Grabber",
-    "YouTube Thumbnail Image Downloader",
-    "YouTube Thumbnail Viewer",
     "Download YouTube Thumbnail",
-    "Download YouTube Thumbnail Image",
-    "Free YouTube Thumbnail Downloader",
-    "YouTube Thumbnail Downloader Online",
-    "YouTube Thumbnail from URL",
-    "YouTube Thumbnail URL",
-    "Extract YouTube Thumbnail",
-    "HD YouTube Thumbnail",
-    "HQ YouTube Thumbnail",
-    "MQ YouTube Thumbnail",
-    "SD YouTube Thumbnail",
-    "Max Resolution Thumbnail",
+    "YouTube Thumbnail Grabber",
     "YouTube Thumbnail HD",
-    "YouTube Thumbnail Full HD",
-    "YouTube HD Thumbnail Download",
-    "YouTube Shorts Thumbnail",
+    "YouTube Thumbnail Downloader 1280x720",
+    "YouTube Thumbnail URL",
     "YouTube Shorts Thumbnail Downloader",
-    "YouTube Image Downloader",
+    "Free YouTube Thumbnail Downloader Online",
     "Video Thumbnail Downloader",
-    "Thumbnail Grabber",
-    "Thumbnail Download Tool",
-    "Download Thumbnail Online",
-    "View YouTube Thumbnail",
-    "Free YouTube Tools",
-    "YouTube Tools",
-    "YouTube Thumbnail Extractor",
-    "YouTube Thumbnail Saver",
-    "Save YouTube Thumbnail",
-    "YouTube Thumbnail Download Tool",
-    "YouTube Thumbnail Preview",
+    "TikTok Thumbnail Downloader",
+    "Vimeo Thumbnail Downloader",
   ],
 
   authors: [
@@ -88,6 +64,7 @@ export const metadata: Metadata = {
   creator: siteName,
   publisher: siteName,
   applicationName: siteName,
+  category: "technology",
 
   verification: {
     google: "zbxUmiLJEe7CmAqc32MfkWnbvHwHJpyMkOQm_DaxFEc",
@@ -122,12 +99,12 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
 
   openGraph: {
-    title: "YouTube Thumbnail Downloader – HD, HQ & Max Resolution",
+    title: "YouTube Thumbnail Downloader: HD & Max Resolution, Free",
 
     description:
-      "Download and preview YouTube thumbnail images in HD, HQ, MQ, SD and the highest available resolution for free.",
+      "Paste a YouTube link and download its thumbnail in HD (1280x720), SD, HQ or MQ. Free, no sign-up, works on phone and desktop.",
 
-    url: siteUrl,
+    url: "/",
     siteName,
     locale: "en_US",
     type: "website",
@@ -145,10 +122,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
 
-    title: "YouTube Thumbnail Downloader – HD & Max Resolution",
+    title: "YouTube Thumbnail Downloader: HD & Max Resolution, Free",
 
     description:
-      "Download YouTube thumbnails online from public video URLs in the highest available quality.",
+      "Paste a YouTube link and download its thumbnail in HD (1280x720), SD, HQ or MQ. Free, no sign-up.",
 
     images: [ogImageUrl],
   },
@@ -156,38 +133,13 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-  },
-};
-
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-
-  name: siteName,
-
-  alternateName: [
-    "YouTube Thumbnail Downloader",
-    "YouTube Thumbnail Viewer",
-    "YouTube Thumbnail Grabber",
-  ],
-
-  url: siteUrl,
-
-  applicationCategory: "MultimediaApplication",
-
-  operatingSystem: "Any",
-
-  browserRequirements: "Requires JavaScript",
-
-  description:
-    "Online YouTube thumbnail downloader that lets users preview and download available thumbnail images from public YouTube video URLs.",
-
-  image: ogImageUrl,
-
-  publisher: {
-    "@type": "Organization",
-    name: siteName,
-    url: siteUrl,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -204,17 +156,9 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col bg-slate-100 text-gray-900">
         <Header />
 
-        <main className="flex-1">{children}</main>
+        <div className="flex-1">{children}</div>
 
         <Footer />
-
-        <Script
-          id="website-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema),
-          }}
-        />
 
         <Analytics />
 
