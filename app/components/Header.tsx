@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Header() {
   return (
     <header className="w-full border-b border-gray-200 bg-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 py-4">
         {/* Logo + Title */}
         <Link
           href="/"
@@ -20,12 +20,33 @@ export default function Header() {
             sizes="42px"
           />
 
-          <div>
-            <h2 className="text-xl font-bold text-black">
-              YouTube Thumbnail Downloader
-            </h2>
-          </div>
+          <span className="text-xl font-bold text-black">
+            YouTube Thumbnail Downloader
+          </span>
         </Link>
+
+        {/* Tools */}
+        <nav aria-label="Tools">
+          <ul className="flex items-center gap-5 text-sm font-semibold text-gray-700">
+            <li>
+              <Link
+                href="/"
+                className="transition hover:text-red-600"
+              >
+                Thumbnail Downloader
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                href="/youtube-transcript"
+                className="transition hover:text-red-600"
+              >
+                Transcript Generator
+              </Link>
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
   );

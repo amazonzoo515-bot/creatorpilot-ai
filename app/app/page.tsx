@@ -372,8 +372,56 @@ export default function Home() {
                   />
                 ))}
               </div>
+
+              {platform === "youtube" && (
+                <div className="mx-auto mt-10 max-w-2xl rounded-2xl border border-red-100 bg-white p-6 text-center shadow-sm">
+                  <p className="font-semibold text-gray-900">
+                    Want the words from this video too?
+                  </p>
+
+                  <Link
+                    href={`/youtube-transcript?url=${encodeURIComponent(
+                      extractUrlFromText(videoUrl) ?? ""
+                    )}`}
+                    className="mt-3 inline-block rounded-xl bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700"
+                  >
+                    Get the transcript →
+                  </Link>
+                </div>
+              )}
             </>
           )}
+
+          {/* More tools */}
+          <section className="mx-auto mt-12 max-w-4xl">
+            <Link
+              href="/youtube-transcript"
+              className="flex items-center justify-between gap-6 rounded-2xl bg-white p-6 shadow-sm transition hover:shadow-md md:p-8"
+            >
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-wide text-red-600">
+                  Free tool
+                </p>
+
+                <h2 className="mt-1 text-xl font-bold text-gray-900 md:text-2xl">
+                  YouTube Transcript Generator
+                </h2>
+
+                <p className="mt-2 leading-7 text-gray-600">
+                  Need the words instead of the picture? Paste a
+                  YouTube link and get the video's transcript as
+                  text, with optional timestamps.
+                </p>
+              </div>
+
+              <span
+                aria-hidden="true"
+                className="text-3xl text-red-600"
+              >
+                →
+              </span>
+            </Link>
+          </section>
 
           {/* On this page */}
           <nav

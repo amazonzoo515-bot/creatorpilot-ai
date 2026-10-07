@@ -1,5 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// --------------------------------
+// Proxy safety limits
+// --------------------------------
+
+const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+
+// The image proxy only fetches from thumbnail CDNs of supported platforms.
+// A host matches if it equals an entry or is a subdomain of it.
+const ALLOWED_IMAGE_HOSTS = [
+  // YouTube
+  "img.youtube.com",
+  "ytimg.com",
+  // Vimeo
+  "vimeocdn.com",
+  // TikTok
+  "tiktokcdn.com",
+  "tiktokcdn-us.com",
+  "tiktokv.com",
+  "ibyteimg.com",
+  "byteimg.com",
+  // Facebook
+  "fbcdn.net",
+  // X / Twitter
+  "twimg.com",
+  // Dailymotion
+  "dmcdn.net",
+  // Bilibili
+  "hdslb.com",
+  "biliimg.com",
+];
+
+function isAllowedImageUrl(url: URL) {
+  if (url.protocol !== "https:") {
+    return false;
+  }
+
+  const hostname = url.hostname.toLowerCase();
+
+  return ALLOWED_IMAGE_HOSTS.some(
+    (allowed) =>
+      hostname === allowed ||
+      hostname.endsWith(`.${allowed}`)
+  );
+}
+
 function isFacebookUrl(url: string) {
   try {
     const hostname = new URL(url).hostname.toLowerCase();
@@ -72,6 +117,199 @@ function isDailymotionUrl(url: string) {
     return false;
   }
 }
+
+const FACEBOOK_TIMEOUT_MS = 8000;
+
+function decodeHtmlEntities(value: string) {
+  return value
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#x2F;/gi, "/")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
+function isHttpsUrl(value: string) {
+  try {
+    return new URL(value).protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+// Plan A: third-party extraction service.
+async function getFacebookThumbnailFromService(
+  facebookUrl: string
+): Promise<string | null> {
+  try {
+    const response = await fetch(
+      `https://mediasaver.link/api/?url=${encodeURIComponent(
+        facebookUrl
+      )}`,
+      {
+        cache: "no-store",
+        headers: {
+          Accept: "application/json",
+        },
+        signal: AbortSignal.timeout(
+          FACEBOOK_TIMEOUT_MS
+        ),
+      }
+    );
+
+    if (!response.ok) {
+      console.warn(
+        "Facebook extraction service status:",
+        response.status
+      );
+      return null;
+    }
+
+    const data = await response.json();
+
+    if (data?.error) {
+      console.warn(
+        "Facebook extraction service error:",
+        data
+      );
+      return null;
+    }
+
+    const mediaUrls: string[] = Array.isArray(
+      data?.data
+    )
+      ? data.data.filter(
+          (item: unknown): item is string =>
+            typeof item === "string" &&
+            item.length > 0
+        )
+      : [];
+
+    const imageCandidates = mediaUrls.filter(
+      (url: string) =>
+        /\.(jpg|jpeg|png|webp)(\?.*)?$/i.test(url)
+    );
+
+    const thumbnailUrl =
+      imageCandidates[0] ||
+      mediaUrls.find((url: string) =>
+        /image|thumbnail|cover|jpg|jpeg|png|webp/i.test(
+          url
+        )
+      );
+
+    return thumbnailUrl && isHttpsUrl(thumbnailUrl)
+      ? thumbnailUrl
+      : null;
+  } catch (error) {
+    console.warn(
+      "Facebook extraction service failed:",
+      error
+    );
+    return null;
+  }
+}
+
+// Plan B: read the public page's og:image tag directly.
+async function getFacebookThumbnailFromPage(
+  facebookUrl: string
+): Promise<string | null> {
+  try {
+    const response = await fetch(facebookUrl, {
+      method: "GET",
+      redirect: "follow",
+      cache: "no-store",
+      headers: {
+        "User-Agent":
+          "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uagent.php)",
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+      },
+      signal: AbortSignal.timeout(
+        FACEBOOK_TIMEOUT_MS
+      ),
+    });
+
+    if (!response.ok) {
+      console.warn(
+        "Facebook page status:",
+        response.status
+      );
+      return null;
+    }
+
+    // Short links (fb.watch) must end on a Facebook page.
+    if (!isFacebookUrl(response.url || facebookUrl)) {
+      return null;
+    }
+
+    const html = await response.text();
+
+    const matches = [
+      html.match(
+        /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i
+      ),
+      html.match(
+        /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i
+      ),
+    ];
+
+    for (const match of matches) {
+      if (match?.[1]) {
+        const candidate = decodeHtmlEntities(
+          match[1]
+        );
+
+        if (isHttpsUrl(candidate)) {
+          return candidate;
+        }
+      }
+    }
+
+    return null;
+  } catch (error) {
+    console.warn(
+      "Facebook page extraction failed:",
+      error
+    );
+    return null;
+  }
+}
+
+async function isImageReachable(url: string) {
+  try {
+    const head = await fetch(url, {
+      method: "HEAD",
+      cache: "no-store",
+      signal: AbortSignal.timeout(
+        FACEBOOK_TIMEOUT_MS
+      ),
+    });
+
+    if (head.ok) {
+      return true;
+    }
+
+    // Some CDNs reject HEAD; try a tiny ranged GET instead.
+    const ranged = await fetch(url, {
+      method: "GET",
+      cache: "no-store",
+      headers: {
+        Range: "bytes=0-1023",
+      },
+      signal: AbortSignal.timeout(
+        FACEBOOK_TIMEOUT_MS
+      ),
+    });
+
+    return ranged.ok || ranged.status === 206;
+  } catch {
+    return false;
+  }
+}
+
 function getBilibiliImageCandidates(url: string): string[] {
   const candidates = new Set<string>();
 
@@ -256,22 +494,30 @@ function extractDailymotionVideoId(url: string) {
     const parsedUrl = new URL(url);
     const hostname = parsedUrl.hostname.toLowerCase();
 
+    let id: string | null = null;
+
     if (
       hostname === "dai.ly" ||
       hostname === "www.dai.ly"
     ) {
-      return (
+      id =
         parsedUrl.pathname
           .slice(1)
-          .split("/")[0] || null
+          .split("/")[0] || null;
+    } else {
+      const match = parsedUrl.pathname.match(
+        /\/video\/([^/?]+)/
       );
+
+      id = match?.[1] || null;
     }
 
-    const match = parsedUrl.pathname.match(
-      /\/video\/([^/?]+)/
-    );
+    // Dailymotion IDs are plain alphanumeric strings.
+    if (!id || !/^[a-zA-Z0-9]+$/.test(id)) {
+      return null;
+    }
 
-    return match?.[1] || null;
+    return id;
   } catch {
     return null;
   }
@@ -408,7 +654,7 @@ export async function GET(request: NextRequest) {
     }
   }
 
-         // --------------------------------
+  // --------------------------------
   // Facebook thumbnail
   // --------------------------------
 
@@ -416,96 +662,34 @@ export async function GET(request: NextRequest) {
     try {
       const normalizedUrl = imageUrl.trim();
 
-      const apiUrl =
-        `https://mediasaver.link/api/?url=${encodeURIComponent(
+      // Plan A, then Plan B if A fails or returns a dead image.
+      let thumbnailUrl =
+        await getFacebookThumbnailFromService(
           normalizedUrl
-        )}`;
-
-      const response = await fetch(apiUrl, {
-        cache: "no-store",
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        console.error(
-          "Facebook extraction service status:",
-          response.status
         );
 
-        return NextResponse.json(
-          {
-            error:
-              "Facebook extraction service failed",
-          },
-          { status: 502 }
-        );
+      if (
+        !thumbnailUrl ||
+        !(await isImageReachable(thumbnailUrl))
+      ) {
+        thumbnailUrl =
+          await getFacebookThumbnailFromPage(
+            normalizedUrl
+          );
+
+        if (
+          thumbnailUrl &&
+          !(await isImageReachable(thumbnailUrl))
+        ) {
+          thumbnailUrl = null;
+        }
       }
-
-      const data = await response.json();
-
-      if (data?.error) {
-        console.error(
-          "Facebook extraction service error:",
-          data
-        );
-
-        return NextResponse.json(
-          {
-            error:
-              data.message ||
-              "Facebook thumbnail could not be extracted",
-          },
-          { status: 404 }
-        );
-      }
-
-      const mediaUrls = Array.isArray(data?.data)
-        ? data.data.filter(
-            (item: unknown): item is string =>
-              typeof item === "string" &&
-              item.length > 0
-          )
-        : [];
-
-        const imageCandidates = mediaUrls.filter(
-          (url: string) =>
-            /\.(jpg|jpeg|png|webp)(\?.*)?$/i.test(url)
-        );
-
-        const thumbnailUrl =
-        imageCandidates[0] ||
-        mediaUrls.find((url: string) =>
-          /image|thumbnail|cover|jpg|jpeg|png|webp/i.test(
-            url
-          )
-        );
 
       if (!thumbnailUrl) {
         return NextResponse.json(
           {
             error:
-              "Facebook thumbnail is not available from the extraction service",
-          },
-          { status: 404 }
-        );
-      }
-
-      // Verify that the returned image is actually reachable.
-      const imageResponse = await fetch(
-        thumbnailUrl,
-        {
-          method: "HEAD",
-          cache: "no-store",
-        }
-      );
-
-      if (!imageResponse.ok) {
-        return NextResponse.json(
-          {
-            error:
-              "Facebook thumbnail image could not be verified",
+              "Facebook thumbnail could not be extracted. The video may be private or restricted.",
           },
           { status: 404 }
         );
@@ -533,7 +717,8 @@ export async function GET(request: NextRequest) {
       );
     }
   }
-    // --------------------------------
+
+  // --------------------------------
   // X / Twitter thumbnail
   // --------------------------------
 
@@ -659,8 +844,8 @@ export async function GET(request: NextRequest) {
       );
     }
   }
-  
-          // --------------------------------
+
+  // --------------------------------
   // Bilibili thumbnail
   // --------------------------------
 
@@ -692,6 +877,17 @@ export async function GET(request: NextRequest) {
 
         resolvedUrl =
           redirectResponse.url || resolvedUrl;
+
+        // The short link must resolve to a Bilibili page.
+        if (!isBilibiliUrl(resolvedUrl)) {
+          return NextResponse.json(
+            {
+              error:
+                "Could not resolve the Bilibili video ID",
+            },
+            { status: 404 }
+          );
+        }
       }
 
       const bilibiliVideoId =
@@ -1012,7 +1208,7 @@ export async function GET(request: NextRequest) {
       );
     }
   }
-  
+
   // --------------------------------
   // Dailymotion
   // --------------------------------
@@ -1258,6 +1454,16 @@ export async function GET(request: NextRequest) {
   // --------------------------------
 
   if (check === "true" && videoId) {
+    // YouTube video IDs are exactly 11 URL-safe characters.
+    if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) {
+      return NextResponse.json(
+        {
+          error: "Invalid video ID",
+        },
+        { status: 400 }
+      );
+    }
+
     const hdUrl =
       `https://img.youtube.com/vi/` +
       `${videoId}/maxresdefault.jpg`;
@@ -1294,148 +1500,224 @@ export async function GET(request: NextRequest) {
   }
 
   // --------------------------------
-// Image proxy / download
-// --------------------------------
+  // Image proxy / download
+  // --------------------------------
 
-if (!imageUrl) {
-  return new NextResponse(
-    "Missing image URL",
-    {
-      status: 400,
-    }
-  );
-}
-
-try {
-  const isBilibiliImage =
-    isBilibiliImageUrl(imageUrl);
-
-  const candidates = isBilibiliImage
-    ? getBilibiliImageCandidates(imageUrl)
-    : [imageUrl];
-
-  let lastStatus = 404;
-
-  for (const candidate of candidates) {
-    try {
-      const targetUrl = new URL(candidate);
-
-      const headers: HeadersInit = {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36",
-        Accept:
-          "image/avif,image/webp,image/apng,image/svg+xml,image/jpeg,image/png,image/*,*/*;q=0.8",
-      };
-
-      if (isBilibiliImage) {
-        headers.Referer =
-          "https://www.bilibili.com/";
-        headers.Origin =
-          "https://www.bilibili.com";
+  if (!imageUrl) {
+    return new NextResponse(
+      "Missing image URL",
+      {
+        status: 400,
       }
-
-      const response = await fetch(
-        targetUrl,
-        {
-          method: "GET",
-          cache: "no-store",
-          redirect: "follow",
-          headers,
-        }
-      );
-
-      lastStatus = response.status;
-
-      if (!response.ok) {
-        console.warn(
-          "Image candidate failed:",
-          response.status,
-          candidate
-        );
-        continue;
-      }
-
-      const buffer =
-        await response.arrayBuffer();
-
-      if (buffer.byteLength < 100) {
-        console.warn(
-          "Image candidate too small:",
-          buffer.byteLength,
-          candidate
-        );
-        continue;
-      }
-
-      const detectedContentType =
-        detectImageContentType(buffer);
-
-      const responseContentType =
-        response.headers.get(
-          "content-type"
-        );
-
-      const contentType =
-        detectedContentType ||
-        (
-          responseContentType?.startsWith(
-            "image/"
-          )
-            ? responseContentType
-            : null
-        );
-
-      if (!contentType) {
-        console.warn(
-          "Response is not a valid image:",
-          responseContentType,
-          candidate
-        );
-        continue;
-      }
-
-      return new NextResponse(buffer, {
-        status: 200,
-        headers: {
-          "Content-Type": contentType,
-          "Content-Length": String(
-            buffer.byteLength
-          ),
-          "Cache-Control":
-            "public, max-age=86400, s-maxage=86400",
-          "X-Content-Type-Options":
-            "nosniff",
-        },
-      });
-    } catch (candidateError) {
-      console.warn(
-        "Image candidate request failed:",
-        candidate,
-        candidateError
-      );
-    }
+    );
   }
 
-  return new NextResponse(
-    "Image not found",
-    {
-      status:
-        lastStatus >= 400
-          ? lastStatus
-          : 404,
-    }
-  );
-} catch (error) {
-  console.error(
-    "Image proxy error:",
-    error
-  );
+  // Only proxy images from known thumbnail CDNs.
+  let requestedUrl: URL;
 
-  return new NextResponse(
-    "Failed to fetch image",
-    {
-      status: 500,
+  try {
+    requestedUrl = new URL(imageUrl);
+  } catch {
+    return new NextResponse(
+      "Invalid image URL",
+      {
+        status: 400,
+      }
+    );
+  }
+
+  if (!isAllowedImageUrl(requestedUrl)) {
+    console.warn(
+      "Image proxy blocked host:",
+      requestedUrl.hostname
+    );
+
+    return new NextResponse(
+      "This image host is not allowed",
+      {
+        status: 403,
+      }
+    );
+  }
+
+  try {
+    const isBilibiliImage =
+      isBilibiliImageUrl(imageUrl);
+
+    const candidates = isBilibiliImage
+      ? getBilibiliImageCandidates(imageUrl)
+      : [imageUrl];
+
+    let lastStatus = 404;
+
+    for (const candidate of candidates) {
+      try {
+        const targetUrl = new URL(candidate);
+
+        if (!isAllowedImageUrl(targetUrl)) {
+          continue;
+        }
+
+        const headers: HeadersInit = {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36",
+          Accept:
+            "image/avif,image/webp,image/apng,image/svg+xml,image/jpeg,image/png,image/*,*/*;q=0.8",
+        };
+
+        if (isBilibiliImage) {
+          headers.Referer =
+            "https://www.bilibili.com/";
+          headers.Origin =
+            "https://www.bilibili.com";
+        }
+
+        const response = await fetch(
+          targetUrl,
+          {
+            method: "GET",
+            cache: "no-store",
+            redirect: "follow",
+            headers,
+          }
+        );
+
+        lastStatus = response.status;
+
+        if (!response.ok) {
+          console.warn(
+            "Image candidate failed:",
+            response.status,
+            candidate
+          );
+          continue;
+        }
+
+        // A redirect must not leave the allowed hosts.
+        try {
+          if (
+            response.url &&
+            !isAllowedImageUrl(
+              new URL(response.url)
+            )
+          ) {
+            console.warn(
+              "Image redirected to a blocked host:",
+              response.url
+            );
+            continue;
+          }
+        } catch {
+          continue;
+        }
+
+        const declaredLength = Number(
+          response.headers.get(
+            "content-length"
+          )
+        );
+
+        if (
+          declaredLength > MAX_IMAGE_BYTES
+        ) {
+          console.warn(
+            "Image candidate too large:",
+            declaredLength,
+            candidate
+          );
+          continue;
+        }
+
+        const buffer =
+          await response.arrayBuffer();
+
+        if (buffer.byteLength > MAX_IMAGE_BYTES) {
+          console.warn(
+            "Image candidate too large:",
+            buffer.byteLength,
+            candidate
+          );
+          continue;
+        }
+
+        if (buffer.byteLength < 100) {
+          console.warn(
+            "Image candidate too small:",
+            buffer.byteLength,
+            candidate
+          );
+          continue;
+        }
+
+        const detectedContentType =
+          detectImageContentType(buffer);
+
+        const responseContentType =
+          response.headers.get(
+            "content-type"
+          );
+
+        const contentType =
+          detectedContentType ||
+          (
+            responseContentType?.startsWith(
+              "image/"
+            )
+              ? responseContentType
+              : null
+          );
+
+        if (!contentType) {
+          console.warn(
+            "Response is not a valid image:",
+            responseContentType,
+            candidate
+          );
+          continue;
+        }
+
+        return new NextResponse(buffer, {
+          status: 200,
+          headers: {
+            "Content-Type": contentType,
+            "Content-Length": String(
+              buffer.byteLength
+            ),
+            "Cache-Control":
+              "public, max-age=86400, s-maxage=86400",
+            "X-Content-Type-Options":
+              "nosniff",
+          },
+        });
+      } catch (candidateError) {
+        console.warn(
+          "Image candidate request failed:",
+          candidate,
+          candidateError
+        );
+      }
     }
-  );
-}
+
+    return new NextResponse(
+      "Image not found",
+      {
+        status:
+          lastStatus >= 400
+            ? lastStatus
+            : 404,
+      }
+    );
+  } catch (error) {
+    console.error(
+      "Image proxy error:",
+      error
+    );
+
+    return new NextResponse(
+      "Failed to fetch image",
+      {
+        status: 500,
+      }
+    );
+  }
 }
