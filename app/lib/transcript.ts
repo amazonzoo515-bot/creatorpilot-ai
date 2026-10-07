@@ -8,6 +8,11 @@ import {
 } from "youtube-transcript";
 
 import { TranslationError, translateSegments } from "./translate";
+import {
+  SupadataError,
+  fetchSupadataTranscript,
+  isSupadataConfigured,
+} from "./supadata";
 
 // ---------------------------------------------------------------
 // This file is the only place that knows where transcripts come from.
@@ -208,11 +213,86 @@ type CaptionInfo = {
 
 const INNERTUBE_API_URL =
   "https://www.youtube.com/youtubei/v1/player?prettyPrint=false";
-const INNERTUBE_CLIENT_VERSION = "20.10.38";
-const INNERTUBE_USER_AGENT = `com.google.android.youtube/${INNERTUBE_CLIENT_VERSION} (Linux; U; Android 14)`;
 const CAPTION_USER_AGENT =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36,gzip(gfe)";
 const REQUEST_TIMEOUT_MS = 10000;
+
+type InnertubeClient = {
+  name: string;
+  context: Record<string, unknown>;
+  userAgent: string;
+};
+
+// Tried in order until one returns caption tracks. Version numbers go
+// stale over time; if all of them start failing, update them.
+const INNERTUBE_CLIENTS: InnertubeClient[] = [
+  {
+    name: "ANDROID",
+    context: {
+      client: {
+        clientName: "ANDROID",
+        clientVersion: "20.10.38",
+      },
+    },
+    userAgent:
+      "com.google.android.youtube/20.10.38 (Linux; U; Android 14)",
+  },
+  {
+    name: "IOS",
+    context: {
+      client: {
+        clientName: "IOS",
+        clientVersion: "20.10.4",
+        deviceMake: "Apple",
+        deviceModel: "iPhone16,2",
+        osName: "iPhone",
+        osVersion: "18.3.2.22D82",
+        hl: "en",
+      },
+    },
+    userAgent:
+      "com.google.ios.youtube/20.10.4 (iPhone16,2; U; CPU iOS 18_3_2 like Mac OS X;)",
+  },
+  {
+    name: "ANDROID_VR",
+    context: {
+      client: {
+        clientName: "ANDROID_VR",
+        clientVersion: "1.62.27",
+        deviceMake: "Oculus",
+        deviceModel: "Quest 3",
+        androidSdkVersion: 32,
+        osName: "Android",
+        osVersion: "12L",
+        hl: "en",
+      },
+    },
+    userAgent:
+      "com.google.android.apps.youtube.vr.oculus/1.62.27 (Linux; U; Android 12L; eureka-user Build/SQ3A.220605.009.A1) gzip",
+  },
+];
+
+type LookupOutcome =
+  | "ok"
+  | "no_captions"
+  | "blocked"
+  | "unavailable"
+  | "error";
+
+export type CaptionAttempt = {
+  client: string;
+  http: number | null;
+  status: string;
+  reason: string;
+  trackCount: number;
+  error?: string;
+};
+
+type CaptionLookup = {
+  info: CaptionInfo | null;
+  outcome: LookupOutcome;
+  attempts: CaptionAttempt[];
+};
 
 function readText(value: unknown): string {
   if (!value || typeof value !== "object") {
@@ -243,84 +323,205 @@ function readText(value: unknown): string {
   return "";
 }
 
-async function fetchCaptionInfo(
+function parseCaptionInfo(data: unknown): CaptionInfo | null {
+  const renderer = (
+    data as {
+      captions?: {
+        playerCaptionsTracklistRenderer?: {
+          captionTracks?: unknown;
+          translationLanguages?: unknown;
+        };
+      };
+    }
+  )?.captions?.playerCaptionsTracklistRenderer;
+
+  const rawTracks = renderer?.captionTracks;
+
+  if (!Array.isArray(rawTracks) || rawTracks.length === 0) {
+    return null;
+  }
+
+  const tracks: CaptionTrack[] = [];
+
+  for (const raw of rawTracks) {
+    if (
+      raw &&
+      typeof raw.baseUrl === "string" &&
+      typeof raw.languageCode === "string"
+    ) {
+      tracks.push({
+        baseUrl: raw.baseUrl,
+        languageCode: raw.languageCode,
+        name: readText(raw.name) || raw.languageCode,
+        isTranslatable: raw.isTranslatable === true,
+      });
+    }
+  }
+
+  if (tracks.length === 0) {
+    return null;
+  }
+
+  const translationLanguages: LanguageOption[] = [];
+
+  if (Array.isArray(renderer?.translationLanguages)) {
+    for (const raw of renderer.translationLanguages) {
+      if (raw && typeof raw.languageCode === "string") {
+        translationLanguages.push({
+          code: raw.languageCode,
+          name: readText(raw.languageName) || raw.languageCode,
+        });
+      }
+    }
+  }
+
+  return { tracks, translationLanguages };
+}
+
+function classifyPlayability(
+  status: string,
+  reason: string,
+  hasTracks: boolean
+): LookupOutcome {
+  if (hasTracks) {
+    return "ok";
+  }
+
+  if (status === "OK") {
+    return "no_captions";
+  }
+
+  if (status === "LOGIN_REQUIRED") {
+    return /confirm your age|age[- ]restrict/i.test(reason)
+      ? "unavailable"
+      : "blocked";
+  }
+
+  if (
+    status === "UNPLAYABLE" ||
+    status === "ERROR" ||
+    status === "CONTENT_CHECK_REQUIRED"
+  ) {
+    return "unavailable";
+  }
+
+  return "error";
+}
+
+async function lookupWithClient(
+  client: InnertubeClient,
   videoId: string
-): Promise<CaptionInfo | null> {
+): Promise<{
+  info: CaptionInfo | null;
+  outcome: LookupOutcome;
+  attempt: CaptionAttempt;
+}> {
+  const attempt: CaptionAttempt = {
+    client: client.name,
+    http: null,
+    status: "NO_RESPONSE",
+    reason: "",
+    trackCount: 0,
+  };
+
   try {
     const response = await fetch(INNERTUBE_API_URL, {
       method: "POST",
       cache: "no-store",
       headers: {
         "Content-Type": "application/json",
-        "User-Agent": INNERTUBE_USER_AGENT,
+        "User-Agent": client.userAgent,
       },
       body: JSON.stringify({
-        context: {
-          client: {
-            clientName: "ANDROID",
-            clientVersion: INNERTUBE_CLIENT_VERSION,
-          },
-        },
+        context: client.context,
         videoId,
       }),
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     });
 
+    attempt.http = response.status;
+
     if (!response.ok) {
-      return null;
+      attempt.status = "HTTP_ERROR";
+
+      return {
+        info: null,
+        outcome: response.status === 429 ? "blocked" : "error",
+        attempt,
+      };
     }
 
     const data = await response.json();
 
-    const renderer =
-      data?.captions?.playerCaptionsTracklistRenderer;
+    attempt.status =
+      typeof data?.playabilityStatus?.status === "string"
+        ? data.playabilityStatus.status
+        : "UNKNOWN";
 
-    const rawTracks = renderer?.captionTracks;
+    attempt.reason =
+      typeof data?.playabilityStatus?.reason === "string"
+        ? data.playabilityStatus.reason
+        : "";
 
-    if (!Array.isArray(rawTracks) || rawTracks.length === 0) {
-      return null;
-    }
+    const info = parseCaptionInfo(data);
 
-    const tracks: CaptionTrack[] = [];
+    attempt.trackCount = info ? info.tracks.length : 0;
 
-    for (const raw of rawTracks) {
-      if (
-        raw &&
-        typeof raw.baseUrl === "string" &&
-        typeof raw.languageCode === "string"
-      ) {
-        tracks.push({
-          baseUrl: raw.baseUrl,
-          languageCode: raw.languageCode,
-          name: readText(raw.name) || raw.languageCode,
-          isTranslatable: raw.isTranslatable === true,
-        });
-      }
-    }
-
-    if (tracks.length === 0) {
-      return null;
-    }
-
-    const translationLanguages: LanguageOption[] = [];
-
-    if (Array.isArray(renderer?.translationLanguages)) {
-      for (const raw of renderer.translationLanguages) {
-        if (raw && typeof raw.languageCode === "string") {
-          translationLanguages.push({
-            code: raw.languageCode,
-            name:
-              readText(raw.languageName) || raw.languageCode,
-          });
-        }
-      }
-    }
-
-    return { tracks, translationLanguages };
+    return {
+      info,
+      outcome: classifyPlayability(
+        attempt.status,
+        attempt.reason,
+        Boolean(info)
+      ),
+      attempt,
+    };
   } catch (error) {
-    console.warn("Caption info request failed:", error);
-    return null;
+    attempt.error =
+      error instanceof Error ? error.name : String(error);
+
+    return { info: null, outcome: "error", attempt };
   }
+}
+
+async function lookupCaptions(
+  videoId: string
+): Promise<CaptionLookup> {
+  const attempts: CaptionAttempt[] = [];
+  const outcomes: LookupOutcome[] = [];
+
+  for (const client of INNERTUBE_CLIENTS) {
+    const result = await lookupWithClient(client, videoId);
+
+    attempts.push(result.attempt);
+    outcomes.push(result.outcome);
+
+    if (result.info) {
+      return { info: result.info, outcome: "ok", attempts };
+    }
+  }
+
+  // A client that played the video normally but found no captions is
+  // the most trustworthy answer; blocked signals come next.
+  const outcome =
+    (["no_captions", "blocked", "unavailable", "error"] as const).find(
+      (candidate) => outcomes.includes(candidate)
+    ) ?? "error";
+
+  console.warn(
+    "Caption lookup failed:",
+    outcome,
+    JSON.stringify(attempts)
+  );
+
+  return { info: null, outcome, attempts };
+}
+
+// For troubleshooting: what did each YouTube client say?
+export async function diagnoseCaptions(videoId: string) {
+  const lookup = await lookupCaptions(videoId);
+
+  return { outcome: lookup.outcome, attempts: lookup.attempts };
 }
 
 function decodeEntities(text: string) {
@@ -499,6 +700,32 @@ async function fetchTrackSegments(
   return segments;
 }
 
+async function translateOrThrow(
+  source: TranscriptSegment[],
+  code: string
+): Promise<TranscriptSegment[]> {
+  try {
+    return await translateSegments(source, code);
+  } catch (error) {
+    if (
+      error instanceof TranslationError &&
+      error.code === "too_long"
+    ) {
+      throw new TranscriptError(
+        "too_long",
+        "This transcript is too long to translate here. Try a shorter video."
+      );
+    }
+
+    console.error("Translation failed:", error);
+
+    throw new TranscriptError(
+      "failed",
+      "Translation isn't working right now. Please try again later."
+    );
+  }
+}
+
 async function fetchFromCaptionInfo(
   info: CaptionInfo,
   requestedLanguage?: string
@@ -563,29 +790,7 @@ async function fetchFromCaptionInfo(
       if (segments.length === 0) {
         const source = await fetchTrackSegments(defaultTrack);
 
-        try {
-          segments = await translateSegments(
-            source,
-            option.code
-          );
-        } catch (error) {
-          if (
-            error instanceof TranslationError &&
-            error.code === "too_long"
-          ) {
-            throw new TranscriptError(
-              "too_long",
-              "This transcript is too long to translate here. Try a shorter video."
-            );
-          }
-
-          console.error("Translation failed:", error);
-
-          throw new TranscriptError(
-            "failed",
-            "Translation isn't working right now. Please try again later."
-          );
-        }
+        segments = await translateOrThrow(source, option.code);
       }
     }
   }
@@ -706,16 +911,124 @@ async function fetchWithLibrary(
   };
 }
 
+const BLOCKED_MESSAGE =
+  "YouTube is blocking requests from our server right now, so we couldn't read this video's captions. Please try again in a few minutes.";
+
+const UNAVAILABLE_MESSAGE =
+  "This video is unavailable. It may be private, deleted, age-restricted, or restricted in some regions.";
+
+const GENERIC_FAILURE_MESSAGE =
+  "Could not fetch the transcript right now. Please try again later.";
+
+function languageNameFor(
+  code: string,
+  extra: LanguageOption[] = []
+) {
+  return (
+    [...extra, ...TRANSLATION_LANGUAGES].find((l) =>
+      sameLanguage(l.code, code)
+    )?.name || code
+  );
+}
+
+// Backup source, used only when SUPADATA_API_KEY is set.
+async function fetchViaSupadata(
+  videoId: string,
+  requestedLanguage?: string
+): Promise<TranscriptResult> {
+  let base;
+
+  try {
+    base = await fetchSupadataTranscript(videoId);
+  } catch (error) {
+    if (
+      error instanceof SupadataError &&
+      error.code === "no_captions"
+    ) {
+      throw new TranscriptError("no_captions", NO_CAPTIONS_MESSAGE);
+    }
+
+    console.error("Supadata request failed:", error);
+
+    throw new TranscriptError("failed", GENERIC_FAILURE_MESSAGE);
+  }
+
+  const originalCode = base.language || "en";
+
+  const ownLanguages: LanguageOption[] = [
+    { code: originalCode, name: languageNameFor(originalCode) },
+    ...base.availableLanguages.map((code) => ({
+      code,
+      name: languageNameFor(code),
+    })),
+  ];
+
+  const languages: LanguageOption[] = [];
+
+  for (const option of [...ownLanguages, ...TRANSLATION_LANGUAGES]) {
+    if (!languages.some((l) => sameLanguage(l.code, option.code))) {
+      languages.push(option);
+    }
+  }
+
+  let code = originalCode;
+  let segments: TranscriptSegment[] = base.segments;
+
+  if (requestedLanguage && !sameLanguage(requestedLanguage, code)) {
+    const option = languages.find((l) =>
+      sameLanguage(l.code, requestedLanguage)
+    );
+
+    if (!option) {
+      throw new TranscriptError(
+        "language_unavailable",
+        "This video's transcript isn't available in that language."
+      );
+    }
+
+    if (
+      base.availableLanguages.some((available) =>
+        sameLanguage(available, requestedLanguage)
+      )
+    ) {
+      try {
+        const other = await fetchSupadataTranscript(
+          videoId,
+          requestedLanguage
+        );
+
+        segments = other.segments;
+      } catch (error) {
+        console.error("Supadata language request failed:", error);
+
+        throw new TranscriptError("failed", GENERIC_FAILURE_MESSAGE);
+      }
+    } else {
+      segments = await translateOrThrow(base.segments, option.code);
+    }
+
+    code = option.code;
+  }
+
+  return {
+    language: code,
+    languageName: languageNameFor(code, languages),
+    originalLanguage: originalCode,
+    languages,
+    segments,
+  };
+}
+
 export async function fetchTranscript(
   videoId: string,
   requestedLanguage?: string
 ): Promise<TranscriptResult> {
-  const info = await fetchCaptionInfo(videoId);
+  const lookup = await lookupCaptions(videoId);
 
-  if (info) {
+  if (lookup.info) {
     try {
       return await fetchFromCaptionInfo(
-        info,
+        lookup.info,
         requestedLanguage
       );
     } catch (error) {
@@ -725,18 +1038,52 @@ export async function fetchTranscript(
       }
 
       console.warn(
-        "Direct caption fetch failed, using fallback:",
+        "Direct caption fetch failed, trying backups:",
         error
       );
     }
-  } else if (requestedLanguage) {
+  }
+
+  if (lookup.outcome === "unavailable") {
+    throw new TranscriptError("unavailable", UNAVAILABLE_MESSAGE);
+  }
+
+  // Reading captions straight from YouTube did not work.
+  if (isSupadataConfigured()) {
+    return fetchViaSupadata(videoId, requestedLanguage);
+  }
+
+  if (requestedLanguage) {
     throw new TranscriptError(
-      "failed",
-      "Choosing a language isn't available right now. Please try again later."
+      lookup.outcome === "blocked" ? "blocked" : "failed",
+      lookup.outcome === "blocked"
+        ? BLOCKED_MESSAGE
+        : "Choosing a language isn't available right now. Please try again later."
     );
   }
 
-  return fetchWithLibrary(videoId);
+  // The package re-reads the watch page, which can still succeed
+  // when the app clients above did not. Skip it when we know
+  // YouTube is blocking us.
+  if (lookup.outcome !== "blocked") {
+    try {
+      return await fetchWithLibrary(videoId);
+    } catch (error) {
+      if (lookup.outcome === "error") {
+        throw toTranscriptError(error);
+      }
+    }
+  }
+
+  if (lookup.outcome === "blocked") {
+    throw new TranscriptError("blocked", BLOCKED_MESSAGE);
+  }
+
+  if (lookup.outcome === "no_captions") {
+    throw new TranscriptError("no_captions", NO_CAPTIONS_MESSAGE);
+  }
+
+  throw new TranscriptError("failed", GENERIC_FAILURE_MESSAGE);
 }
 
 // Title and channel name via YouTube's public oEmbed endpoint.

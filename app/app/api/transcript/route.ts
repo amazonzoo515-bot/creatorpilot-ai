@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import {
   TranscriptError,
+  diagnoseCaptions,
   extractYouTubeVideoId,
   fetchTranscript,
   fetchVideoMeta,
@@ -98,6 +99,25 @@ export async function GET(request: NextRequest) {
       400,
       "invalid_url"
     );
+  }
+
+  // Troubleshooting: /api/transcript?url=...&debug=KEY shows what each
+  // YouTube client answered. Works locally, or in production when the
+  // TRANSCRIPT_DEBUG_KEY environment variable matches KEY.
+  const debugParam = request.nextUrl.searchParams.get("debug");
+
+  if (debugParam !== null) {
+    const debugKey = process.env.TRANSCRIPT_DEBUG_KEY;
+
+    const allowed =
+      process.env.NODE_ENV !== "production" ||
+      (Boolean(debugKey) && debugParam === debugKey);
+
+    if (allowed) {
+      return NextResponse.json(await diagnoseCaptions(videoId), {
+        headers: { "Cache-Control": "no-store" },
+      });
+    }
   }
 
   const languageParam =
