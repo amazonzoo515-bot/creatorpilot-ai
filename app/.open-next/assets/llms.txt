@@ -1,0 +1,23 @@
+# YouTube Thumbnail Downloader
+ 
+> Free browser-based tool to download YouTube thumbnails (Max Resolution, HD, HQ, MQ, SD) with exact pixel dimensions from any public video URL, including YouTube Shorts. Also supports Vimeo, TikTok, Dailymotion, Facebook, X/Twitter, and Bilibili links. No sign-up, no watermark, no app required.
+ 
+## Core features
+- Detects platform automatically from a pasted URL
+- Returns all available thumbnail resolutions per video, verified before display
+- Shows exact width x height for each returned image
+- Download All as ZIP when multiple versions are available
+- Works on desktop and mobile browsers
+ 
+## Supported platforms
+- YouTube (including Shorts)
+- Vimeo
+- TikTok
+- Dailymotion
+- Facebook
+- X/Twitter
+- Bilibili
+ 
+## Pages
+- [Home](https://youtubethumbnails-downloader.com/): thumbnail downloader tool, how-to guide, resolution reference table, design tips, and FAQ
+ 
