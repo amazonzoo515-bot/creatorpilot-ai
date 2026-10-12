@@ -42,7 +42,7 @@ export type SupadataSegment = {
     return Boolean(process.env.SUPADATA_API_KEY);
   }
   
-  export async function fetchSupadataTranscript(
+  async function requestSupadataTranscript(
     videoId: string,
     language?: string
   ): Promise<SupadataResult> {
@@ -136,4 +136,48 @@ export type SupadataSegment = {
           )
         : [],
     };
+  }
+  
+  // ---------------------------------------------------------------
+  // Credits are limited, so remember recent answers. This memory lives
+  // inside one server instance only; it helps but is not a guarantee.
+  // ---------------------------------------------------------------
+  
+  const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
+  const CACHE_MAX_ENTRIES = 200;
+  
+  const cache = new Map<
+    string,
+    { expiresAt: number; result: SupadataResult }
+  >();
+  
+  export async function fetchSupadataTranscript(
+    videoId: string,
+    language?: string
+  ): Promise<SupadataResult> {
+    const key = `${videoId}:${language ?? ""}`;
+    const now = Date.now();
+  
+    const hit = cache.get(key);
+  
+    if (hit && hit.expiresAt > now) {
+      return hit.result;
+    }
+  
+    const result = await requestSupadataTranscript(
+      videoId,
+      language
+    );
+  
+    if (cache.size >= CACHE_MAX_ENTRIES) {
+      const oldest = cache.keys().next().value;
+  
+      if (oldest !== undefined) {
+        cache.delete(oldest);
+      }
+    }
+  
+    cache.set(key, { expiresAt: now + CACHE_TTL_MS, result });
+  
+    return result;
   }
