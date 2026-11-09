@@ -1,23 +1,24 @@
 # YouTube Thumbnail Downloader
- 
-> Free browser-based tool to download YouTube thumbnails (Max Resolution, HD, HQ, MQ, SD) with exact pixel dimensions from any public video URL, including YouTube Shorts. Also supports Vimeo, TikTok, Dailymotion, Facebook, X/Twitter, and Bilibili links. No sign-up, no watermark, no app required.
- 
-## Core features
-- Detects platform automatically from a pasted URL
-- Returns all available thumbnail resolutions per video, verified before display
-- Shows exact width x height for each returned image
-- Download All as ZIP when multiple versions are available
-- Works on desktop and mobile browsers
- 
-## Supported platforms
-- YouTube (including Shorts)
-- Vimeo
-- TikTok
-- Dailymotion
-- Facebook
-- X/Twitter
-- Bilibili
- 
-## Pages
-- [Home](https://youtubethumbnails-downloader.com/): thumbnail downloader tool, how-to guide, resolution reference table, design tips, and FAQ
- 
+
+> Free browser-based tools for YouTube creators. Download YouTube thumbnails (Max Resolution 1280x720, SD, HQ, MQ, default) with exact pixel dimensions from any public video URL, including Shorts, and resize any image to YouTube thumbnail size (1280x720 or 4K) under 2 MB. Also supports Vimeo, TikTok, Dailymotion, Facebook, X/Twitter and Bilibili links. No sign-up, no watermark, no app required.
+
+## Tools
+- [YouTube Thumbnail Downloader](https://youtubethumbnails-downloader.com/): paste a public video link, get every thumbnail size that exists for it, download as JPG, PNG or WebP, or all sizes as one ZIP.
+- [YouTube Thumbnail Resizer](https://youtubethumbnails-downloader.com/youtube-thumbnail-resizer): resize any image to 1280x720 or 3840x2160, keep the file under 2 MB, preview it small, or enter a custom size for Shorts, square posts, banners and profile pictures. Runs in the browser; images are never uploaded.
+
+## Key facts
+- The largest thumbnail file YouTube typically serves for a video is 1280x720 (maxresdefault.jpg). Some videos do not have it.
+- Thumbnail file names: maxresdefault (1280x720), sddefault (640x480), hqdefault (480x360), mqdefault (320x180), default (120x90). SD and HQ are 4:3 and show black bars on 16:9 videos.
+- Uploading a thumbnail: 1280x720 (16:9), JPG or PNG, under 2 MB works from any device. YouTube Help recommends 3840x2160 for computer uploads (up to 50 MB; phone uploads stay at 2 MB). Minimum width is 640 px.
+- Shorts are vertical (9:16). YouTube Help lists 2160x3840 as the recommended size.
+- Channel banner: 2560x1440, minimum 2048x1152, safe area about 1546x423, up to 6 MB. Profile picture: 800x800.
+- Thumbnails belong to their creators; ask permission before reusing someone else's.
+
+## Supported platforms (downloader)
+- YouTube (including Shorts), Vimeo, TikTok, Dailymotion, Facebook, X/Twitter, Bilibili
+
+## Resizer formats and limits
+- Output: JPG, PNG, WebP, BMP. Custom size from 16 to 4000 px. Optional file-size limit for JPG and WebP.
+- Not supported yet: percentage or cm/inch resizing, batch processing.
+
+Last updated: November 2026

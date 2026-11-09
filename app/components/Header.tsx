@@ -13,7 +13,7 @@ export default function Header() {
         >
           <Image
             src="/web-app-manifest-192x192.png"
-            alt="YouTube Thumbnail Downloader"
+            alt=""
             width={42}
             height={42}
             priority
@@ -31,7 +31,7 @@ export default function Header() {
             <li>
               <Link
                 href="/"
-                className="transition hover:text-red-600"
+                className="inline-block py-2 transition hover:text-red-700"
               >
                 Thumbnail Downloader
               </Link>
@@ -39,10 +39,10 @@ export default function Header() {
 
             <li>
               <Link
-                href="/youtube-transcript"
-                className="transition hover:text-red-600"
+                href="/youtube-thumbnail-resizer"
+                className="inline-block py-2 transition hover:text-red-700"
               >
-                Transcript Generator
+                Thumbnail Resizer
               </Link>
             </li>
           </ul>

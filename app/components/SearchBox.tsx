@@ -35,7 +35,6 @@ export default function SearchBox({
           }, 0);
 
           toast.success("Link pasted successfully.");
-          onSearch(text);
           return;
         }
       }
@@ -72,8 +71,8 @@ export default function SearchBox({
           spellCheck={false}
           value={videoUrl}
           onChange={(e) => setVideoUrl(e.target.value)}
-          placeholder="Paste video URL here..."
-          aria-label="Paste video URL"
+          placeholder="Paste video URL or video ID here..."
+          aria-label="Paste video URL or video ID"
           disabled={loading}
           className="w-full rounded-xl border border-gray-300 bg-white py-4 pl-5 pr-28 text-base text-gray-900 placeholder:text-gray-400 outline-none transition focus:border-black disabled:cursor-not-allowed disabled:bg-gray-100 sm:pr-36 sm:text-lg"
         />
@@ -81,7 +80,7 @@ export default function SearchBox({
         {/* Fixed Paste Button - Visible on all screen sizes */}
         <button
           type="button"
-          aria-label="Paste video URL from clipboard"
+          aria-label="Paste Link from clipboard"
           onClick={handlePaste}
           disabled={loading}
           className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-1.5 rounded-lg bg-black px-3 py-2 text-xs font-semibold text-white transition hover:bg-gray-800 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-700 sm:px-4 sm:text-sm"

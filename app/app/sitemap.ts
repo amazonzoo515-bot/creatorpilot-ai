@@ -6,14 +6,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "daily",
+      lastModified: new Date("2026-11-09"),
+      changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: `${baseUrl}/youtube-transcript`,
-      lastModified: new Date("2026-10-06"),
-      changeFrequency: "weekly",
+      url: `${baseUrl}/youtube-thumbnail-resizer`,
+      lastModified: new Date("2026-11-09"),
+      changeFrequency: "monthly",
       priority: 0.8,
     },
   ];

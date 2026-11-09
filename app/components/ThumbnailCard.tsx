@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useId, useState } from "react";
 import toast from "react-hot-toast";
 
 type ThumbnailCardProps = {
@@ -9,6 +9,14 @@ type ThumbnailCardProps = {
   resolution: string;
   imageUrl: string;
   unavailable?: boolean;
+};
+
+type DownloadFormat = "jpg" | "png" | "webp";
+
+const FORMAT_MIME: Record<DownloadFormat, string> = {
+  jpg: "image/jpeg",
+  png: "image/png",
+  webp: "image/webp",
 };
 
 export default function ThumbnailCard({
@@ -19,9 +27,17 @@ export default function ThumbnailCard({
 }: ThumbnailCardProps) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isCopying, setIsCopying] = useState(false);
+  const [format, setFormat] = useState<DownloadFormat>("jpg");
+  const formatId = useId();
+  // The 720p file is often the same size as 1080p, so it is shown a bit smaller.
+  const imageScale = resolution === "720p" ? 0.85 : 1;
+  const [size, setSize] = useState<{ w: number; h: number } | null>(null);
 
-  async function convertToPngBlob(imageBlob: Blob): Promise<Blob> {
-    if (imageBlob.type === "image/png") {
+  async function convertImageBlob(
+    imageBlob: Blob,
+    mime: string
+  ): Promise<Blob> {
+    if (imageBlob.type === mime) {
       return imageBlob;
     }
 
@@ -46,16 +62,17 @@ export default function ThumbnailCard({
         ctx.drawImage(img, 0, 0);
 
         canvas.toBlob(
-          (pngBlob) => {
+          (converted) => {
             URL.revokeObjectURL(objectUrl);
 
-            if (pngBlob) {
-              resolve(pngBlob);
+            if (converted) {
+              resolve(converted);
             } else {
-              reject(new Error("PNG conversion failed"));
+              reject(new Error("Image conversion failed"));
             }
           },
-          "image/png"
+          mime,
+          0.95
         );
       };
 
@@ -68,6 +85,10 @@ export default function ThumbnailCard({
 
       img.src = objectUrl;
     });
+  }
+
+  function convertToPngBlob(imageBlob: Blob): Promise<Blob> {
+    return convertImageBlob(imageBlob, "image/png");
   }
 
   async function downloadImage() {
@@ -86,7 +107,20 @@ export default function ThumbnailCard({
         throw new Error("Download failed");
       }
 
-      const blob = await response.blob();
+      const originalBlob = await response.blob();
+
+      // JPG keeps the original file untouched. PNG and WebP are converted.
+      const blob =
+        format === "jpg"
+          ? originalBlob
+          : await convertImageBlob(originalBlob, FORMAT_MIME[format]);
+
+      if (format !== "jpg" && blob.type !== FORMAT_MIME[format]) {
+        toast.error(
+          "This browser can't save that format. Please choose JPG or PNG."
+        );
+        return;
+      }
 
       blobUrl = window.URL.createObjectURL(blob);
 
@@ -101,7 +135,7 @@ export default function ThumbnailCard({
 
       const fileName = `${
         sanitizedTitle || "thumbnail"
-      }-${resolution}-${randomString}.jpg`;
+      }-${resolution}-${randomString}.${format}`;
 
       const link = document.createElement("a");
 
@@ -209,10 +243,13 @@ export default function ThumbnailCard({
   }
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
-      <div className="flex min-h-48 items-center justify-center rounded-xl bg-gray-50 p-2">
+    <div
+      className="mx-auto max-w-full"
+      style={{ width: size ? `min(${size.w}px, 100%)` : "100%" }}
+    >
+      <div className="flex justify-center">
         {unavailable ? (
-          <div className="flex h-48 w-full items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-100">
+          <div className="flex h-48 w-full min-w-72 items-center justify-center border border-dashed border-gray-300 bg-gray-100">
             <p className="text-center text-base font-semibold text-gray-700">
               {resolution} Not Available
             </p>
@@ -221,23 +258,30 @@ export default function ThumbnailCard({
           <Image
             src={imageUrl}
             alt={`${resolution} YouTube thumbnail`}
-            width={1920}
-            height={1080}
-            sizes="(max-width: 768px) 100vw, 70vw"
+            width={size?.w ?? 1280}
+            height={size?.h ?? 720}
             loading="lazy"
             unoptimized
-            className="max-h-[70vh] h-auto max-w-full w-auto rounded-xl border border-gray-300 object-contain"
+            onLoad={(event) => {
+              const img = event.currentTarget;
+
+              if (img.naturalWidth && img.naturalHeight) {
+                setSize({ w: img.naturalWidth, h: img.naturalHeight });
+              }
+            }}
+            style={{ width: `${imageScale * 100}%`, height: "auto" }}
+            className="block"
           />
         )}
       </div>
 
-      <div className="mt-6">
-        <h3 className="text-2xl font-bold text-gray-900">
+      <div className="mt-3">
+        <h3 className="text-center text-lg font-bold text-gray-900">
           {resolution}
         </h3>
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className="mt-3 flex flex-wrap justify-center gap-3">
         <button
           type="button"
           onClick={copyImage}
@@ -267,6 +311,24 @@ export default function ThumbnailCard({
         >
           Preview
         </button>
+
+        <label htmlFor={formatId} className="sr-only">
+          Download format for {resolution}
+        </label>
+
+        <select
+          id={formatId}
+          value={format}
+          onChange={(event) =>
+            setFormat(event.target.value as DownloadFormat)
+          }
+          disabled={unavailable}
+          className="rounded-lg border border-gray-300 bg-white px-3 py-3 font-semibold text-gray-900 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <option value="jpg">JPG</option>
+          <option value="png">PNG</option>
+          <option value="webp">WebP</option>
+        </select>
 
         <button
           type="button"
