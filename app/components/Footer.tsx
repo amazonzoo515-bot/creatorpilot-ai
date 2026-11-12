@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="border-t border-gray-200 bg-white">
@@ -14,8 +16,31 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="text-sm text-gray-500">
-            © {new Date().getFullYear()} YouTube Thumbnail Downloader. All rights reserved.
+          <div className="flex flex-col items-center gap-2 md:items-end">
+            <nav className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-sm font-medium text-gray-700">
+              <Link href="/" className="hover:text-gray-900 hover:underline">
+                Thumbnail Downloader
+              </Link>
+              <Link
+                href="/youtube-thumbnail-resizer"
+                className="hover:text-gray-900 hover:underline"
+              >
+                Thumbnail Resizer
+              </Link>
+              <Link href="/privacy" className="hover:text-gray-900 hover:underline">
+                Privacy Policy
+              </Link>
+              <a
+                href="mailto:support@youtubethumbnails-downloader.com"
+                className="hover:text-gray-900 hover:underline"
+              >
+                Contact
+              </a>
+            </nav>
+
+            <div className="text-sm text-gray-500">
+              © {new Date().getFullYear()} YouTube Thumbnail Downloader. All rights reserved.
+            </div>
           </div>
         </div>
       </div>
