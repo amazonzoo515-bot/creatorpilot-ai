@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { Analytics } from "@vercel/analytics/next";
-
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import Script from "next/script";
@@ -159,8 +157,6 @@ export default function RootLayout({
         <div className="flex-1">{children}</div>
 
         <Footer />
-
-        <Analytics />
 
         <GoogleAnalytics gaId="G-9QTZ25R4P4" />
 
