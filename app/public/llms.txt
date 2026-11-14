@@ -5,10 +5,21 @@
 ## Tools
 - [YouTube Thumbnail Downloader](https://youtubethumbnails-downloader.com/): paste a public video link, get every thumbnail size that exists for it, download as JPG, PNG or WebP, or all sizes as one ZIP.
 - [YouTube Thumbnail Resizer](https://youtubethumbnails-downloader.com/youtube-thumbnail-resizer): resize any image to 1280x720 or 3840x2160, keep the file under 2 MB, preview it small, or enter a custom size for Shorts, square posts, banners and profile pictures. Runs in the browser; images are never uploaded.
+- [YouTube Thumbnail Size Guide](https://youtubethumbnails-downloader.com/youtube-thumbnail-size): every YouTube image size and file limit in one table (video and Shorts thumbnails, banner, profile picture, downloaded sizes), updated for the 2026 50 MB limit.
+- [YouTube Shorts Thumbnail Size](https://youtubethumbnails-downloader.com/youtube-shorts-thumbnail-size): 2160x3840 (9:16), min 640 px tall, how to add a custom Shorts thumbnail.
+- [YouTube Banner Size](https://youtubethumbnails-downloader.com/youtube-banner-size): 2560x1440, min 2048x1152, 6 MB, 1546x423 safe area.
+- [YouTube Profile Picture Size](https://youtubethumbnails-downloader.com/youtube-profile-picture-size): 800x800, shown as a 98x98 circle, up to 15 MB.
+- [Download a YouTube thumbnail on iPhone or Android](https://youtubethumbnails-downloader.com/download-youtube-thumbnail-on-phone): step-by-step for Safari and Chrome.
+- [Chrome Extension](https://youtubethumbnails-downloader.com/chrome-extension): adds a Thumbnail button under YouTube videos and Shorts to download the thumbnail in one click. Collects no data.
+
+## About
+- [About](https://youtubethumbnails-downloader.com/about), [Contact](https://youtubethumbnails-downloader.com/contact), [Privacy](https://youtubethumbnails-downloader.com/privacy), [Terms](https://youtubethumbnails-downloader.com/terms)
+- Built by CreatorPilot. Support: support@youtubethumbnails-downloader.com
 
 ## Key facts
 - The largest thumbnail file YouTube typically serves for a video is 1280x720 (maxresdefault.jpg). Some videos do not have it.
 - Thumbnail file names: maxresdefault (1280x720), sddefault (640x480), hqdefault (480x360), mqdefault (320x180), default (120x90). SD and HQ are 4:3 and show black bars on 16:9 videos.
+- The 50 MB computer limit was announced in October 2025 and reached all creators in March 2026.
 - Uploading a thumbnail: 1280x720 (16:9), JPG or PNG, under 2 MB works from any device. YouTube Help recommends 3840x2160 for computer uploads (up to 50 MB; phone uploads stay at 2 MB). Minimum width is 640 px.
 - Shorts are vertical (9:16). YouTube Help lists 2160x3840 as the recommended size.
 - Channel banner: 2560x1440, minimum 2048x1152, safe area about 1546x423, up to 6 MB. Profile picture: 800x800.

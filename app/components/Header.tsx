@@ -46,6 +46,15 @@ export default function Header() {
                 Thumbnail Resizer
               </Link>
             </li>
+
+            <li>
+              <Link
+                href="/youtube-thumbnail-size"
+                className="inline-block py-2 transition hover:text-red-700"
+              >
+                Size Guide
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
