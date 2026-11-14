@@ -6,7 +6,7 @@ const PAGE_URL = `${SITE_URL}/chrome-extension`;
 const CONTACT_EMAIL = "support@youtubethumbnails-downloader.com";
 
 // Set to true once the Chrome Web Store listing is approved and public.
-const EXTENSION_LIVE = false;
+const EXTENSION_LIVE = true;
 const STORE_URL = "https://chromewebstore.google.com/detail/elpelnjaakhopdnmbhlmfejlnlkkklah";
 
 export const metadata: Metadata = {

@@ -55,6 +55,15 @@ export default function Header() {
                 Size Guide
               </Link>
             </li>
+
+            <li>
+              <Link
+                href="/chrome-extension"
+                className="inline-flex items-center gap-1 rounded-full bg-indigo-600 px-4 py-2 text-white transition hover:bg-indigo-700"
+              >
+                Add to Chrome
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
